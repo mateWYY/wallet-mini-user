@@ -582,15 +582,6 @@
       getuserPhone(){
         this.telnum = this.users.phone.substr(0, 3) + "****" + this.users.phone.substr(7)
       }
-      onShow(){
-        getVolById().then(res => {
-          this.users = res.data;
-          this.getuserPhone();
-          this.$parent.globalData.storeInfo = this.users;
-          this.$apply()
-        })
-        this.bindPhone()
-      }
       // 加载更多
       onReachBottom (e) {
         setTimeout(() => {
@@ -615,8 +606,8 @@
               ...this.walletPerage,
               ...data
             }
-          }).then(res =>{
-            const data = res.data;
+          }).then(res => {
+            const data = res.data
             if (!data.length) {
               this.loading = false
             } else {
@@ -634,12 +625,20 @@
               this.FindWallet = this.FindWallet.concat(data)
             }
             this.$apply()
-          });
+          })
         }
       }
-      onLoad() {
+      onShow() {
         this.getFindWallet(true)
+        getVolById().then(res => {
+          this.users = res.data
+          this.getuserPhone()
+          this.$parent.globalData.storeInfo = this.users
+          this.$apply()
+        })
+        this.bindPhone()
       }
+      onLoad () {}
     }
 
 </script>

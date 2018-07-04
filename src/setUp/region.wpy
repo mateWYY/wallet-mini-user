@@ -57,7 +57,7 @@
 
 </template>
 <script>
-    import wepy from 'wepy';
+    import wepy from 'wepy'
     import { getProvince, getRegions, getVolArea } from '../util/util'
     export default class region extends wepy.page {
         config = {
@@ -79,12 +79,12 @@
             this.multiIndex[e.detail.column] = e.detail.value
           },
           bindMultiPickerChange(e){
-           const index  = e.detail.value;
+           const index  = e.detail.value
            this.params = {
              province:this.region[0][index[0]],
              city:this.region[1][index[1]],
              region:this.region[2][index[2]]
-           };
+           }
            // console.log(this.params)
           },
           areaSumbit(){
@@ -104,12 +104,12 @@
               })
             }).catch(err => {
               return wepy.showToast({
-                title:`${err.message}`,
+                title: `${err.message}`,
                 icon: 'none',
                 duration:1000
-              });
-            });
-            this.$apply();
+              })
+            })
+            this.$apply()
           }
         };
       watch = {
@@ -143,9 +143,9 @@
         this.$apply()
       }
       // 初始化省市区
-      firstRegion(){
-        this.getProvince().then(res=>{
-          const {id}=res[0];
+      firstRegion() {
+        this.getProvince().then(res => {
+          const {id} = res[0]
           this.renderRegion(id)
         })
       }
@@ -154,26 +154,21 @@
           let {data} = await getRegions({id:id});
           return data
         }
-      async getProvince(){
-        let res = await getProvince();
-        let province = res.data;
-        this.region[0] = province.map((item, index)=>{
+      async getProvince() {
+        let res = await getProvince()
+        let province = res.data
+        this.region[0] = province.map((item, index) => {
           return item
-        });
-        this.$apply();
+        })
+        this.$apply()
         return this.region[0]
       }
-        events = {};
-        onLoad(opt){
-          if(opt.vcd!== null){
+        events = {}
+        onLoad(opt) {
+          if(opt.vcd !== null) {
            this.regionly = JSON.parse(opt.vcd)
-          }else{
-            this.regionly = '请选择'
           }
           this.firstRegion()
         }
     }
 </script>
-
-
-

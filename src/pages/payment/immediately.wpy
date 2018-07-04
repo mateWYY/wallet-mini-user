@@ -100,7 +100,11 @@
   .hense{
     font-size:30rpx;
     color:#333;
-    text-align: center;
+    text-align:center;
+    flex:1;
+    vertical-align:middle;
+    align-self:center;
+
   }
   .arrow {
     width:16rpx;
@@ -110,6 +114,7 @@
   }
   .hen{
     padding:30rpx;
+    display: flex;
   }
   .hunds{
     font-size:64rpx;
@@ -323,7 +328,7 @@
       <view class="commodity_screen"></view>
       <view class="commodity_attr_box">
         <view class="hen">
-          <image @tap="onChangeShowState" mode="widthFix" class="arrow" src="../../assets/leftArrow.png"></image>
+          <view @tap="onChangeShowState" class="arrowPament"><text class="iconfont icon-guanbi"></text></view>
           <view class="hense">确认付款</view>
         </view>
         <view class="hunds" wx:if="{{redsList.length}}">￥{{payNum}}</view>
