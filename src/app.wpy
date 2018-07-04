@@ -117,7 +117,7 @@ export default class extends wepy.app {
       'pages/present',
       'pages/OverCell',
       'pages/sharePage/Invite',
-      'pages/sharePage/Lead',
+      'pages/sharePage/Lead'
     ],
     window:{
       backgroundTextStyle: 'light',
@@ -258,7 +258,7 @@ export default class extends wepy.app {
       if (error){
         this.login()
       }
-    });
+    })
 //     wepy.reLaunch({
 // //        url:'../pages/search/Plan'
 //       // url:"pages/bindCell"

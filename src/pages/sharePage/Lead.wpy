@@ -135,7 +135,7 @@
     position: fixed;
     left:0;
     right:0;
-    bottom: 180rpx;
+    bottom: 160rpx;
     z-index:2000;
     overflow:hidden;
     margin:0 auto;
@@ -181,19 +181,18 @@
 
   }
   .commodity-content{
-    height: 590rpx;
-    position: absolute;
-    left: 50%;
+    height:590rpx;
+    position:absolute;
+    left:0;
     right:0;
-    top: 50%;
-    margin-left: -275rpx;
-    margin-top: -295rpx;
+    top:21%;
     z-index:2000;
-    width: 470rpx;
-    background-color: #ffffff;
+    width:470rpx;
+    background-color:#ffffff;
     border-radius:5rpx;
-    text-align: center;
-    padding: 0 40rpx 40rpx 40rpx;
+    text-align:center;
+    padding:0 40rpx 40rpx 40rpx;
+    margin:0 auto;
   }
   .bottom-arrow:after{
     content:"";
@@ -260,7 +259,7 @@
     <view class="{{showView? 'hide': ''}}">
       <view class="commodity_screen"></view>
       <view class="commodity-content">
-        <image class="needChild" src="./resources/lead-tips@2x.png"></image>
+        <image class="needChild" src="../../assets/lead-tips@2x.png"></image>
         <view class="commodity_box">
           <view class="shopNeed">
             <view>1、使用方法:点击“我的—券包”找到券后，点击“立即使用”出示券码给店员核销即可。</view>
