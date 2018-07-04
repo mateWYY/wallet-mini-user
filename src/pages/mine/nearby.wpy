@@ -108,7 +108,7 @@
 <script>
     import wepy from 'wepy';
     import loadmore from '../../components/loadmore';
-    import { getNear } from '../../util/util';
+    import {getNear} from '../../util/util';
     export default class nearby extends wepy.page {
         config = {
           backgroundTextStyle: 'light',
@@ -168,7 +168,7 @@
               })
           }
         }
-        getNear(clear){
+        getNear(clear) {
           const {latitude, longitude} = this.$parent.globalData.locationMap
           if (latitude && longitude) {
             const data = {
@@ -194,14 +194,14 @@
               this.nearList = this.nearList.concat(data)
             }
              this.$apply()
-          });
+          })
           }
         }
-        events = {};
-        onShow(){
+        events = {}
+        onShow() {
           this.getNear(true)
         }
-        onLoad(){};
+        onLoad() {};
     }
 </script>
 
