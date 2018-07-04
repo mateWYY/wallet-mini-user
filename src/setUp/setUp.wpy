@@ -117,10 +117,11 @@
           })
         }
       };
-      events = {};
-      onLoad() {
+      onShow() {
         this.storeInfo = this.$parent.globalData.storeInfo
       }
+      events = {};
+      onLoad() {}
     }
 </script>
 
