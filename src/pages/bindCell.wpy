@@ -1,0 +1,136 @@
+<style lang="less">
+  Page {
+    background: #fafafa;
+  }
+
+  .wrapper {
+    height: 100vh;
+    background-color: #f9f9f9;
+  }
+
+  .bind-des {
+    height: 84rpx;
+    padding: 0 3rpx;
+    font-size: 24rpx;;
+    line-height: 84rpx;
+    color: #666;
+  }
+
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    background: #fff;
+  }
+
+  .tel {
+    height: 80rpx;
+    line-height: 80rpx;
+    width: 100%;
+    display: block;
+    border-top: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
+    color: #666666;
+    padding-left: 30rpx;
+    font-size: 24rpx;
+    background-color: #fff;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  .button-wrapper {
+    background: #fafafa;
+    padding-top: 30rpx;
+  }
+
+  .buttonable {
+    border-radius: 5px;
+    background-image: -moz-linear-gradient(120deg, rgb(225, 19, 34) 0%, rgb(255, 69, 82) 100%);
+    background-image: -webkit-linear-gradient(120deg, rgb(225, 19, 34) 0%, rgb(255, 69, 82) 100%);
+    background-image: -ms-linear-gradient(120deg, rgb(225, 19, 34) 0%, rgb(255, 69, 82) 100%);
+    box-shadow: 0 0 10px 0 rgba(255, 69, 82, 0.57);
+    height: 80rpx;
+    line-height: 80rpx;
+    background: #ff4552;
+    color: #fff;
+    margin: 0 30rpx;
+    font-size: 28rpx;
+  }
+
+  .buttondisable {
+    border-radius: 5px;
+    height: 80rpx;
+    line-height: 80rpx;
+    background: #e6e6e6;
+    color: #999;
+    font-size: 28rpx;
+    margin: 0 30rpx;
+  }
+
+  .first {
+    font-size: 24rpx;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0;
+    color: #666666;
+    padding: 30rpx;
+  }
+</style>
+
+<template>
+  <view>
+    <view class="first">首次使用微信登陆,需要绑定你的手机号码</view>
+    <view class="input-wrapper">
+      <input type="tel" placeholder="请输入手机号" @input="bindKeyInput" class="tel"/>
+    </view>
+    <view class="button-wrapper">
+      <button @tap="submit" disabled="{{!phone}}" class="{{phone ? 'buttonable': 'buttondisable'}}">获取验证码</button>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import getCode from '@/mixins/getCode'
+  import {getCommonloginCoding} from '../util/util'
+  export default class bindCell extends wepy.page {
+    config = {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: 'white',
+      navigationBarTitleText: '绑定手机号',
+      navigationBarTextStyle: 'black'
+    };
+    mixins = [getCode]
+    data = {
+      phone: ''
+    };
+    reqCode() {
+      let telreg = /^1(3|4|5|7|8)\d{9}$/
+      if (!telreg.test(this.phone) || !this.phone) {
+        return wepy.showToast({
+          title: '手机号有误',
+          icon: 'none',
+          duration: 1000
+        })
+      }
+      const api = getCommonloginCoding({data: {phone: this.phone}, method: 'Post'})
+      this.getCode(api).then(() => {
+        wepy.redirectTo({
+          url: `./OverCell?phone=${this.phone}`
+        })
+      })
+    }
+    methods = {
+      //        获取验证码
+      submit(e) {
+        this.reqCode()
+      },
+//      获取手机号
+      bindKeyInput(e){
+        this.phone = e.detail.value
+      }
+    }
+  }
+</script>
+
+
+

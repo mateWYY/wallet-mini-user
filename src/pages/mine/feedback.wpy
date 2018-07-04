@@ -1,0 +1,150 @@
+<style lang="less">
+  Page{
+    background: #fafafa;
+  }
+  .section{
+    background: #fff;
+    padding:0 20rpx;
+  }
+  .Apply{
+    color:#fff;
+    background: #ff4552;
+    margin:100rpx 30rpx 0;
+    font-size:28rpx;
+    box-shadow: 0 0 4px #ff4552;
+  }
+  .radio-group{
+    font-size: 26rpx;
+    color:#333333;
+  }
+  .need{
+    font-size:24rpx;
+    color:#666666;
+    margin:30rpx 20rpx;
+  }
+  .radio{
+    display:flex;
+    background: #fff;
+    border-bottom:1px solid #f2f2f2;
+    padding:28rpx 30rpx;
+  }
+  .loginput{
+    background: #fff;
+    height:80rpx;
+    line-height:80rpx;
+    padding-left:30rpx;
+    font-size: 26rpx;
+    color:#333333;
+  }
+  textarea {
+    width:100%;
+    padding:22rpx 0 0;
+    color:#333333;
+    font-size:26rpx;
+  }
+  .radioName{
+    padding-right:20rpx;
+  }
+  .wordLimit{
+    color:#666666;
+    font-size: 26rpx;
+    padding:0 30rpx 22rpx 0;
+    text-align: right;
+  }
+</style>
+
+<template>
+  <view>
+      <view class="need">(必选)请选择你想反馈的问题点</view>
+       <radio-group class="radio-group" @change="radioChange">
+         <repeat for="{{FeedType}}" item="item">
+          <label class="radio">
+            <radio class="radioName" color="#ff4552" value="{{item.id}}" checked="{{item.checked}}"/>
+            <view>{{item.name}}</view>
+          </label>
+       </repeat>
+       </radio-group>
+
+      <view class="need">请补充详细问题和意见</view>
+      <view class="section">
+        <textarea name="area"  @input="bindWordLimit"  placeholder=""/>
+        <view class="wordLimit">{{currentNoteLen|0}}/{{noteMaxLen}}</view>
+      </view>
+      <view class="need">输入你的联系方式</view>
+      <input value="{{phoneTel}}" @change="phones" class="loginput" type="number" placeholder="输入你的联系电话"/>
+      <button class="Apply" @tap="submit">提交</button>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import {getFeedbacksType, getVolsFeedbacked} from '../../util/util'
+  export default class feedback extends wepy.page {
+    config = {
+    backgroundTextStyle: 'light',
+    navigationBarBackgroundColor: '#fff',
+    navigationBarTitleText: '意见反馈',
+    navigationBarTextStyle: 'black'
+    };
+    data = {
+      phoneTel: '',
+      value: '',
+      Limitvalue: '',
+      FeedType: [],
+      noteMaxLen: 140
+    };
+    methods = {
+      radioChange(e){
+        this.value = e.detail.value;
+      },
+      phones(e){
+        this.phoneTel = e.detail.value;
+      },
+      //  字数限制
+      bindWordLimit(e){
+        let value = e.detail.value;
+        this.Limitvalue = value;
+        let len = parseInt(value.length);
+        if(len>this.data.noteMaxLen) return;
+        this.setData({
+          currentNoteLen:len
+          //当前字数
+        })
+      },
+      submit(e) {
+        let phone = this.phoneTel;
+        let content = this.Limitvalue;
+        let feedback_type = this.value;
+        getVolsFeedbacked({data:{phone:phone,content:content,feedback_type:feedback_type},method:'POST'}).then(res =>{
+          if(res.data){
+            wepy.showToast({
+              title:'提交成功',
+              icon:'none'
+            });
+            setTimeout(()=>{
+              wepy.switchTab({
+                url:"../my"
+              });
+            },1000)
+          }
+          this.$apply()
+        }).catch(err=>{
+          return wepy.showToast({
+            title:`${err.message}`,
+            icon:'none'
+          })
+        })
+      }
+    };
+    async getFeedbacksType(){
+      let res= await getFeedbacksType();
+      this.FeedType = res.data;
+      this.$apply()
+    }
+    events = {};
+    onLoad() {
+      this.getFeedbacksType()
+    }
+  }
+</script>
+

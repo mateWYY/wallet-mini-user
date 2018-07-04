@@ -1,0 +1,179 @@
+<style lang="less">
+
+  Page{
+    background: #fafafa;
+  }
+  .pickWrapp{
+    background: #fff;
+  }
+  .picker{
+    font-weight: bold;
+    text-align: center;
+    height:84rpx;
+    line-height:84rpx;
+    color:#333333;
+    font-size:26rpx;
+  }
+  .section{
+    margin-top:20rpx;
+  }
+  .Apply{
+    color:#fff;
+    background: #ff4552;
+    margin:0 30rpx;
+    font-size:28rpx;
+    box-shadow: 0 0 4px #ff4552;
+  }
+  .applyWrapp{
+    background: #fafafa;
+    padding:400rpx 30rpx;
+  }
+  .section__title{
+    font-size:26rpx;
+    color:#666;
+    padding:20rpx 30rpx;
+  }
+</style>
+
+<template>
+<view>
+
+  <view class="section">
+    <view class="section__title">选择你的区域地址</view>
+    <picker mode="multiSelector" class="pickWrapp" range-key="name" value="{{multiIndex}}" range="{{region}}"
+            @change="bindMultiPickerChange" @columnchange="columnChangeRegion">
+     <view class="picker">
+       <text wx:if="{{!params.province.name}}">{{regionly.provinceText}} {{regionly.cityText}} {{regionly.regionText}}</text>
+       <text>{{params.province.name}} {{params.city.name}} {{params.region.name}}</text>
+      </view>
+    </picker>
+  </view>
+  <view class="applyWrapp">
+    <button class="Apply"  @tap="areaSumbit">
+      保存
+    </button>
+  </view>
+</view>
+
+</template>
+<script>
+    import wepy from 'wepy';
+    import { getProvince, getRegions, getVolArea } from '../util/util'
+    export default class region extends wepy.page {
+        config = {
+          backgroundTextStyle:'light',
+          navigationBarBackgroundColor:'#fff',
+          navigationBarTitleText:'区域',
+          navigationBarTextStyle:'black'
+        };
+        data = {
+          region:[[], [], []],
+          provinced:[],
+          multiIndex:[0,0,0],
+          params:{},
+          regionly:{}
+        };
+        methods = {
+          // 触发获取省市区
+          columnChangeRegion(e){
+            this.multiIndex[e.detail.column] = e.detail.value
+          },
+          bindMultiPickerChange(e){
+           const index  = e.detail.value;
+           this.params = {
+             province:this.region[0][index[0]],
+             city:this.region[1][index[1]],
+             region:this.region[2][index[2]]
+           };
+           // console.log(this.params)
+          },
+          areaSumbit(){
+            // if(!this.params.length){
+            //   wepy.showToast({
+            //     title: '请选择您的地址',
+            //     icon: 'none',
+            //     duration: 1000
+            //   });
+            // }
+            let provinceId =this.params.province.id;
+            let cityId = this.params.city.id;
+            let regionId =this.params.region.id;
+            getVolArea({method:'POST',data:{cityId:cityId,provinceId:provinceId,regionId:regionId}}).then(res =>{
+              wepy.navigateBack({
+               url:'personal'
+              })
+            }).catch(err => {
+              return wepy.showToast({
+                title:`${err.message}`,
+                icon: 'none',
+                duration:1000
+              });
+            });
+            this.$apply();
+          }
+        };
+      watch = {
+        multiIndex(val, oldValue) {
+          if (val[1] !== oldValue[1]) {
+            const {id} = this.region[1][val[1]]
+            this.getRegions(id).then(res => {
+              this.region[2] = res.children
+              this.$apply()
+            })
+          }
+          if (val[0] !== oldValue[0]) {
+            const {id} = this.region[0][val[0]]
+            return this.renderRegion(id)
+          }
+        }
+      };
+      // props={
+      //   title:{
+      //     type:String,
+      //     default:'当前选择'
+      //   }
+      // };
+      // 市区联动
+      async renderRegion(id) {
+        let res = await this.getRegions(id);
+        this.region[1] = res.children;
+        const ids = res.children[0].id;
+        let Regions = await this.getRegions(ids);
+        this.region[2] = Regions.children;
+        this.$apply()
+      }
+      // 初始化省市区
+      firstRegion(){
+        this.getProvince().then(res=>{
+          const {id}=res[0];
+          this.renderRegion(id)
+        })
+      }
+      // 获取市和区
+        async getRegions(id){
+          let {data} = await getRegions({id:id});
+          return data
+        }
+      async getProvince(){
+        let res = await getProvince();
+        let province = res.data;
+        this.region[0] = province.map((item, index)=>{
+          return item
+        });
+        this.$apply();
+        return this.region[0]
+      }
+        events = {};
+        onLoad(opt){
+          if(opt.vcd!== null){
+           this.regionly = JSON.parse(opt.vcd)
+          }else{
+            this.regionly = '请选择'
+          }
+          this.firstRegion()
+        }
+    }
+</script>
+
+
+

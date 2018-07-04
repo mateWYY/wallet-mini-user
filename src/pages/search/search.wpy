@@ -1,0 +1,260 @@
+<style lang="less">
+   .inputPage{
+    border-radius: 20px;
+    background: #f2f2f2;
+    flex:1;
+    font-size: 13px;
+    height: 30px;
+    padding-left:70rpx;
+    margin-right:32rpx;
+  }
+  .search{
+  display: flex;
+  padding:0 30rpx;
+  position:relative;
+  }
+  .sear{
+    color:#333333;
+    font-size:26rpx;
+    align-self: center;
+  }
+  .history{
+   margin-top:45rpx;
+   padding:0 30rpx;
+  }
+  .hist{
+    color:#333333;
+    font-size:26rpx;
+    font-weight: bold;
+    flex:1;
+  }
+  .hot{
+    color:#333333;
+    font-size:26rpx;
+    font-weight: bold;
+    margin-top:40rpx;
+  }
+  .roast{
+    background:#f2f2f2;
+    width:100rpx;
+    height: 60rpx;
+    line-height:60rpx;
+    font-size:22rpx;
+    color:#666666;
+    display: inline-block;
+    text-align: center;
+    margin:22rpx 22rpx 0 0;
+    white-space:nowrap;
+    overflow:hidden;
+  }
+  .icon-shanchu{
+    align-self: center;
+  }
+  .hide{
+    display: none;
+  }
+  .fire{
+    padding:20rpx 30rpx 0;
+  }
+  .abount{
+    float: right;
+    color:#999;
+    font-size:22rpx;
+    align-self: center;
+  }
+  .shops-1{
+    width:26rpx;
+    height:24rpx;
+    padding-right:20rpx;
+    align-self: center;
+  }
+  .pot{
+    display: flex;
+    border-bottom: 1px solid #f2f2f2;
+    padding:24rpx 0;
+  }
+  .poy{
+    font-size:26rpx;
+    color:#333;
+    flex: 1;
+  }
+  .home{
+    display: flex;
+  }
+  .icon-sousuo{
+    padding-right:20rpx;
+  }
+  .see{
+    position:absolute;
+    top:14rpx;
+    left:50rpx;
+    bottom:0;
+    z-index:100;
+    color:#666;
+  }
+  .address{
+    color:#999999;
+    font-size:22rpx;
+    overflow: hidden;
+    padding-top:20rpx;
+  }
+  .histWrapper{
+    display:flex;
+  }
+  .search_no{
+    display: none;
+  }
+   .AllType{
+     position: fixed;
+     z-index:100;
+     top:61rpx;
+     left:0;
+     right:0;
+     font-size:24rpx;
+     color:#333;
+     border-bottom:1px solid #f2f2f2;
+     padding:22rpx 30rpx;
+     background:#fff;
+   }
+   .dot-bottom {
+     font-size: 0;
+     line-height: 0;
+     border-width:13rpx;
+     border-color: #999;
+     border-bottom-width: 0;
+     border-style: dashed;
+     border-top-style: solid;
+     border-left-color: transparent;
+     border-right-color: transparent;
+     margin-right:60rpx;
+   }
+   .basc{
+     padding-right:14rpx;
+   }
+</style>
+<template>
+   <view>
+    <view class="search">
+      <input value="{{inputVal}}" maxlength="30" @input="inputTyping" @confirm="toSearch" class="inputPage" confirm-type="搜索" placeholder="搜索" autofocus/>
+      <text  value="{{inputVal}}" @tap="souValue" class="see iconfont icon-sousuo"></text>
+      <text @tap="clearInput" class="sear">取消</text>
+    </view>
+     <!--删除搜索记录-->
+    <view  class="history">
+       <view class="histWrapper" wx:if="{{searchLogs.length}}">
+         <text class="hist">历史搜索</text>
+         <text @tap="clearSearchStorage" class="iconfont icon-shanchu"></text>
+       </view>
+        <repeat for="{{searchLogs}}" item="item">
+          <text @tap="roast({{item.searchContent}})" class="roast">{{item.searchContent}}</text>
+        </repeat>
+        <view class="hot" wx:if="{{searchhots.length}}">热门搜索</view>
+        <repeat for="{{searchhots}}" index="index"  item="item">
+          <text @tap="roast({{item.searchContent}})" class="roast">{{item.searchContent}}</text>
+        </repeat>
+    </view>
+     <!--<view class="fire">-->
+     <!--<repeat for="{{results}}" item="item">-->
+       <!--<view class="pot">-->
+         <!--<text class="iconfont icon-sousuo"></text>-->
+         <!--<text class="poy">火锅</text>-->
+         <!--<text class="abount">约100个结果</text>-->
+       <!--</view>-->
+    <!--</repeat>-->
+   <!--<repeat for="{{results}}">-->
+     <!--<view class="home pot">-->
+       <!--<image class="shops-1" src="../../assets/shops-1.png"></image>-->
+       <!--<view class="poy">-->
+        <!--<view class="yang">杨家火锅</view>-->
+        <!--<view class="address">蜀山区长江西路与蜀峰路交叉口向南900米</view>-->
+       <!--</view>-->
+       <!--<text class="abount">300m</text>-->
+    <!--</view>-->
+  <!--</repeat>-->
+<!--</view>-->
+ </view>
+
+</template>
+
+<script>
+    import wepy from 'wepy'
+    import {getVolSearch, getVolSearchClear} from '../../util/util'
+    export default class search extends wepy.page {
+        config = {
+          backgroundTextStyle: 'light',
+          navigationBarBackgroundColor: '#fff',
+          navigationBarTitleText:'搜索',
+          navigationBarTextStyle: 'black'
+        };
+        data = {
+          inputVal:'',
+          commodities: false,
+          searchhots: [],
+          searchLogs: []
+        };
+        methods = {
+          //监听input输入框//
+          toSearch(e){
+            this.inputVal = e.detail.value
+            wepy.navigateTo({
+              url:`foodsList?vcn=${this.inputVal}`
+            })
+          },
+          roast(vcn){
+            wx.navigateTo({
+              url: `foodsList?vcn=${vcn}`
+            })
+          },
+          inputTyping(event){
+            this.inputVal = event.detail.value
+        },
+          //开始搜索关键词、福袋列表
+          souValue(e){
+            this.inputVal = e.detail.value
+            wx.navigateTo({
+              url:`foodsList?vcn=${this.inputVal}`
+            });
+          },
+          // 返回搜索首页
+          clearInput(){
+            wx.navigateBack({
+              delta:1
+            })
+          },
+          //清除缓存历史并关闭历史搜索
+          clearSearchStorage () {
+            getVolSearchClear({method:'POST'}).then(res =>{
+              this.getVolSearch()
+              let that = this;
+              that.data.searchLogs = [];
+              that.setData({
+                searchLogs: that.data.searchLogs
+              });
+              wx.setStorage({
+                key: 'searchLogs',
+                data: that.data.searchLogs
+              });
+              this.$apply()
+            })
+          }
+        };
+      // 获取历史搜索,热门搜索///
+      getVolSearch(){
+        getVolSearch().then(res =>{
+          console.log(res.data)
+          this.searchLogs = res.data.searchLogs;
+          this.searchhots = res.data.searchHots;
+          this.$apply()
+        });
+      }
+        events = {};
+      onShow(){
+        this.getVolSearch()
+      }
+        onLoad() {
+        }
+    }
+</script>
+
+
+

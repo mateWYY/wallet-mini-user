@@ -1,0 +1,276 @@
+<style lang="less">
+  Page{
+    background:#fafafa;
+  }
+  .onlinePayment .mailPayment {
+    transform: translate3d(0,23%,0);
+  }
+  .onlinePayment .RemainItem{
+    margin-top:1px;
+    font-size:0;
+    background: #fff;
+    padding:0 15px;
+  }
+  .onlinePayment .RemainItem .Remaining{
+    text-align: center;
+    padding:20px 0 0;
+    font-size:26rpx;
+    color: #666666;
+  }
+  .onlinePayment .Remaining .time{
+    font-size:13px;
+    color:#666666;
+    padding-right:14rpx;
+  }
+  .onlinePayment .MethodTime {
+    background-color: #fff;
+    box-shadow: inset 0 -1px 1px -1px #c8c7cc;
+  }
+  .onlinePayment .MethodTime .title{
+    display: flex;
+    padding:9px 15px;
+    box-shadow: inset 0 -1px 1px -1px #c8c7cc;
+  }
+  .Gray{
+    background: #ddd;
+    opacity:.2;
+  }
+   .img{
+    width:20px;
+    height:20px;
+    vertical-align: middle;
+    margin-right: 10px;
+    align-self: center;
+  }
+  .onlinePayment .save{
+    display: none;
+    width: 92px;
+    height: 36px;
+    background-color: #333131;
+    line-height: 36px;
+    text-align: center;
+    margin: 0 auto;
+    color: #fff;
+    position: relative;
+    bottom:20px;
+    border-radius: 3px;
+    font-size: 12px;
+    opacity: .9;
+  }
+  .onlinePayment .wrong{
+    display: none;
+    width: 92px;
+    height: 40px;
+    background-color:#010;
+    line-height: 40px;
+    text-align: center;
+    margin: 0 auto;
+    color: #fff;
+    position: relative;
+    bottom:32px;
+    border-radius: 3px;
+    font-size: 12px;
+    opacity:.9;
+  }
+   .weichat{
+    font-size: 14px;
+    color: #000000;
+  }
+  .onlinePayment .MethodTime .title .useSurplus{
+    color:#878787;
+    font-size: 12px;
+    margin-top: 0;
+  }
+  .MethodTime .title .banlance{
+    flex: 1;
+  }
+  .according .am-btn-secondary:hover, .am-btn-secondary:focus{
+    background-color:#dddddd;
+    border-color: #dddddd;
+  }
+  .onlinePayment .Click-payment{
+    border:1px solid #ddd;
+    background-color:#ff4552;
+    height: 44px;
+    line-height: 44px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    color:#fff;
+    font-size: 14px;
+    text-align: center;
+    margin:39px 15px 0;
+  }
+  .onlinePayment .choose .chooseMe{
+    margin:15px 15px 10px;
+    color:#666666;
+    font-size: 13px;
+  }
+
+  button{
+    color:#fff;
+    background: #ff4552;
+    font-size:28rpx;
+    box-shadow: 0 0 4px #ff4552;
+    height:80rpx;
+    line-height:80rpx;
+  }
+  .applyWrapp{
+    background: #fafafa;
+    padding:110rpx 30rpx 0;
+  }
+.side{
+  font-size:34rpx;
+  color: #333333;
+  text-align:center;
+  padding:40rpx 0 20rpx;
+  font-weight: bold;
+}
+  .original{
+    font-size:20rpx;
+    text-align: center;
+    text-decoration:line-through;
+    color: #999999;
+    padding:0 0 36rpx;
+  }
+  .hide{
+    display:none;
+  }
+</style>
+
+<template>
+  <view class="onlinePayment">
+    <view class="RemainItem">
+      <view class="Remaining">
+        <text class="time">支付剩余时间</text>
+        <text class="voteText">{{h}}时:</text>
+        <text class="voteText">{{m}}分:</text>
+        <text class="voteText">{{s}}秒</text>
+      </view>
+      <view class="{{siding? 'side': 'hide'}}">￥</view>
+      <view class="side">￥{{paymentId.totalAmount}}</view>
+      <view class="original">￥{{paymentId.orderAmount}}</view>
+    </view>
+    <!--<view class="choose">-->
+    <!--<view class="chooseMe">选择支付方式</view>-->
+    <!--<view class="MethodTime">-->
+    <!--<view class="title">-->
+    <!--<image class="img" src="../../assets/banlance-weichat.png"></image>-->
+    <!--<view class="banlance">-->
+    <!--<view class="weichat">微信支付</view>-->
+    <!--<text class="useSurplus">推荐安装微信5.0以上版本的用户使用</text>-->
+    <!--</view>-->
+    <!--<view class="mailPayment">-->
+    <!--<label  class="radio">-->
+    <!--<radio class="radioName"  checked="{{item.checked}}"/>-->
+    <!--</label>-->
+    <!--</view>-->
+    <!--</view>-->
+    <!--</view>-->
+    <!--</view>-->
+    <view class="applyWrapp">
+      <button class="Apply" @tap="weixinPay">确认支付</button>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import {getPingparams, getOrderDetail} from '../../util/util';
+  import payMixins from '@/mixins/pay'
+  export default class onlinePayment extends wepy.page {
+    config = {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#fff',
+      navigationBarTitleText: '在线支付',
+      navigationBarTextStyle: 'black'
+    };
+    mixins = [payMixins]
+    data = {
+      siding: false,
+      redsList: {},
+      windowHeight: 654,
+      maxtime: "",
+      isHiddenLoading: true,
+      isHiddenToast: true,
+      dataList: {},
+      h: '',
+      m: '',
+      s: '',
+      value: '',
+      timer: 0,
+      paymentId: {}
+    };
+
+    // 支付
+    getOrderInfo(id) {
+      getPingparams({
+        id: id, method: 'post', data: {
+          id: id,
+          paymentId: 4
+        }
+      }).then(res => {
+        const {app, ...data} = res.data;
+        const params = {
+          app: {
+            id: app
+          },
+          ...data
+        };
+        this.payMent(params).then(res => {
+          wepy.redirectTo({
+            url: `./PaymentStatus?vcd=${id}`
+          })
+        }).catch(err => {
+          console.log(err)
+          if (err.indexOf('fail') !== -1) {
+            wepy.navigateBack()
+          }
+        })
+      })
+    }
+
+    methods = {
+      weixinPay(){
+        let id = this.redsList
+        this.getOrderInfo(id)
+      }
+    }
+
+    // 订单详情
+    getOrderDetail(){
+      getOrderDetail({id:this.redsList}).then(res =>{
+        this.paymentId = res.data
+        let t = this.paymentId.endAtTime
+        clearInterval(this.timer)
+        this.timer = setInterval(() => {
+          let hh = parseInt(t / 60 / 60 % 24, 10)
+          let mm = parseInt(t / 60 % 60, 10)
+          let ss = parseInt(t % 60, 10)
+          this.h = hh < 10 ? ("0" + hh) : hh;   //时
+          this.m = mm < 10 ? ("0" + mm) : mm;   //分
+          this.s = ss < 10 ? ("0" + ss) : ss;   //秒
+          t--;
+          if (parseInt(t) < 0) {
+            clearInterval(this.timer)
+          }
+          this.$apply()
+        }, 1000);
+      })
+    }
+    events = {};
+    onShow(){
+      this.getOrderDetail()
+    }
+    onUnload(){
+      clearInterval(this.timer)
+    }
+    onLoad(opt) {
+      this.value = this.$parent.globalData.value;
+      this.redsList = JSON.parse(opt.vcd);
+    }
+  }
+</script>
+
+
+

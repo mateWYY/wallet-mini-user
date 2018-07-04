@@ -1,0 +1,59 @@
+<style lang="less">
+  Page{
+    background:#fafafa;
+  }
+  .condition{
+    color:#666666;
+    font-size:26rpx;
+    padding:30rpx 30rpx 20rpx;
+  }
+  .envelop{
+    background:#fff;
+    padding:25rpx 30rpx;
+    color:#333333;
+    font-size:26rpx;
+  }
+  .full{
+    padding:30rpx;
+    background:#fff;
+    color:#333333;
+    font-size:26rpx;
+  }
+</style>
+
+<template>
+  <view>
+    <view class="condition">使用条件</view>
+    <view class="full">订单满{{use}}元可用</view>
+    <view class="condition">温馨提示</view>
+    <view class="envelop">
+      {{useNote}}
+    </view>
+  </view>
+</template>
+<script>
+    import wepy from 'wepy';
+    export default class Use extends wepy.page {
+        config = {
+          backgroundTextStyle:'light',
+          navigationBarBackgroundColor: '#fff',
+          navigationBarTitleText: '使用须知',
+          navigationBarTextStyle: 'black'
+        };
+        data = {
+          use:[],
+          useNote: ''
+        };
+        methods = {};
+        events = {};
+        onLoad(opt) {
+          const {vcd, val} = opt
+          this.use = val
+          this.useNote = vcd
+        };
+        // Other properties
+    }
+</script>
+
+
+

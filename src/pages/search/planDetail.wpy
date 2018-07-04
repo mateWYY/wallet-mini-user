@@ -1,0 +1,37 @@
+<template>
+   <view class="planDetail">
+      <repeat for="{{detail}}" item="item">
+          <view class="stepItem">
+            {{item.instruction}}
+          </view>
+      </repeat>
+   </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class planDetail extends wepy.page {
+    data = {
+      detail: []
+    };
+    methods = {};
+    onLoad(opts) {
+      this.detail = JSON.parse(opts.detail)
+    }
+    config = {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: 'white',
+      navigationBarTitleText: '路线规划详情',
+      navigationBarTextStyle: 'black'
+    };
+  }
+</script>
+
+<style>
+ .stepItem{
+    padding: 20rpx 40rpx;
+    color: #888888;
+   font-size: 26rpx;
+   opacity: 0.8;
+  }
+</style>

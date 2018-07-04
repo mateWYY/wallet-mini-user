@@ -1,0 +1,56 @@
+<style lang="less">
+  /* setUp/mine/rule/rule.wxss */
+  page {
+    background:#fafafa;
+  }
+  .rule{
+    color:#666666;
+    font-size:26rpx;
+    padding:0 30rpx;
+  }
+  .General{
+    color:#333333;
+    font-size:28rpx;
+    font-weight: bold;
+    padding:30rpx 0;
+  }
+  .comm{
+    padding-bottom:38rpx;
+  }
+</style>
+
+<template>
+<view class="rule">
+  <view class="General">纸象优惠平台规则</view>
+  <view class="comm">第一章 总则:</view>
+  <view class="comm">安徽咻一咻电子商务有限公司（为了便于理解，以下简称 “本公司”）依据本协议为用户（以下简称“您”）提供身边支付服务。本协议对您和本公司均具有法律约束力。</view>
+  <view class="comm">本公司在此特别提醒您认真阅读并充分理解本协议和附属协议各条款，特别是免除或限制本公司的责任、限制您的权 利、规定争议解决方式的相关条款。请您审慎阅读并选择是否接受本协议和附属协议（未成年人应在监护人陪同下阅 读）。除非您接受本协议和附属协议的所有条款， 否则您无权使用身边支付服务。您一经开通或使用身边支付服务，即视为您已理解并接受本协议和附属协议。</view>
+  <view class="comm" style="color:#333;">一、【本服务】</view>
+  <view class="comm">1.1 身边支付服务，指本公司依托身边为收付款人之间提供的货币资金转移服务。（下称“本服务”）</view>
+  <view class="comm">1.2 本服务包括余额支付和支付宝支付两种类型。</view>
+  <view class="comm">1.2.1 余额支付，即您使用本公司给您配置的支付账户中的余额进行支付的一种支付方式。您确认并同意本公司在您注册身边店铺的同时为您配置支付账户，并将您的身边店铺账号与该支付账户相关联，使得您可以通过身边的“余额”功能使用该支付账户（以下所称的“余额”即指该支付账户）。您有权使用“余额”中的余额进行消费和转账。</view>
+  <view class="comm">1.2.2 支付宝支付，即您委托本公司直接对您的支付宝账户进行资金扣划的支付方式。</view>
+  <view class="comm">1.3 您理解并同意，本服务的上述流程，可能因适用场景和功能存续情况的变化而发生调整，所以具体以本公司实际提供的服务流程为准。</view>
+</view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class rule extends wepy.page {
+    config = {
+        backgroundTextStyle: 'light',
+        navigationBarBackgroundColor: '#fff',
+        navigationBarTitleText: '规则',
+        navigationBarTextStyle: 'black'
+    };
+    data = {
+    };
+    methods = {};
+
+    events = {};
+    onLoad() {};
+    // Other properties
+  }
+</script>
+

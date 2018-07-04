@@ -1,0 +1,170 @@
+<style lang="less">
+  .three{
+    font-size:40rpx;
+    color: #ff4552;
+    font-weight: bold;
+    padding:0 0 0 10rpx;
+  }
+  .fu{
+    font-size:20rpx;
+    color: #666666;
+    height:35rpx;
+    display:inline-block;
+  }
+  .yellowBag{
+    display: flex;
+    font-size:0;
+    height:45rpx;
+  }
+  .up{
+    font-size:18rpx;
+    color: #999999;
+  }
+  .yello{
+    width:18rpx;
+    height:22rpx;
+  }
+  .curr{
+   vertical-align:middle;
+  }
+  .file{
+    width:16rpx;
+    height:17rpx;
+    vertical-align:middle;
+    align-self:center;
+    padding-right:10rpx;
+  }
+  .yes{
+    flex:1;
+  }
+  .beautyfily{
+    background:#fafafa;
+    align-self:center;
+    font-size:10px;
+    color:#666;
+    height:30rpx;
+    padding:0 17rpx 0;
+    line-height:30rpx;
+    border-radius: 5rpx;
+    display:inline-block;
+    margin-right:15rpx;
+  }
+  .already {
+    color: #999999;
+    font-size: 20rpx;
+    margin:0 auto;
+    vertical-align: middle;
+    align-self: center;
+    padding-top:15rpx;
+  }
+  .minFather {
+    display: flex;
+    font-size:0;
+    height:50rpx;
+  }
+  .dist{
+    padding-left:20rpx;
+  }
+  .active-1 {
+    width: 120rpx;
+    height: 120rpx;
+  }
+</style>
+
+<template>
+  <view class="Delicious">
+    <view class="wrapper">
+      <view class="footprints" @tap="footPrint({{syncTitle.id}})" bindcustomevent="pageEventListener2">
+        <image class="active-1" src="{{syncTitle.avatarUrl}}"></image>
+        <view class="distance">
+          <view class="dist">
+            <view style="height:22px;">
+              <text class="Lady">{{syncTitle.name}}</text>
+              <text class="min">距离{{syncTitle.distance}}</text>
+            </view>
+            <view class="fu">
+              <text wx:if="{{syncTitle.wallet[index].totalAmount>0}}">福袋￥{{syncTitle.wallet[index].totalAmount}}(最高可获得{{syncTitle.wallet[index].attainAmount}}元)</text>
+            </view>
+            <view class="yellowBag">
+              <view class="yes" wx:if="{{syncTitle.wallet[index].attainAmount.length}}">
+                <image class="yello" src="../assets/yellowBag.png"></image>
+                <text class="three">{{syncTitle.wallet[index].attainAmount}}</text>
+                <text class="up"></text>
+              </view>
+              <text wx:if="{{syncTitle.wallet[0].getNumber>=0}}" class="already">已抢{{syncTitle.wallet[0].getNumber}}人
+              </text>
+            </view>
+          </view>
+          <view class="minFather">
+            <view class="beautyfily">{{syncTitle.categoryText}}   </view>
+              <!--<image class="shops" src="../assets/shops-1.png"></image>-->
+            <view class="minte" wx:if="{{syncTitle.ordersCount>0}}">
+              <image class="file" src="../assets/file.png"></image>
+              <text class="curr">当前人气{{syncTitle.ordersCount}}</text>
+            </view>
+            <!--<text class="minte">随机领取{{syncTitle.wallet[index].minValue}}~{{syncTitle.wallet[index].maxValue}}元红包</text>-->
+          </view>
+        </view>
+      </view>
+    </view>
+    <!--<view class="melon">-->
+    <!--<view class="other">-->
+    <!--<view class="allonter">-->
+    <!--<text class="crust">￥{{syncTitle.wallet[index].attainAmount}}</text>-->
+    <!--<view class="already">福袋总金额</view>-->
+    <!--</view>-->
+    <!--<view class="total">-->
+    <!--<text class="kind">{{syncTitle.wallet[index].minValue}}-{{syncTitle.wallet[index].maxValue}}元红包</text>-->
+    <!--<view class="already">已抢{{syncTitle.getNumber}}人</view>-->
+    <!--</view>-->
+    <!--<view class="branch" @tap="progress({{syncTitle.wallet[index].id}})">-->
+    <!--<view>{{syncTitle.wallet[index].drawStatusText}}</view>-->
+    <!--</view>-->
+    <!--</view>-->
+    <!--</view>-->
+    <!--<view class="deep">-->
+    <!--查看其他2个福袋-->
+    <!--<text class="iconfont icon-jiantouxia"></text>-->
+    <!--</view>-->
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  export default class Delicious extends wepy.page {
+    config = {};
+    data = {
+      index:0
+    };
+    methods = {
+      footPrint(id){
+        if(this.types===0) {
+          wx.navigateTo({
+            url:`./shopDetail/store?id=${id}`
+          })
+        } else {
+          wx.navigateTo({
+            url:`../shopDetail/store?id=${id}`
+          })
+        }
+      }
+    };
+    props = {
+      types:{
+        default:0,
+        twoWay:true
+      },
+      syncTitle:{
+        type:Object,
+        default: {},
+        twoWay:true
+      }
+    };
+    events = {};
+    onLoad() {
+    }
+  }
+</script>
+
+
+

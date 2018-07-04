@@ -1,0 +1,261 @@
+<style lang="less">
+  Page{
+    background-color: #fafafa;
+  }
+  .rental{
+    background-color:#ffffff;
+    padding:30rpx 30rpx;
+    margin-bottom:20rpx;
+    border-top:1px solid rgba(217, 217, 217, 0.47);
+    border-bottom:1px solid rgba(217, 217, 217, 0.47);
+  }
+  .rent{
+    display:flex;
+    border-radius: 5px;
+    padding:30rpx 20rpx;
+    border:solid 1px rgba(217, 217, 217, 0.47);
+  }
+  input{
+    font-size:28rpx;
+    color:#cdcdcd;
+    caret-color:#ff4552;
+    color:#ff4552 !important;
+    text-align:right;
+    flex:1;
+  }
+  .noJoin{
+    font-size:22rpx;
+    color:#999999;
+    padding:23rpx 20rpx 23rpx;
+  }
+  .shopping{
+    /*flex:1;*/
+    width:250rpx;
+    font-size:28rpx;
+    color:#333333;
+    align-self: center;
+    vertical-align: middle;
+  }
+  .hongWrapper{
+    padding:0 30rpx 0;
+    background:#fff;
+    border-top:1px solid rgba(217, 217, 217, 0.47);
+    border-bottom:1px solid rgba(217, 217, 217, 0.47);
+  }
+  .honb{
+    display: flex;
+    border-bottom:1px solid  #f2f2f2;
+  }
+  .ball{
+    flex:1;
+    font-size:26rpx;
+    color: #666666;
+    padding:30rpx 0;
+  }
+  .rightBall{
+    font-size: 26rpx;
+    color: #cccccc;
+    vertical-align:middle;
+    align-self:center;
+  }
+  .redice{
+    font-size:26rpx;
+    color:#fdad0a;
+    vertical-align:middle;
+    align-self:center;
+  }
+  .early{
+    font-size:26rpx;
+    color: #ff4552;
+    vertical-align:middle;
+    align-self:center;
+  }
+  .applyWrapp{
+    padding:68rpx 0 0;
+    text-align:center;
+  }
+
+  .buttonable{
+    border-radius:5px;
+    background-image: -moz-linear-gradient( 120deg, rgb(225,19,34) 0%, rgb(255,69,82) 100%);
+    background-image: -webkit-linear-gradient( 120deg, rgb(225,19,34) 0%, rgb(255,69,82) 100%);
+    background-image: -ms-linear-gradient( 120deg, rgb(225,19,34) 0%, rgb(255,69,82) 100%);
+    box-shadow:0 0 10px 0 rgba(255, 69, 82, 0.57);
+    height:80rpx;
+    line-height:80rpx;
+    background: #ff4552;
+    color:#fff;
+    margin:0 30rpx;
+    font-size:28rpx;
+  }
+  .buttondisable{
+    border-radius:5px;
+    height:80rpx;
+    line-height:80rpx;
+    background:#e6e6e6;
+    color:#999;
+    font-size:28rpx;
+    margin:0 30rpx;
+  }
+  /*.add{*/
+    /*width:28rpx;*/
+    /*height:28rpx;*/
+    /*vertical-align:middle;*/
+    /*align-self: center;*/
+    /*padding-right:20rpx;*/
+  /*}*/
+  .clear{
+    border:none;
+  }
+  .Unchoose{
+    width:28rpx;
+    height:28rpx;
+    vertical-align:middle;
+    align-self: center;
+    padding-left:20rpx;
+  }
+  .show{
+    display: block;
+  }
+  .hide{
+    display:none;
+  }
+</style>
+
+<template>
+    <view>
+      <view class="rental">
+        <view class="rent">
+          <view class="shopping">可参与优惠金额:</view>
+          <input class="useInput" value="{{value}}" type="digit" maxlength="9"  @input="bindKeyInput" placeholder="询问服务员后输入" auto-focus/>
+        </view>
+        <view class="noJoin">
+          <!--<image class="add" src="../../assets/add.png"></image>-->
+          输入不参与优惠金额
+        </view>
+        <view class="rent">
+          <text class="shopping">不可优惠金额:</text>
+          <input class="useInput" value="{{valueInput}}" type="digit" maxlength="9"  @input="bindInput" placeholder="询问服务员后输入" auto-focus/>
+        </view>
+      </view>
+      <view class="hongWrapper">
+        <view class="honb">
+          <text class="ball">红包</text>
+          <view class="rightBall" wx:if="{{!flagcount}}">
+            {{redsList.amount}}(满{{redsList.attainAmount}}可用)
+            <image class="Unchoose" src="../../assets/Unchoose.png"></image>
+          </view>
+          <view class="redice" wx:if="{{flagcount}}">
+            -￥{{redsList.amount}}
+            <image class="Unchoose" src="../../assets/choose.png"></image>
+          </view>
+        </view>
+        <view class="honb clear">
+          <text class="ball">实付金额</text>
+          <text class="early">{{payNum}}</text>
+        </view>
+      </view>
+      <view class="applyWrapp">
+        <button @tap="onPay" class="{{payNum>0? 'buttonable': 'buttondisable'}}">去支付<text wx:if="{{payNum>0}}">￥{{payNum}}</text></button>
+      </view>
+    </view>
+</template>
+
+<script>
+    import wepy from 'wepy'
+    import { getWalletId, getSetOrder} from '../../util/util'
+    export default class bagBuy extends wepy.page {
+        config = {
+          backgroundTextStyle: 'light',
+          navigationBarBackgroundColor: 'white',
+          navigationBarTitleText: '',
+          navigationBarTextStyle: 'black'
+        };
+        data = {
+          nameId: '',
+          redsList:[],
+          index:0,
+          SetOrder:[],
+          order: '',
+          valueInput: '',
+          value: ''
+        }
+      computed = {
+        flagcount(){
+          return (this.value *100)>=(this.redsList.attainAmount)*100
+        },
+        payNum(){
+          if(this.flagcount){
+            let numprs = Number(this.valueInput) + Number(this.value) - this.redsList.amount
+            console.log(numprs)
+            return this.toDecimal2(numprs)
+          }else{
+            return this.toDecimal2(Number(this.value) + Number(this.valueInput))
+          }
+        },
+        payNum2(){
+          return this.toDecimal2(Number(this.valueInput) + Number(this.value))
+        }
+      };
+      toDecimal2(x){
+        let f=Math.round(x*100)/100;
+        let s=f.toString();
+        let rs=s.indexOf('.');
+        if(rs<0){
+          rs = s.length;
+          s += '.'
+        }
+        while(s.length<=rs+2){
+          s+='0'
+        }
+        return s
+      }
+        methods = {
+          bindKeyInput(e){
+            this.value = e.detail.value;
+            this.$parent.globalData.value = e.detail.value;
+          },
+          bindInput(e){
+            this.valueInput = e.detail.value;
+          },
+          // 去支付
+          onPay(){
+            // let orderAmount = this.payNum.replace(/[￥]/g,'');
+            let orderAmount = this.payNum2;
+            let storeId = this.redsList.store.id;
+            let userWalletId = this.flagcount >0 ? this.nameId: ''
+            getSetOrder({method:'POST',data:{storeId:storeId,orderAmount:orderAmount,userWalletId:userWalletId}}).then(res =>{
+              this.SetOrder = res.data;
+              wepy.redirectTo({
+                url: '../../pages/payment/onlinePayment?vcd='+this.SetOrder.id
+              })
+            }).catch(err=>{
+              return wepy.showToast({
+                title: `${err.message}`,
+                icon: 'none',
+                duration:1000
+              });
+            })
+          }
+        };
+        async getWalletId(){
+          let res = await getWalletId({id:this.nameId});
+          this.redsList = res.data;
+          const tmpTitle = this.redsList;
+          wx.setNavigationBarTitle({
+            title:tmpTitle.store.name
+          });
+          this.$parent.globalData.redsList = this.redsList;
+          this.$apply()
+        }
+        events = {};
+        onLoad(opt){
+          let id = opt.id
+          this.nameId = id
+          this.getWalletId()
+        };
+    }
+</script>
+
+
+

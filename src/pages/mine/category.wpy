@@ -1,0 +1,167 @@
+<style lang="less">
+    /** less **/
+  Page{
+    background: #fafafa;
+  }
+    .overflow {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+    }
+    .content {
+      display: flex;
+      width: 100%;
+      position: absolute;
+      bottom: 0rpx;
+      left: 0;
+      top: 0;
+      overflow: hidden;
+    }
+    .menu-container {
+      width: 160rpx;
+      flex: 0 0 160rpx;
+      background: #f6f6f6;
+    }
+    .detail-container {
+      flex: 1;
+      height: 100%;
+    }
+    .scroll-view {
+      width: 100%;
+      height: 100%;
+    }
+    .scroll-view-ul {
+      background:#f0f0f0;
+      width: 100%;
+      height: 100%;
+      border-top:1px solid #e9e9e9;
+    }
+    .scroll-view-item {
+      padding:32rpx 0;
+      width: 100%;
+      font-size: 24rpx;
+      color: #666;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .scroll-view-item:after {
+      content: '';
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 1px;
+      background-color: #dfdfdf;
+      transform: scaleY(0.5);
+      position: absolute;
+    }
+    .active{
+      color:#000;
+      background-color: #ffffff;
+    }
+    .market-scroll-list {
+      height: 100%;
+      background:#f8f8f8;
+    }
+    .info {
+      flex: 1;
+      padding: 0 30rpx;
+      font-size: 0;
+    }
+    .info-title {
+      color:#333;
+      font-size:26rpx;
+      padding:30rpx 0;
+    }
+  .inner{
+    border-top:1px solid #e9e9e9;
+  }
+</style>
+
+<template>
+  <view class="detail">
+    <view class="content">
+      <view class="menu-container">
+        <scroll-view scroll-y="true" class="scroll-view" scroll-into-view="head-{{indexSize}}">
+          <view class="scroll-view-ul">
+            <repeat for="{{memorize}}" item="item">
+              <view class="scroll-view-item {{indexSize === index ? 'active':''}}"   @tap="scrollTo({{item}},{{index}})" data-index="{{index}}">
+                {{item.name}}
+              </view>
+            </repeat>
+          </view>
+        </scroll-view>
+      </view>
+          <scroll-view scroll-y="true" class=" market-scroll-list">
+            <repeat for="{{childs}}" item="item">
+              <view class="inner">
+                <view class="info overflow">
+                  <view class="info-title overflow" @tap="infoTie({{item}})">{{item.name}}</view>
+                </view>
+              </view>
+            </repeat>
+          </scroll-view>
+    </view>
+  </view>
+</template>
+
+<script>
+    import wepy from 'wepy';
+    import {getCommonCategories, getCommonChilds} from '../../util/util'
+    export default class category extends wepy.page {
+        config = {
+          backgroundTextStyle: 'light',
+          navigationBarBackgroundColor: '#fff',
+          navigationBarTitleText: '选择品类',
+          navigationBarTextStyle: 'black'
+        };
+        data = {
+          memorize:[],
+          childs:[],
+          indexSize:0,
+          index:0
+        };
+        methods = {
+          infoTie(item){
+            wx.navigateTo({
+              url:'cooperation'
+            });
+            this.$parent.globalData.infotie = item;
+          },
+          change(e) {
+            this.indexSize = e.detail.current
+          },
+          scrollTo(param,index) {
+            this.indexSize = index;
+             getCommonChilds({id:param.id}).then(res=>{
+               this.childs = res.data;
+               this.$apply();
+             })
+          }
+        };
+        events = {};
+       // 一级分类
+      async getCommonCategories() {
+        let res = await getCommonCategories();
+        this.memorize = res.data;
+        let id = this.memorize[0].id;
+        this.getCommonChilds(id);
+        this.$apply();
+      }
+      // 二级分类
+      async getCommonChilds(id) {
+        let res = await getCommonChilds({id:id});
+        this.childs = res.data;
+        this.$apply();
+      }
+        onLoad() {
+          this.getCommonCategories();
+        };
+
+    }
+</script>
+
+
+

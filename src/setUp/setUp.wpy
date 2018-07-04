@@ -1,0 +1,128 @@
+<style lang="less">
+  Page{
+    background: #fafafa;
+  }
+  .phone {
+    width: 15rpx;
+    height: 22rpx;
+  }
+  .mine-bott {
+    border-radius: 50%;
+    width: 120rpx;
+    height: 120rpx;
+    margin-right: 14rpx;
+    vertical-align: middle;
+    align-self: center;
+  }
+  .person{
+    margin:30rpx 0;
+    padding:30rpx;
+    background:#fff;
+  }
+  .personChild{
+    display: flex;
+  }
+  .small {
+    font-size:28rpx;
+    padding-bottom:10rpx;
+  }
+
+  .phoneChild {
+    color:#666;
+    font-size: 22rpx;
+  }
+  .arrow {
+    width: 16rpx;
+    height: 16rpx;
+    float: right;
+    align-self: center;
+  }
+  .fairyRight{
+    flex:1;
+    margin-top: 20rpx;
+  }
+  .About{
+    color:#333;
+    font-size:26rpx;
+    flex:1;
+  }
+  /*.out{*/
+    /*background:#fff;*/
+    /*text-align: center;*/
+    /*font-size:26rpx;*/
+    /*color:#333;*/
+    /*height: 84rpx;*/
+    /*line-height: 84rpx;*/
+  /*}*/
+  .point{
+    display: flex;
+    /*padding-bottom:30rpx;*/
+    /*border-bottom:1px solid #e6e6e6;*/
+  }
+  .point-1{
+    display: flex;
+    padding-top:30rpx;
+  }
+</style>
+
+<template>
+   <view>
+    <view  @tap="setUp"  class="person">
+      <view class="personChild">
+        <image class="mine-bott"  src="{{storeInfo.avatarUrl}}"></image>
+        <view class="fairyRight">
+          <view class="small">{{storeInfo.nickname}}</view>
+          <view class="phoneChild">
+            <image class="phone" mode='widthFix' src="../assets/phone-1.png"></image>
+            {{storeInfo.phone}}
+          </view>
+        </view>
+        <image class="arrow" mode='widthFix' src="../assets/arrow.png"></image>
+      </view>
+    </view>
+     <view class="person">
+    <navigator  url="/setUp/about" class="point" hover-class="none">
+      <view class="About">关于纸象</view>
+      <image class="arrow" mode='widthFix' src="../assets/arrow.png"></image>
+    </navigator>
+    <!--<navigator  url="/setUp/upDate" class="point-1" hover-class="none">-->
+      <!--<view class="About">检查更新</view>-->
+      <!--<image class="arrow" mode='widthFix' src="../assets/arrow.png"></image>-->
+    <!--</navigator>-->
+   </view>
+   <!--<view class="out">-->
+   <!--退出当前账号-->
+   <!--</view>-->
+
+ </view>
+
+</template>
+
+<script>
+    import wepy from 'wepy';
+    export default class setUp extends wepy.page {
+      config = {
+          backgroundTextStyle: 'light',
+          navigationBarBackgroundColor: '#fff',
+          navigationBarTitleText: '设置',
+          navigationBarTextStyle: 'black'
+      };
+      data = {
+        storeInfo: ''
+      };
+      methods = {
+        setUp(){
+          wx.redirectTo({
+            url:'/setUp/personal'
+          })
+        }
+      };
+      events = {};
+      onLoad() {
+        this.storeInfo = this.$parent.globalData.storeInfo;
+      }
+    }
+</script>
+
+
+

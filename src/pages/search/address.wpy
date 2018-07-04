@@ -1,0 +1,210 @@
+<style lang="less">
+  Page{height:100%;}
+  .city_box{
+    height:100%;
+    background: #fff;
+  }
+  .city_right{
+    width:30rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  .letter_item{
+    flex: 1;
+    display: block;
+    font-size: 24rpx;
+    color: #ff4552;
+    text-align: center;
+  }
+  .national{
+    height: 80rpx;
+    line-height: 80rpx;
+    border-bottom: 1px solid #efefef;
+    font-size: 28rpx;
+    color: #333;
+    padding-left: 25rpx;
+    background:#f9f9f9;
+  }
+  .city_locate_title{
+    color: #999;
+    padding:28rpx 25rpx;
+    font-size:24rpx;
+    display:inline-block;
+  }
+  .new_city{
+    background: #efefef;
+    font-size: 28rpx;
+  }
+  .city_first_letter{
+    line-height: 50rpx;
+    height:50rpx;
+    padding-left: 25rpx;
+    font-size: 28rpx;
+    background: #f2f2f2;
+    color: #999;
+  }
+  .city_name{
+    display: block;
+    line-height: 80rpx;
+    height: 80rpx;
+    border-bottom: 1px solid #efefef;
+    font-size: 28rpx;
+    color: #333;
+    padding-left: 25rpx;
+  }
+  .city_locate_text{
+    font-size:26rpx;
+    color:#ff4552;
+  }
+  .locat{
+    flex:1;
+  }
+  .city_locate{
+    background:#f9f9f9;
+  }
+  .addre{
+    color:#333333;
+    font-size: 26rpx;
+    background:#fff;
+    padding:22rpx 25rpx;
+    display: flex;
+  }
+  .ding{
+    width:30rpx;
+    height:30rpx;
+    align-self: center;
+    vertical-align:middle;
+    padding-right:12rpx;
+  }
+  .cityWrapper{
+    display:flex;
+  }
+  .city_list_box{
+    flex:1;
+  }
+</style>
+
+<template>
+  <view class='city_box'>
+    <view class='city_left'>
+      <view class='city_locate' data-types='locate'>
+        <text class='city_locate_title'>当前地理位置:{{address.city}}</text>
+        <view class="addre">
+          <text class="locat">{{location.desc}}</text>
+          <view @tap="getLocate" class='city_locate_text'>
+            <image class="ding" src="../../assets/ding.png"></image>重新定位
+          </view>
+        </view>
+      </view>
+      <view class='national' data-types='national'>已开通服务城市</view>
+      <view class="cityWrapper">
+        <view class='city_list_box'>
+          <repeat for='{{is_open}}' key='index'>
+            <view class='city_first_letter'>{{is_open[index].key}}</view>
+            <repeat for='{{is_open[index].data}}' item="item">
+              <view class='city_name' @tap="selectCity({{item}})">{{item.name}}</view>
+            </repeat>
+          </repeat>
+        </view>
+        <view class='city_right'>
+          <repeat for="{{is_open}}" key='this'  data-item='{{item}}'>
+            <view  class='letter_item'>{{item.key}}</view>
+          </repeat>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  let amapFile = require('../../libs/amap-wx.js');
+  import { getCommonLocation, getCommonIs_open } from '../../util/util'
+  export default class address extends wepy.page {
+    config = {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#fff',
+      navigationBarTitleText: '当前地区',
+      navigationBarTextStyle: 'black'
+    };
+    data = {
+      address:[],
+      //下面是城市列表信息这里只是模拟数据
+      location:{},
+      is_open:[]
+    };
+    //调用微信定位
+    getLocates(){
+      const self = this;
+      wx.getLocation({
+        type:'gcj02',
+        success(res){
+          let latitude = res.latitude;
+          let longitude = res.longitude;
+          self.onMap(res);
+        }
+      })
+    }
+    methods = {
+      getLocate() {
+        wepy.getLocation({
+          type: 'gcj02',//返回可以用于wx.openLocation的经纬度
+        }).then(res => {
+          let latitude = res.latitude;
+          let longitude = res.longitude;
+          wepy.chooseLocation({
+            latitude: latitude,
+            longitude: longitude,
+            scale:28
+          }).then(res => {
+            this.location.desc = res.name
+          })
+        })
+      },
+      selectCity(item) {
+        this.$parent.globalData.cityId = item
+        wx.switchTab({
+          url: '../first'
+        })
+      }
+    };
+    events = {};
+    onMap(res){
+      let myAmapFun = new amapFile.AMapWX({key:'f36b92d5af8a23965483c2b3d80fa233'});
+      const self = this;
+      myAmapFun.getRegeo({
+        success(data){
+          //成功回调
+          self.location = data[0];
+          // const {location}= self.location;
+          // this.$parent.globalData.location =location;
+          // console.log(location);
+          self.$apply()
+        },
+        fail(info){
+          //失败回调/
+          console.log(info)
+        }
+      });
+    }
+    onLoad() {
+      // 定位//
+      this.getLocates();
+      getCommonLocation().then(res =>{
+        this.address = res.data;
+        // console.log(this.address);
+        this.$apply()
+      });
+      // 省市区
+      getCommonIs_open().then(res =>{
+        this.is_open = res.data;
+        // console.log(this.is_open);
+        this.$apply()
+      })
+    }
+  }
+</script>
+
+
+

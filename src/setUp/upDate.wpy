@@ -1,0 +1,67 @@
+<style lang="less">
+  /* pages/mine/setUp/upDate/upDate.wxss */
+  .Apply{
+    color:#fff;
+    background: #ff4552;
+    margin:0 30rpx;
+    font-size:28rpx;
+    box-shadow: 0 0 4px #ff4552;
+  }
+  .applyWrapp{
+    background: #fafafa;
+    padding:60rpx 0;
+  }
+  .upDate{
+    font-size:26rpx;
+    color:#666666;
+    padding:0 30rpx;
+  }
+  .upTitle{
+    color:#333333;
+    padding:40rpx 0 28rpx;
+  }
+  .upDes{
+    line-height:40rpx;
+  }
+</style>
+
+<template>
+<view>
+    <view class="applyWrapp">
+    <button class="Apply" size="{{warnSize}}" loading="{{loading}}" plain="{{plain}}" disabled="{{disabled}}" bindtap="warn">
+      <view>更新V3.0.0版本</view>
+    </button>
+  </view>
+  <view class="upDate">
+    <view class="upTitle">更新内容：</view>
+   <view class="upDes">
+    <view>1.优化版本性能，修复细节BUG</view>
+    <view>2.优化版本性能，修复细节BUG优化版本性能，修复细节 BUG优化版本性能，修复细节BUG</view>
+    <view>3.优化版本性能，修复细节BUG优化版本性能</view>
+   </view>
+  </view>
+ </view>
+</template>
+
+<script>
+    import wepy from 'wepy';
+    export default class upDate extends wepy.page {
+        config = {
+          backgroundTextStyle: 'light',
+          navigationBarBackgroundColor: '#fff',
+          navigationBarTitleText: '检查更新',
+          navigationBarTextStyle: 'black'
+        };
+        data = {};
+        methods = {};
+        events = {};
+
+        onLoad() {
+        };
+
+        // Other properties
+    }
+</script>
+
+
+

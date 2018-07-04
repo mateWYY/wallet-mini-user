@@ -1,0 +1,194 @@
+<style lang="less">
+  /* pages/mine/setUp/Personal /Personal.wxss */
+  Page {
+    background: #fafafa;
+  }
+  .arrow {
+    width: 16rpx;
+    height: 16rpx;
+    float: right;
+    align-self: center;
+  }
+  .About {
+    align-self: center;
+    color: #333;
+    font-size: 26rpx;
+    flex: 1;
+  }
+  .point {
+    display: flex;
+    padding: 30rpx 0;
+    border-bottom: 1px solid #e6e6e6;
+  }
+  .point-1 {
+    display: flex;
+    padding:30rpx 0 0;
+  }
+  .person {
+    margin: 30rpx 0;
+    padding: 30rpx;
+    background: #fff;
+  }
+  .mine-bott {
+    border-radius: 50%;
+    width: 80rpx;
+    height: 80rpx;
+    margin-right: 14rpx;
+  }
+  .correct{
+    color:#999999;
+    font-size:26rpx;
+    padding-right:18rpx;
+  }
+</style>
+<template>
+ <view class="person">
+   <wepyCropper :params.sync="clipParams"></wepyCropper>
+   <view class="point" @tap="updateAvatar">
+      <view class="About">头像</view>
+     <image class="mine-bott"  src="{{users.avatarUrl}}"></image>
+     <image class="arrow" mode='widthFix' src="../../../assets/arrow.png"></image>
+  </view>
+  <view @tap="nicknames" class="point">
+   <view class="About">昵称</view>
+   <text  wx:if="{{users.nickname !== null}}" class="correct">{{users.nickname}}</text>
+   <text  wx:if="{{users.nickname == null}}" class="correct">未设置</text>
+   <image class="arrow" mode='widthFix' src="../../../assets/arrow.png"></image>
+  </view>
+   <view @tap="sexText({{users.sex}})" class="point" >
+   <view class="About">性别</view>
+   <text  wx:if="{{users.sexText !== null}}" class="correct">{{users.sexText}}</text>
+   <text  wx:if="{{users.sexText == null}}" class="correct">未设置</text>
+   <image class="arrow" mode='widthFix' src="../../../assets/arrow.png"></image>
+  </view>
+  <view @tap="birthdays({{users.birthday}})" class="point">
+    <view class="About">生日</view>
+    <text wx:if="{{users.birthday!== null}}" class="correct">{{users.birthday}}</text>
+    <text wx:if="{{users.birthday == null}}" class="correct">未设置</text>
+    <image class="arrow" mode='widthFix' src="../../../assets/arrow.png"></image>
+  </view>
+  <view @tap="getphoned"  class="point">
+   <view class="About">手机绑定</view>
+   <text class="correct">{{telnum}}</text>
+   <image class="arrow" mode='widthFix' src="../../../assets/arrow.png"></image>
+  </view>
+   <view @tap="regionText" class="point-1">
+   <view class="About">区域</view>
+   <text  wx:if="{{users.cityText !== null}}" class="correct">{{users.cityText}}</text>
+   <text  wx:if="{{users.cityText == null}}" class="correct">未设置</text>
+   <image class="arrow" mode='widthFix' src="../../../assets/arrow.png"></image>
+  </view>
+</view>
+</template>
+
+<script>
+    import wepy from 'wepy'
+    import wepyCropper from 'wepy-cropper'
+    import { getVolById, getVolAvatar, getCommonFiles} from '../util/util'
+    export default class personal extends wepy.page {
+        config = {
+          backgroundTextStyle: 'light',
+          navigationBarBackgroundColor: '#fff',
+          navigationBarTitleText: '个人信息',
+          navigationBarTextStyle: 'black'
+        };
+        data = {
+          telnum:'',
+          clipParams:{
+            src: '',
+            mode:"rectangle",
+            sizeType:["compressed"],
+            visable:false
+          },
+          users:{},
+          dasher:{}
+        };
+      components ={
+        wepyCropper: wepyCropper
+      };
+      getuserPhone(){
+        this.telnum = this.users.phone.substr(0, 3) + "****" + this.users.phone.substr(7)
+      }
+        methods = {
+          nicknames(){
+            wepy.navigateTo({
+              url:"/setUp/nickname"
+            })
+          },
+          sexText(vcd){
+            wepy.navigateTo({
+              url:"/setUp/gender?vcd="+vcd
+            })
+          },
+          birthdays(vcd){
+            wepy.navigateTo({
+              url:"/setUp/birthday?vcd="+vcd
+            })
+          },
+          getphoned(){
+            wepy.navigateTo({
+              url:"/setUp/bindPhone"
+            })
+          },
+          regionText(){
+            wepy.navigateTo({
+              url:'/setUp/region?vcd='+JSON.stringify(this.users)
+            })
+          },
+          updateAvatar(){
+            wepy.chooseImage({count:1}).then(res=>{
+              this.clipParams.visable = true;
+              this.clipParams.src = res.tempFilePaths[0];
+              this.$apply();
+            });
+          }
+      };
+      async getCommonFiles(path){
+      let res = await getCommonFiles({data:{file:path},method:'POST'});
+      this.$apply()
+      }
+      async getVolAvatar(){
+        let id = this.dasher.id;
+        let res = await getVolAvatar({id:id,method:'POST'});
+        return res.data
+      }
+      // 声明组件之间的事件处理函数
+       events = {
+         // 裁剪完的图片
+         wepyCropperFinsh(path) {
+           console.log(path);
+           wepy.uploadFile({
+             url: 'https://coupon.test.mihutime.com/common/v1/files',
+             filePath: path,
+             name: 'file',
+             header:{
+               'X-Access-Token': wx.getStorageSync('token')
+             }
+           }).then(res => {
+             const {data} = res;
+             this.dasher = JSON.parse(data);
+             this.getVolAvatar().then(res=>{
+               this.users.avatarUrl = res.url;
+               this.$apply()
+             });
+           }).catch(err => {
+             console.log(err)
+           })
+         }
+       };
+      // 用户信息
+       async getVolById(){
+        let res = await getVolById()
+        this.users = res.data
+         this.getuserPhone()
+        this.$apply()
+      }
+       onShow(){
+         this.getVolById()
+       }
+      onLoad() {}
+    }
+</script>
+
+
+

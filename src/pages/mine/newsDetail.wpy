@@ -1,0 +1,46 @@
+<style lang="less">
+  Page{
+    background:#fafafa;
+  }
+  .newsDetail{
+    background:#fff;
+    padding:15rpx 30rpx;
+    margin-top:30rpx;
+    font-size:0;
+  }
+  .desc{
+    font-size:28rpx;
+    color:#333;
+  }
+</style>
+
+<template>
+    <view class="newsDetail">
+      <text class="desc">{{del}}</text>
+    </view>
+</template>
+
+<script>
+    import wepy from 'wepy';
+    export default class newsDetail extends wepy.page {
+        config = {
+          backgroundTextStyle: 'light',
+          navigationBarBackgroundColor: '#fff',
+          navigationBarTitleText:'通知详情',
+          navigationBarTextStyle: 'black'
+        };
+        data = {
+          del:{}
+        };
+        methods = {};
+        events = {};
+        onLoad(opt){
+          this.del = opt.vcd;
+        };
+
+        // Other properties
+    }
+</script>
+
+
+

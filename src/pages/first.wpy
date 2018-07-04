@@ -1,0 +1,874 @@
+<template>
+  <view class="main-page">
+    <!-- 获取地理位置-->
+    <view class="section">
+      <view class="userCity" @tap="userCity">
+        <text>{{address.city}}</text>
+        <text style="font-size:22rpx;padding-left:5rpx" class="iconfont icon-jiantouxia"></text>
+      </view>
+      <input @tap="setSearchStorage" class="i-focus" placeholder-class="place" disabled placeholder="搜索商家名或品类..."
+             auto-focus/>
+      <text class="see iconfont icon-sousuo"></text>
+    </view>
+    <!-- 滚动导航分类-->
+    <view class="near">
+      <!-- 滚动导航二级左右-->
+      <scroll-view class="i-scroll" scroll-x="true" scroll-left="{{scrollLeft}}">
+        <view class="swiper-tab">
+          <view class="swiper-tab-list {{selectTab == 0? 'on' : ''}}" @tap="swichNav(0)">推荐</view>
+          <repeat for="{{Catego}}" item="item">
+            <view class="swiper-tab-list {{selectTab == item.id ? 'on' : ''}}" @tap="swichNav({{item.id}})">
+              {{item.name}}
+            </view>
+          </repeat>
+          <text @tap="targetTopPopup" class='fication iconfont icon-fenlei'></text>
+        </view>
+      </scroll-view>
+      <!--全部分类弹框-->
+      <view class="hide{{showapp ? 'show': ''}}">
+        <view class="commodity_screen"></view>
+        <view class="commodity">
+          <view class="memorize">
+            <view class="many">全部分类</view>
+            <view @tap="targetTopPopup" class="iconfont icon-guanbi"></view>
+          </view>
+          <view class="part">
+            <repeat for="{{Catego}}" item="item">
+              <view @tap="selectPop({{item}})" data-id="{{index}}" class="{{selectTab == item.id ? 'nav': 'nav-1'}}">{{item.name}}</view>
+            </repeat>
+          </view>
+        </view>
+      </view>
+      <delicacy :category.sync="selectTab" ></delicacy>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import {
+    getCommonCategories,
+    getCommonBanner,
+    getCarousel,
+    getFindWallet,
+    getCommonLocation
+  } from '../util/util'
+  import delicacy from '../components/delicacy'
+  import Delicious from '../components/Delicious';
+  export default class first extends wepy.page {
+    config = {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#ff4552',
+      navigationBarTitleText: '',
+      navigationBarTextStyle: '#ff4552',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: '500',
+      backgroundColor: "#ff4552"
+    };
+    data = {
+      selectTab: 0,
+      haveMore: true,
+      showapp: false,
+      scrollTop: 0,
+      scrollLeft: 0, // tab标题的滚动条位置
+      winHeight: '',
+      windowWidth: '',
+      index: 0,
+      time: '08:30',
+      date: '2016-09-26',
+      currentTab: 0,
+      indicatorDots: true,
+      imgs: [],
+      Catego: [],
+      town: false,
+      isScroll: false,
+      currentTime: 10,
+      cityId: {},
+      FindWallet: [],
+      searchLoadingComplete: false, // “没有数据”的变量，默认false，隐藏
+      address: {},
+      params: {
+        'per-page': 10,
+        page: 1,
+        lat: '',
+        lon: ''
+      }
+    };
+    // 导航分类
+    async getCommonCategories() {
+      let res = await getCommonCategories({data:{type: 1}});
+      this.Catego = res.data;
+      this.$apply()
+    }
+    // 附近商家列表
+    getFindWallet(clear) {
+      const {latitude, longitude} = this.$parent.globalData.locationMap
+      this.params = {
+        lat: latitude,
+        lon: longitude
+      };
+      getFindWallet({data: this.params}).then(res => {
+        const data = res.data;
+        if (data.length === this.params['per-page']) {
+          this.haveMore = true;
+          this.params.page += 1
+        } else {
+          this.haveMore = false
+        }
+        if (clear) {
+          this.FindWallet = data
+        } else {
+          this.FindWallet = this.FindWallet.concat(data)
+        }
+        // 分发(路径,接收,方法)
+        // this.$invoke('delicacy', 'someMethod', this.FindWallet);
+        this.$apply()
+      })
+    }
+    // 加载更多
+    onReachBottom(e) {
+      this.$invoke('delicacy', 'pullBottom', '')
+    }
+
+    /*下拉刷新*/
+    onPullDownRefresh() {
+      wepy.showNavigationBarLoading();
+      setTimeout(() => {
+        this.$invoke('delicacy', 'getSelect', this.selectTab)
+        wepy.hideNavigationBarLoading();// 完成停止加载
+        wepy.stopPullDownRefresh() // 停止下拉刷新
+      }, 1000)
+    }
+
+    getHeight() {
+      wepy.getSystemInfo().then(res => {
+        let clientHeight = res.windowHeight,
+          clientWidth = res.windowWidth,
+          rpxR = 750 / clientWidth;
+        let calc = clientHeight * rpxR - 180;
+        console.log(calc);
+        this.winHeight = calc + 200;
+        this.$apply()
+      });
+    }
+    onShow() {
+      const {name} = this.$parent.globalData.cityId
+      if (name) this.address.city = name
+    }
+
+    onLoad() {
+      this.getLocation();
+      // 定位城市
+      getCommonLocation().then(res => {
+        this.address = res.data;
+        this.$apply()
+      });
+      this.getCommonCategories()
+      // 高度自适应
+    }
+    components = {
+      delicacy: delicacy,
+      Delicious: Delicious
+    };
+    getLocation () {
+      wepy.getLocation({
+        type: 'wgs84'
+      }).then(res => {
+        this.$parent.globalData.locationMap = res /*(包含经纬度)*/
+      })
+    }
+
+    watch = {
+      'address' (val) {
+        this.$invoke('delicacy', 'getSelect', this.selectTab)
+      }
+    };
+
+    methods = {
+      swichNav(id) {
+        wepy.showLoading({
+          title: '加载中'
+        })
+        this.selectTab = id
+        this.$invoke('delicacy', 'getSelect', this.selectTab)
+        wepy.pageScrollTo({
+          scrollTop: 0
+        })
+        wepy.hideLoading()
+      },
+      userCity(){
+        wx.navigateTo({
+          url: '../pages/search/address'
+        });
+      },
+
+      // 搜索//
+      setSearchStorage(){
+        wx.navigateTo({
+          url: '../pages/search/search'
+        })
+      },
+      selectPop (item) {
+        const parentCategorys = JSON.stringify(item);
+        wepy.navigateTo({
+          url: `./mine/streetFood?vcd=${parentCategorys}`
+        })
+        setTimeout(()=>{
+          this.showapp = (!this.data.showapp)
+        },1000)
+      },
+      targetTopPopup() {
+        this.showapp = (!this.data.showapp)
+      },
+      CenterTopPopup() {
+        this.town = (!this.data.town)
+      },
+      bindPickerChange (e) {
+        this.index = e.detail.value
+      },
+//      /***点击tab切换**/
+//      swichNav(index) {
+//        this.currentTab = index
+//        this.$apply()
+//      },
+//       scroll (e) {
+//         this.scrollTop = e.detail.scrollTop
+//       }
+    };
+    // // 判断当前滚动超过一屏时,设置tab标题滚动条
+    // checkCor() {
+    //   if (this.currentTab > 4) {
+    //     this.scrollLeft = 300
+    //   } else {
+    //     this.scrollLeft = 0
+    //   }
+    // }
+  };
+</script>
+
+<style lang="scss">
+  .main-page{
+    height: 100%;
+    padding-top: 160rpx;
+    /*background-color: #f3f3f3;*/
+    background-color:#fff;
+  }
+  Page {
+    display:flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .near {
+    position: relative;
+  }
+
+  .footprints {
+    display: flex;
+    padding: 10rpx 0;
+    background: #fff;
+    position: relative;
+  }
+
+  .wrapper {
+    padding: 0 30rpx;
+    background: #fff;
+  }
+
+  .Lady {
+    color: #333;
+    font-size: 13px;
+    flex: 1;
+    font-weight: bold;
+  }
+
+  .beauty-1 {
+    font-size: 10px;
+    color: #666;
+    display: inline-block;
+    padding: 15rpx 15rpx 13rpx 0;
+  }
+
+  .minte{
+    font-size: 20rpx;
+    background-color:rgba(255, 165, 0, 0.05);
+    border-radius:5rpx;
+    align-self: center;
+    color: #ffa500;
+  }
+  .minte-1{
+    background-color: #fafafa;
+    font-size: 20rpx;
+    border-radius:5rpx;
+    align-self: center;
+    color: #666;
+  }
+  .min {
+    text-align: right;
+    font-size: 20rpx;
+    color: #666;
+    flex: 1;
+    float: right;
+  }
+  .active {
+    width: 120rpx;
+    height: 120rpx;
+    padding-right: 20rpx;
+  }
+  .distance {
+    font-size: 0;
+    color:#666;
+    float: right;
+    border-bottom: 1px solid #f2f2f2;
+    flex:1;
+    padding-bottom:10rpx;
+  }
+  .shops {
+    width: 20rpx;
+    height: 18rpx;
+    vertical-align: middle;
+    align-self: center;
+    padding-right: 6rpx;
+    text-align: center;
+  }
+
+  .slide-image {
+    width: 100%;
+    height: 300rpx;
+  }
+  .Receive {
+    display: flex;
+    padding: 25px 15px 10px;
+    background: #fff;
+  }
+  .footZ {
+    flex: 1;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .beauty {
+    position: absolute;
+    left: 17%;
+    font-size: 10px;
+    color: #ff4552;
+    border: 1px solid #ff4552;
+    bottom: 100rpx;
+  }
+
+  .money {
+    position: absolute;
+    left: 16%;
+    bottom: 45rpx;
+    color: #ff4552;
+  }
+  .wal {
+    color: #ff4552;
+    font-size: 30rpx;
+  }
+  .more {
+    font-size: 24rpx;
+    color: #666666;
+    align-self: center;
+  }
+  .discount {
+    width: 100%;
+  }
+  .count {
+    padding: 30rpx 15rpx 20rpx;
+    background: #fff;
+    border-bottom: 1px solid #fafafa;
+  }
+
+  .found {
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+  }
+
+  .allOther {
+    padding: 25rpx 15px 10rpx;
+    background: #fff;
+  }
+
+  .all {
+    margin: 10px 0 10px;
+    display: flex;
+    color: #333;
+    font-size: 12px;
+  }
+
+  .section {
+    display: flex;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 80rpx;
+    background: #ff4552;
+    z-index: 1;
+  }
+
+  .i-focus {
+    background: rgba(255, 246, 246, 0.5);
+    width: 100%;
+    font-size: 13px;
+    height: 30px;
+    z-index: 100;
+    border-radius: 10rpx;
+    color: #cccccc;
+    margin-right: 30rpx;
+  }
+
+  .silde {
+    width: 8px;
+    height: 4px;
+    padding-left: 8px;
+  }
+
+  .slidFa-1 {
+    width: 111px;
+    flex: 1;
+    display: block;
+  }
+
+  .slidFa-2 {
+    flex: 1;
+    display: block;
+  }
+
+  .slidFa-3 {
+    display: block;
+    flex: 1;
+  }
+
+  .queen {
+    padding: 0 0 40rpx;
+    color: #333333;
+    font-size: 26rpx;
+  }
+
+  .queen-1 {
+    padding: 0 0 40rpx;
+    color: #ff4552;
+    font-size: 26rpx;
+  }
+
+  .dot-bottom {
+    font-size: 0;
+    line-height: 0;
+    border-width: 12rpx;
+    border-color: #999;
+    border-bottom-width: 0;
+    border-style: dashed;
+    border-top-style: solid;
+    border-left-color: transparent;
+    border-right-color: transparent;
+  }
+
+  .sort {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    width: 500px;
+    height: 400rpx;
+    margin-left: -250px;
+    background: #fcfcfc;
+    z-index: 100;
+  }
+
+  .today {
+    height: 80rpx;
+    line-height: 80rpx;
+    margin: 29rpx 30rpx 18rpx;
+    background-color: #ffffff;
+    padding: 0 30rpx;
+    box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.11);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+  }
+
+  .bords {
+    margin-left: 11rpx;
+    width: 120rpx;
+    height: 30rpx;
+    line-height: 30rpx;
+    background-image: linear-gradient(90deg, #ff4552 0%, #ff725c 0%, #ff9e66 0%, #ffa63b 0%, #feae0f 0%, #f9a308 50%, #f39800 100%), linear-gradient(
+        #f39800,
+        #f39800);
+    border-radius: 15px;
+    display: inline-block;
+    vertical-align: middle;
+    align-self: center;
+    position: relative;
+  }
+
+  .Insance {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    font-size: 18rpx;
+    color: #fff;
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  .arrow {
+    width: 16rpx;
+    height: 16rpx;
+    padding-left: 16rpx;
+    float: right;
+    align-self: center;
+    vertical-align: middle;
+  }
+
+  .centre {
+    vertical-align: middle;
+    align-self: center;
+  }
+
+  .cur {
+    transform: rotateX(0deg);
+  }
+
+  .tit {
+    font-size: 26rpx;
+    color: #ff4552;
+    font-weight: bold;
+  }
+
+  .zan-popup__container {
+    width: 100%;
+    height: 400rpx;
+  }
+
+  .zan-popup--top .zan-popup__container {
+    top: 0;
+    transform: translate3d(0, -100%, 0);
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .userCity {
+    font-size: 13px;
+    color: #fff;
+    width: 170rpx;
+    margin-left: 30rpx;
+    margin-top: 13rpx;
+  }
+
+  /*.lont {*/
+  /*font-size: 20rpx;*/
+  /*width: 82rpx;*/
+  /*text-overflow: ellipsis;*/
+  /*white-space: nowrap;*/
+  /*overflow: hidden;*/
+  /*}*/
+  /*.is_checked {*/
+  /*font-size: 0;*/
+  /*border-width: 14rpx;*/
+  /*border-color: #ff4552;*/
+  /*border-top-width: 0;*/
+  /*border-style: dashed;*/
+  /*border-top-style: solid;*/
+  /*border-left-color: transparent;*/
+  /*border-right-color: transparent;*/
+  /*position: absolute;*/
+  /*top: 23px;*/
+  /*margin-left: 5px;*/
+  /*}*/
+  .zan-popup--top .zan-popup__container {
+    top: 92px;
+  }
+
+  .zan-popup__mask {
+    top: 92px;
+  }
+  .picker {
+    padding: 0 15px;
+  }
+  .fication {
+    position: fixed;
+    right: 0;
+    height: 0;
+    border: 15px solid #fff;
+    color: #666;
+    line-height: 0;
+    text-align: center;
+    z-index: 1000;
+    opacity: .8;
+    padding-top:10rpx;
+  }
+  .see {
+    position: absolute;
+    top: 14rpx;
+    left: 165rpx;
+    z-index: 100;
+    color: #999;
+  }
+  /*滚动导航条*/
+  .swiper-tab {
+    width: 100%;
+    text-align: center;
+    height: 80rpx;
+    line-height:70rpx;
+    background:#fff;
+    padding: 0 30rpx;
+  }
+  .swiper-tab-list {
+    font-size: 26rpx;
+    display: inline-block;
+    flex: 1;
+    color: #333;
+    margin-right: 46rpx;
+    position: relative;
+  }
+  .on {
+    color: #ff4552;
+    border-bottom: 5rpx solid #ff4552;
+  }
+  .swiper-box {
+    display: block;
+    width: 100%;
+    margin-top: 152rpx;
+  }
+  /*瓜分福袋*/
+  .melon {
+    padding-left: 40rpx;
+    padding-right: 30rpx;
+    background: #fff;
+  }
+  .other {
+    display: flex;
+    border-bottom: 1px solid #f2f2f2;
+  }
+  .total {
+    flex: 1;
+    padding: 25rpx 0;
+  }
+  .allonter {
+    padding: 25rpx 30rpx 25rpx 10rpx;
+  }
+  .crust {
+    color: #ff4552;
+    font-size: 28rpx;
+  }
+  .kind {
+    color: #333333;
+    font-size: 26rpx;
+  }
+
+  .branch {
+    border-radius: 10rpx;
+    border: 1px solid #ff4552;
+    color: #ff4552;
+    font-size: 24rpx;
+    width: 133rpx;
+    height: 53rpx;
+    line-height: 53rpx;
+    text-align: center;
+    align-self: center;
+  }
+  .lucky-top {
+    display: flex;
+    padding: 30rpx 20rpx 0;
+    color: #333333;
+    font-size: 26rpx;
+  }
+  .shopmon {
+    width: 36rpx;
+    height: 36rpx;
+    padding-right: 20rpx;
+  }
+  .buys {
+    border-radius: 5rpx;
+    border: 1px solid #feae0f;
+    color: #fff;
+    background: #feae0f;
+    font-size: 24rpx;
+    width: 133rpx;
+    height: 53rpx;
+    line-height: 53rpx;
+    text-align: center;
+    align-self: center;
+    flex: 1;
+    margin-bottom: 19rpx;
+  }
+
+  /*弹框*/
+  .commodity_screen {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #000;
+    opacity: .2;
+    overflow: hidden;
+    z-index: 1000;
+  }
+
+  .commodity {
+    height: 250rpx;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2000;
+    overflow: hidden;
+    background: #fff;
+    padding: 0 30rpx;
+  }
+
+  .commodity-1 {
+    height: 400rpx;
+    position: fixed;
+    top: 166rpx;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2000;
+    overflow: hidden;
+    background: #fff;
+    padding: 0 30rpx;
+  }
+  .show {
+    display: block;
+  }
+  .hide {
+    display: none;
+  }
+  .memorize {
+    display: flex;
+    padding: 30rpx 0 20rpx;
+  }
+  .many {
+    font-size: 26rpx;
+    color: #333333;
+    flex: 1;
+    text-align: center;
+  }
+  .icon-guanbi {
+    font-size: 26rpx;
+    color: #666;
+    align-self: center;
+    display: inline-block;
+  }
+  .part {
+    background: #fcfcfc;
+  }
+  .nav {
+    width: 145rpx;
+    height: 50rpx;
+    line-height: 50rpx;
+    display: inline-block;
+    border: 1px solid #ff4552;
+    color: #ff4552;
+    font-size: 26rpx;
+    text-align: center;
+    margin: 0 25rpx 30rpx 0;
+    border-radius: 10rpx;
+  }
+  .nav-1 {
+    width: 145rpx;
+    height: 50rpx;
+    line-height: 50rpx;
+    display: inline-block;
+    border: 1px solid #666;
+    color: #333;
+    font-size: 26rpx;
+    text-align: center;
+    margin: 0 25rpx 30rpx 0;
+    border-radius: 10rpx;
+  }
+  .queenFather {
+    margin-top: 8rpx;
+  }
+  .isVisible {
+    color: #333;
+    position: fixed;
+    top: 79rpx;
+    font-size: 12px;
+    background: #fff;
+    padding: 0 15px;
+    z-index: 10000;
+    left: 0;
+    right: 0;
+    display: block;
+  }
+  .guafen {
+    flex: 1;
+    position: relative;
+  }
+  .num {
+    font-size: 24rpx;
+    color: #fdad0a;
+  }
+  .divide {
+    font-size: 20rpx;
+    color: #666;
+  }
+  /*轮播小圆点样式*/
+  .swiper-box .wx-swiper-dot {
+    display: inline-flex;
+    justify-content: space-between;
+    border-radius: 50%;
+  }
+  .swiper-box .wx-swiper-dot::before {
+    content: '';
+    flex-grow: 1;
+    background: #e6e6e6;
+    border-radius: 50%;
+  }
+
+  .swiper-box .wx-swiper-dot-active::before {
+    background: #333;
+    border-radius: 50%;
+  }
+
+  .shopBag {
+    width: 19rpx;
+    height: 24rpx;
+    vertical-align: middle;
+    align-self: center;
+  }
+
+  .goBuy {
+    text-align: right;
+    align-self: center;
+    vertical-align: middle;
+    font-size: 0;
+  }
+
+  .i-scroll {
+    position: fixed;
+    top:0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    white-space: nowrap;
+    display: flex;
+    align-items:center;
+    background: #fff;
+    margin-top:80rpx;
+  }
+  .place {
+    padding-left: 50rpx;
+  }
+  .file {
+    width: 16rpx;
+    height: 17rpx;
+    vertical-align: middle;
+    align-self: center;
+  }
+
+  .newCoupon {
+    position: absolute;
+    top: 21rpx;
+    left: 54rpx;
+    /*z-index:100;*/
+    width: 67rpx;
+    height: 67rpx;
+  }
+</style>

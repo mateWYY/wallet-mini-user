@@ -1,0 +1,70 @@
+<style lang="less">
+  /* pages/mine/setUp/about/about.wxss */
+  Page{
+    background: #fafafa;
+    text-align: center;
+  }
+  .chengse{
+    margin-top:228rpx;
+    width:148rpx;
+    height:148rpx;
+  }
+  .Edition{
+    font-size:24rpx;
+    color:#666666;
+    position: absolute;
+    left:0;
+    right:0;
+    bottom:72rpx;
+  }
+  .Discount{
+    margin-top:20rpx;
+    width:156rpx;
+    height:30rpx;
+  }
+  .only{
+    font-size:24rpx;
+    color:#666;
+    margin-top:28rpx;
+  }
+  .two{
+    color:#333333;
+    padding-bottom:15rpx;
+  }
+</style>
+
+<template lang="wxml">
+<view>
+  <view><image class="chengse" mode='widthFix' src="../../../assets/chengse.png"></image></view>
+  <view><image mode='widthFix' class="Discount" src="../../../assets/fontS.png"></image></view>
+  <view class="only">只享优惠</view>
+  <view class="Edition">
+    <view class="two">V2.0.0</view>
+    <view>copyright© 2016 咻一咻电子商务有限公司</view>
+  </view>
+</view>
+</template>
+
+<script>
+    import wepy from 'wepy';
+
+    export default class about extends wepy.page {
+        config = {
+          backgroundTextStyle: 'light',
+          navigationBarBackgroundColor: '#fff',
+          navigationBarTitleText: '关于纸象',
+          navigationBarTextStyle: 'black'
+        };
+        data = {};
+        methods = {};
+        events = {};
+
+        onLoad() {
+        };
+
+        // Other properties
+    }
+</script>
+
+
+

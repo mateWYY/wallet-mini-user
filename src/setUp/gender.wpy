@@ -1,0 +1,113 @@
+<style lang="less">
+
+  Page{
+    background: #fafafa;
+  }
+  .pickWrapp{
+    background: #fff;
+  }
+  .picker{
+    font-weight: bold;
+    text-align: center;
+    height:84rpx;
+    line-height:84rpx;
+    color:#333333;
+    font-size:26rpx;
+    background:#fff;
+  }
+  .section{
+    margin-top:20rpx;
+  }
+  .Apply{
+    color:#fff;
+    background: #ff4552;
+    margin:0 30rpx;
+    font-size:28rpx;
+    box-shadow: 0 0 4px #ff4552;
+  }
+  .applyWrapp{
+    background: #fafafa;
+    padding:400rpx 30rpx;
+  }
+  .section__title{
+    font-size:26rpx;
+    color:#666;
+    padding:20rpx 30rpx;
+  }
+</style>
+
+<template>
+ <view>
+
+  <view class="section">
+    <view class="section__title">选择性别</view>
+      <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}" range-key="value">
+         <view class="picker">
+           {{array[index].value}}
+           <!--<repeat wx:if="{{!item}}" for="{{array[index].value}}" item="item">{{item}}</repeat>-->
+           <!--<text>{{sexTet}}</text>-->
+          </view>
+      </picker>
+  </view>
+  <view class="applyWrapp">
+    <button class="Apply" disabled="{{disabled}}" @tap="submitSex">
+      保存
+    </button>
+  </view>
+</view>
+</template>
+
+<script>
+    import wepy from 'wepy';
+    import { getVolSex, getVolSexType } from '../util/util'
+    export default class gender extends wepy.page {
+        config = {
+          backgroundTextStyle: 'light',
+          navigationBarBackgroundColor: '#fff',
+          navigationBarTitleText: '性别',
+          navigationBarTextStyle: 'black'
+        };
+        data = {
+          array:[],
+          index:1,
+          sexTet:[]
+        };
+        methods = {
+          bindPickerChange(e) {
+             this.index = e.detail.value;
+          },
+          submitSex(){
+            let sex = this.index;
+            getVolSex({method:'post',data:{sex:sex}}).then(res =>{
+              wepy.navigateBack({
+                url:'personal'
+              })
+            });
+            this.$apply()
+          }
+        };
+
+        events = {};
+        onLoad(opt) {
+          if(opt.vcd!==''){
+            this.index = opt.vcd;
+          }
+          console.log(this.sexTet);
+          getVolSexType().then(res =>{
+            let data = res.data;
+            let list = []
+            for(let i in data){
+             list.push({
+               key:data[i],
+               value: i
+             })
+            }
+            this.array = list;
+            this.$apply();
+          })
+        };
+    }
+</script>
+
+
+

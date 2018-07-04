@@ -1,0 +1,209 @@
+<style lang="less">
+  Page{
+    background:#fafafa;
+  }
+  .Lady {
+    color: #333;
+    font-size: 13px;
+  }
+  .shops{
+    width: 20rpx;
+    height: 18rpx;
+    vertical-align: middle;
+    align-self: center;
+    padding-right:8rpx;
+  }
+  .date{
+    font-size:26rpx;
+    font-weight: normal;
+    color: #666666;
+  }
+  .money{
+    font-size:56rpx;
+    font-weight:bold;
+  }
+  .leftMore{
+    float:right;
+  }
+  .rightMore{
+    display: flex;
+    padding-bottom:20rpx;
+  }
+  .more{
+    text-align:right;
+  }
+  .coin{
+    font-size:40rpx;
+  }
+  .flower{
+    width:122rpx;
+    height:122rpx;
+    border-radius:50%;
+  }
+  .newparket{
+    width:64rpx;
+    height:64rpx;
+    z-index:100;
+    position:absolute;
+    right:10rpx;
+    bottom:10rpx;
+  }
+  .red-news{
+    margin:20rpx auto;
+    border-radius:10rpx;
+    position:relative;
+  }
+  .leftNews{
+    vertical-align: middle;
+    color:#fff;
+    font-size:25rpx;
+    padding:24rpx 30rpx 22rpx;
+    background:#ff4a6f;
+    border-radius:10rpx;
+  }
+  .rightNews{
+    padding:30rpx 0 20rpx 22rpx;
+    background-color: #fff;
+    border-radius:10rpx;
+  }
+  .yuan{
+    width:100%;
+    height:14rpx;
+    position:absolute;
+    left:0;
+    right:0;
+    top:165rpx;
+  }
+</style>
+
+<template>
+  <loadmore :pullUpStatus.sync="haveMore" :loading.sync="loading">
+  <repeat for="{{nearLists}}" item="item">
+    <view @tap="redNew({{item.id}})" class="red-news" style="width:704rpx;">
+      <view class="leftNews">
+        <image class="flower" src="{{item.storeAvatar}}"></image>
+        <view class="leftMore">
+          <text class="coin">￥</text>
+          <text class="money">{{item.amount}}</text>
+          <view class="more">满{{item.attainAmount}}元可用</view>
+        </view>
+        <image class="yuan" src="../../assets/yuan.png"></image>
+      </view>
+      <view class="rightNews">
+        <view class="rightMore">
+          <image class="shops" mode='widthFix' src="../../assets/shops-1.png"></image>
+          <view class="Lady">{{item.storeName}}</view>
+        </view>
+        <view class="rightMore">
+          <image class="shops" mode='widthFix' src="../../assets/clock-1.png"></image>
+          <view class="date">{{item.effectiveAt}}-{{item.effectiveEndAt}}</view>
+        </view>
+      </view>
+      <image wx:if="{{item.isNew}}" class="newparket" src="../../assets/newparket.png"></image>
+    </view>
+  </repeat>
+  </loadmore>
+</template>
+
+<script>
+    import wepy from 'wepy';
+    import loadmore from '../../components/loadmore';
+    import { getNear } from '../../util/util';
+    export default class nearby extends wepy.page {
+        config = {
+          backgroundTextStyle: 'light',
+          navigationBarBackgroundColor: '#fff',
+          navigationBarTitleText: '附近可用',
+          navigationBarTextStyle: 'black',
+          enablePullDownRefresh: true,
+          onReachBottomDistance: '500'
+        };
+        data = {
+          haveMore:true,
+          loading: true,
+          nearList:[],
+          walletPerage:{
+           'per-page': 10,
+            page: 1
+          }
+        };
+        components={
+          loadmore:loadmore
+        };
+      /*下拉刷新*/
+      onPullDownRefresh () {
+        wepy.showNavigationBarLoading();
+        setTimeout(() => {
+          this.params.page = 1;
+          this.getNear(true);
+          wepy.hideNavigationBarLoading(); // 完成停止加载
+          wepy.stopPullDownRefresh() // 停止下拉刷新
+        }, 1000)
+      }
+      // 加载更多
+      onReachBottom (e) {
+        setTimeout(() => {
+          if (this.haveMore) {
+            this.getNear();
+          }
+          this.$apply()
+        }, 1000)
+      }
+      computed={
+        nearLists() {
+          return this.nearList.map((item ,index) => {
+            const {effectiveAt, effectiveEndAt, ...items} = item;
+            let time = {
+              effectiveAt: effectiveAt.split(' ')[0].replace(/-/g, '.'),
+              effectiveEndAt: effectiveEndAt.split(' ')[0].replace(/-/g, '.')
+            };
+            return {...time, ...items}
+          })
+        }
+      };
+        methods = {
+          redNew(id){
+              wx.navigateTo({
+                url: `../../pages/order/envelDetail?id=${id}`
+              })
+          }
+        }
+        getNear(clear){
+          const {latitude, longitude} = this.$parent.globalData.locationMap
+          if (latitude && longitude) {
+            const data = {
+              lat: latitude,
+              lon: longitude
+            };
+          getNear({data:{...this.walletPerage, ...data}}).then(res=>{
+            const data = res.data;
+            if (!data.length) {
+              this.loading = false
+            } else {
+              this.loading = true
+            }
+            if(data.length === this.walletPerage['per-page']){
+              this.haveMore = true;
+              this.walletPerage.page += 1
+            }else{
+              this.haveMore = false
+            }
+            if (clear) {
+              this.nearList = data;
+            } else {
+              this.nearList = this.nearList.concat(data)
+            }
+             this.$apply()
+          });
+          }
+        }
+        events = {};
+        onShow(){
+          this.getNear(true)
+        }
+        onLoad(){};
+    }
+</script>
+
+
+

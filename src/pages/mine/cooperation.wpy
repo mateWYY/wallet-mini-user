@@ -1,0 +1,283 @@
+<style lang="less">
+  Page{
+    background:#fafafa;
+  }
+  .cooperation{
+    margin:20rpx 0 0;
+  }
+  .field{
+    display: flex;
+    background:#fff;
+    color:#333333;
+    font-size:26rpx;
+    padding:30rpx;
+  }
+  .clearfix{
+    border-bottom:1px solid #f2f2f2;
+  }
+  .labelText{
+    align-self: center;
+    flex:0 0 145rpx;
+  }
+  .column{
+    margin-bottom:80rpx;
+  }
+  .loginput{
+    width: 100%;
+  }
+  .Apply{
+    color:#fff;
+    background: #ff4552;
+    margin:0 30rpx;
+    font-size:28rpx;
+    box-shadow: 0 0 4px #ff4552;
+  }
+  .arrow {
+    width:16rpx;
+    height:16rpx;
+    padding-left:16rpx;
+    align-self: center;
+  }
+  .choose{
+    flex:1;
+    color:#999999;
+    font-size:26rpx;
+  }
+</style>
+
+<template>
+<view class="cooperation">
+ <view style="padding:30rpx 0;">
+       <view class="column">
+         <view class="field clearfix">
+            <label class="labelText" for="name"><text>店铺名称</text></label>
+            <input id="name" @change="store_Name" value="{{store_name}}" class="loginput" type="text" placeholder="请输入店铺名称" />
+        </view>
+
+         <view class="field clearfix">
+           <label class="labelText">
+             <text>店铺地址</text>
+           </label>
+           <view class="choose">
+               <picker mode="multiSelector" range-key="name" value="{{multiIndex}}" range="{{region}}" @change="bindMultiPickerChange" @columnchange="columnChangeRegion">
+                 <text wx:if="{{!province_id}}">{{title}}</text>
+                 <text>{{province_id.name}}{{city_id.name}}{{region_id.name}}</text>
+               </picker>
+           </view>
+           <image mode="widthFix" class="arrow" src="../../assets/arrow.png"></image>
+         </view>
+         <view class="field clearfix">
+            <label class="labelText" ><text>联系电话</text></label>
+            <input id="phone" name="mobile" value="{{tel}}" @change="tell" class="loginput" type="number" placeholder="请输入座机/手机,座机需加区号" />
+        </view>
+        <view class="field clearfix">
+            <label class="labelText" ><text>经营品类</text></label>
+          <navigator url="../mine/category" hover-class="none" class="choose">
+            <text>{{infotie.name || '请选择'}}</text>
+          </navigator>
+          <image mode="widthFix" class="arrow" src="../../assets/arrow.png"></image>
+        </view>
+       </view>
+        <button class="Apply" @tap="submit">提交申请</button>
+    </view>
+</view>
+
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import {getProvince, getRegions, getVolJoins} from '../../util/util'
+  export default class cooperation extends wepy.page {
+    config = {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#fff',
+      navigationBarTitleText:'加盟合作',
+      navigationBarTextStyle: 'black'
+    };
+    data={
+      region:[[], [], []],
+      multiIndex:[0,0,0],
+      params:{},
+      infotie:{},
+      store_name:'',
+      tel:'',
+      province_id:'',
+      region_id:'',
+      city_id:'',
+    };
+    // 市区联动
+    async renderRegion(id) {
+      let res = await this.getRegions(id);
+      this.region[1] = res.children;
+      const ids = res.children[0].id;
+      let Regions = await this.getRegions(ids);
+      this.region[2] = Regions.children;
+      this.$apply()
+    }
+    // 初始化省市区
+    firstRegion(){
+      this.getProvince().then(res=>{
+        const {id}= res[0];
+        this.renderRegion(id)
+      })
+    }
+    // 获取市和区
+    async getRegions(id){
+      let {data} = await getRegions({id:id});
+      return data
+    }
+    async getProvince(){
+      let res = await getProvince();
+      let province = res.data;
+      this.region[0] = province.map((item, index)=>{
+        return item
+      });
+      this.$apply();
+      return this.region[0]
+    }
+    methods = {
+      //监听input输入
+      store_Name(e){
+        this.store_name = e.detail.value;
+        this.$parent.globalData.store_name = this.store_name;
+      },
+      tell(e){
+        this.tel = e.detail.value;
+        this.$parent.globalData.tel = this.tel;
+      },
+      // 触发获取省市区
+      columnChangeRegion(e){
+        this.multiIndex[e.detail.column] = e.detail.value
+      },
+      bindMultiPickerChange(e){
+        const index  = e.detail.value;
+        this.params = {
+          province:this.region[0][index[0]],
+          city:this.region[1][index[1]],
+          region:this.region[2][index[2]]
+        };
+        this.$parent.globalData.province_id = this.params.province;
+        this.$parent.globalData.city_id = this.params.city;
+        this.$parent.globalData.region_id = this.params.region;
+      },
+      //提交
+      submit(){
+        let store_name = this.store_name;
+        let province_id = this.$parent.globalData.province_id.id;
+        let city_id = this.$parent.globalData.city_id.id;
+        let region_id = this.$parent.globalData.region_id.id;
+        let phone = this.tel;
+        let category_id = this.infotie.id;
+        getVolJoins({method:'POST',data:{store_name:store_name,province_id:province_id,city_id:city_id,region_id:region_id,phone:phone,category_id:category_id}}).then(res =>{
+          // if(this.store_name==''|| !this.store_name){
+          //   wx.showToast({
+          //     title: '店铺是必填的',
+          //     icon: 'none',
+          //     duration:1000
+          //   });
+          //   return false
+          // }
+          // if(!province_id||!city_id||!region_id){
+          //   wx.showToast({
+          //     title: '请选择店铺地址',
+          //     icon: 'none',
+          //     duration:1000
+          //   });
+          //   return false
+          // }
+          let telreg = /^1(3|4|5|7|8)\d{9}$/;
+          if (!telreg.test(this.tel) || !this.tel) {
+            wx.showToast({
+              title: '手机号有误',
+              icon: 'none',
+              duration:1000
+            });
+            return false
+          }
+          // if(category_id==''|| !category_id){
+          //   wx.showToast({
+          //     title: '请选择分类',
+          //     icon: 'none',
+          //     duration:1000
+          //   });
+          //   return false
+          // }
+          if(res){
+            wx.showToast({
+              title:'提交成功',
+              icon: 'none',
+              duration:10000
+            });
+            wx.switchTab({
+              url:"../my"
+            });
+            this.$parent.globalData.store_name='';
+            this.$parent.globalData.infotie='';
+            this.$parent.globalData.province_id= '';
+            this.$parent.globalData.city_id= '';
+            this.$parent.globalData.region_id= '';
+            this.$parent.globalData.tel= '';
+          }else{
+            wepy.showToast({
+              title:'请求失败',
+              icon:'none'
+            });
+          }
+          this.$apply();
+        }).catch(err=>{
+          return wepy.showToast({
+            title: `${err.message}`,
+            icon: 'none',
+            duration: 1000
+          });
+        })
+      }
+    };
+    props={
+      title:{
+        type:String,
+        default:'请选择'
+      }
+    };
+    computed = {
+      infotie(){
+       return  this.$parent.globalData.infotie.id ? this.$parent.globalData.infotie : ''
+      },
+      province_id () {
+        return this.$parent.globalData.province_id
+      },
+      city_id () {
+        return  this.$parent.globalData.city_id
+      },
+      region_id () {
+        return  this.$parent.globalData.region_id
+      },
+      store_name(){
+        return this.$parent.globalData.store_name;
+      },
+      tel(){
+        return this.$parent.globalData.tel;
+      }
+    };
+    watch = {
+      multiIndex(val, oldValue) {
+        if (val[1] !== oldValue[1]) {
+          const {id} = this.region[1][val[1]];
+          this.getRegions(id).then(res => {
+            this.region[2] = res.children;
+            this.$apply()
+          })
+        }
+        if (val[0] !== oldValue[0]) {
+          const {id} = this.region[0][val[0]];
+          return this.renderRegion(id)
+        }
+      }
+    };
+    onLoad(){
+      // let info = opt.vcd;
+      // info ? this.infotie = JSON.parse(info) : this.infotie = '';
+      this.firstRegion()
+    }
+  }
+</script>

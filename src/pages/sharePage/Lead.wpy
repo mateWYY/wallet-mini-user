@@ -1,0 +1,356 @@
+<style lang="less">
+  Page{
+    background:#fafafa;
+  }
+  .Lead{
+    font-size:0;
+  }
+  .LeadWrapper{
+    background-color: #ffffff;
+  }
+  .mine-bott{
+    width:130rpx;
+    height:130rpx;
+    border-radius:50%;
+    position:absolute;
+    left:41%;
+    top:0;
+    margin-top:134rpx;
+  }
+  .Lady{
+    font-size:32rpx;
+    font-weight:bold;
+    color: #333333;
+    text-align:center;
+    margin-top:60rpx;
+  }
+  .congrat{
+    font-size:26rpx;
+    color: #fa9410;
+    padding:15rpx 0 69rpx;
+    text-align:center;
+  }
+  .ten{
+    font-size:112rpx;
+    font-weight: bold;
+    color: #ff4552;
+    text-align:center;
+  }
+  .yuan{
+    font-size:28rpx;
+    color:#333333;
+  }
+  .endTime{
+    font-size:26rpx;
+    color: #ff4552;
+    text-align:center;
+  }
+  .arrow{
+    width:16rpx;
+    height:16rpx;
+    padding-left:16rpx;
+    align-self: center;
+    vertical-align: middle;
+  }
+  .need{
+    font-size:24rpx;
+    color: #cccccc;
+    text-align:center;
+    padding-top:41rpx;
+  }
+  .button-wrapper{
+    padding-top:30rpx;
+    padding-bottom:70rpx;
+  }
+  .buttonable{
+    border-radius:5px;
+    background-image: -moz-linear-gradient( 120deg, rgb(225,19,34) 0%, rgb(255,69,82) 100%);
+    background-image: -webkit-linear-gradient( 120deg, rgb(225,19,34) 0%, rgb(255,69,82) 100%);
+    background-image: -ms-linear-gradient( 120deg, rgb(225,19,34) 0%, rgb(255,69,82) 100%);
+    box-shadow:0 0 10px 0 rgba(255, 69, 82, 0.57);
+    height:80rpx;
+    line-height:80rpx;
+    background: #ff4552;
+    color:#fff;
+    margin:0 30rpx;
+    font-size:28rpx;
+  }
+  .look{
+  }
+  .hands{
+    font-size:28rpx;
+    font-weight: bold;
+    color: #333333;
+    text-align:center;
+    padding-top:60rpx;
+  }
+  .friend{
+    display:flex;
+    padding:30rpx;
+  }
+  .bear{
+    width:84rpx;
+    height:82rpx;
+  }
+  .card{
+    padding-left:21rpx;
+  }
+  .Time{
+    font-size:26rpx;
+    color: #999999;
+    padding-top:17rpx;
+    text-align:left;
+  }
+  .buLady{
+    font-size:26rpx;
+    font-weight: bold;
+    color:#333333;
+    text-align:left;
+  }
+  .prc{
+    font-size:32rpx;
+    font-weight:bold;
+    color:#333333;
+  }
+  .check{
+    font-size:25rpx;
+    color:#999999;
+    text-align:center;
+    padding-bottom:43rpx;
+  }
+
+  /*弹框*/
+  .commodity_screen{
+    width:100%;
+    height:100%;
+    position:fixed;
+    top:0;
+    left:0;
+    background:#000;
+    opacity:.6;
+    z-index:1000;
+    overflow: hidden;
+  }
+  .commodity_attr_box{
+    position: fixed;
+    left:0;
+    right:0;
+    bottom: 180rpx;
+    z-index:2000;
+    overflow:hidden;
+    margin:0 auto;
+    text-align:center;
+  }
+
+  .hide{
+    display:none;
+  }
+  .shareClose{
+    width:48rpx;
+    height:48rpx;
+  }
+  .shopNeed{
+    font-size:24rpx;
+    color:#333333;
+    line-height:39rpx;
+    text-align: left;
+  }
+  .needChild{
+    width: 436rpx;
+    height: 89rpx;
+    margin: 0 auto;
+    position: relative;
+    top: -35rpx
+  }
+  .sharebeg{
+    width:100%;
+    height:221rpx;
+  }
+  .bottom-arrow{
+    vertical-align:middle;
+  }
+  .bottom-arrow:before{
+    content:"";
+    border:6px solid #999;
+    border-bottom:none;
+    border-right-color:transparent;
+    border-left-color:transparent;
+    position:relative;
+    top:9px;
+    left:6px;
+
+  }
+  .commodity-content{
+    height: 590rpx;
+    position: absolute;
+    left: 50%;
+    right:0;
+    top: 50%;
+    margin-left: -275rpx;
+    margin-top: -295rpx;
+    z-index:2000;
+    width: 470rpx;
+    background-color: #ffffff;
+    border-radius:5rpx;
+    text-align: center;
+    padding: 0 40rpx 40rpx 40rpx;
+  }
+  .bottom-arrow:after{
+    content:"";
+    border:6px solid #fafafa;
+    border-bottom:none;
+    border-right-color:transparent;
+    border-left-color:transparent;
+    position:relative;
+    top:7px;
+    left:-6px;
+  }
+  .choss{
+    display:block;
+  }
+  .mess{
+    text-align: center;
+    font-size:30rpx;
+    color:#cc3638;
+  }
+</style>
+
+<template>
+  <view class="Lead">
+    <view class="LeadWrapper">
+      <image class="sharebeg" src="../../assets/sharebeg.png"></image>
+      <image class="mine-bott" src="{{plane.store.avatarUrl}}"></image>
+      <view class="Lady">{{plane.store.name}}</view>
+      <view class="{{configs? 'congrat': 'hide'}}">恭喜你抢得红包!</view>
+      <view class="{{configs? 'ten': 'hide'}}">{{plane.amount}}<text class="yuan">元</text></view>
+      <view class="{{configs? 'endTime': 'hide'}}">红包{{plane.effectiveEndAt}}到期(满{{plane.attainAmount}}可用)</view>
+      <view class="mess">{{message.message}}</view>
+      <view @tap="shareClose" class="need">消费须知<image mode="widthFix" class="arrow" src="../../assets/arrow.png"></image></view>
+      <view class="button-wrapper">
+        <button class="buttonable" @tap="levelBuy({{plane.id}})">立即使用</button>
+      </view>
+    </view>
+    <view class="look">
+      <view class="hands">看朋友们手气如何</view>
+      <!--<repeat for="{{drawlogs.userWallets}}" item="item">-->
+      <!--<view class="friend" wx:if="{{drawlogs.userWallets.length<=3}}">-->
+      <!--<image class="bear" src="{{item.userAvatar}}"></image>-->
+      <!--<view style="flex:1;padding-left:21rpx;">-->
+      <!--<view class="buLady">{{item.userName}}</view>-->
+      <!--<view class="Time">{{item.createdAt}}</view>-->
+      <!--</view>-->
+      <!--<view class="prc">{{item.amount}}元</view>-->
+      <!--</view>-->
+      <!--</repeat>-->
+      <view class="{{isCheck? 'check': 'hide'}}" @tap="showCheck">查看更多<text class="bottom-arrow"></text></view>
+      <view class="{{ishidden? 'check': 'hide'}}">
+        <repeat for="{{drawlogs.userWallets}}" item="item">
+          <view class="friend">
+            <image class="bear" src="{{item.userAvatar}}"></image>
+            <view style="flex:1;padding-left:21rpx;">
+              <view class="buLady">{{item.userName}}</view>
+              <view class="Time">{{item.createdAt}}</view>
+            </view>
+            <view class="prc">{{item.amount}}元</view>
+          </view>
+        </repeat>
+      </view>
+    </view>
+    <!--弹框/消费须知-->
+    <view class="{{showView? 'hide': ''}}">
+      <view class="commodity_screen"></view>
+      <view class="commodity-content">
+        <image class="needChild" src="./resources/lead-tips@2x.png"></image>
+        <view class="commodity_box">
+          <view class="shopNeed">
+            <view>1、使用方法:点击“我的—券包”找到券后，点击“立即使用”出示券码给店员核销即可。</view>
+            <view>2、预约要求:无需预约,如遇消费高峰时段您可能需要排队等待。</view>
+            <view>3、优惠叠加:不可叠加优惠使用,不兑现、不找零。</view>
+            <view>4、商家服务:提供免费WF服务。</view>
+            <view>5、发票说明:如需开具发票,请您在消费时向商户咨询。</view>
+            <view>6、退款提示:有效期内,在核销使用前可随时发起退款,核销后不可退不可与其他促销叠加最终归属权归门店所有。</view>
+          </view>
+        </view>
+      </view>
+      <view class="commodity_attr_box" @tap="shareClose">
+        <image class="shareClose" src="../../assets/shareClose.png"></image>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import {getDrawlogs} from '../../util/util'
+  export default class Lead extends wepy.page {
+    config = {
+      backgroundTextStyle:'light',
+      navigationBarBackgroundColor:'#fe2964',
+      navigationBarTitleText: '分享',
+      navigationBarTextStyle: 'white'
+    };
+    data = {
+      configs:true,
+      cardList:4,
+      showView:true,
+      telephone:'',
+      plane:{},
+      drawlogs:{},
+      isCheck:true,
+      ishidden:false,
+      message:''
+    };
+    methods = {
+      showCheck(){
+        this.isCheck = false;
+        this.ishidden = true
+      },
+      levelBuy(id, event){
+        wx.navigateTo({
+          url: '../../pages/payment/bagBuy?id='+id
+        })
+      },
+      bindKeyInput(e){
+        this.inputValue = e.detail.value;
+        if(this.inputValue.length!==''){
+          this.telephone = true;
+        }else{
+          this.telephone = false;
+        }
+      },
+      shareClose(){
+        let that= this;
+        that.showView=(!that.data.showView)
+      },
+      shareIcon(){
+        let that= this;
+        that.PhoneView=(!that.data.PhoneView)
+      }
+    };
+    async getDrawlogs(){
+      const id= this.plane.walletId;
+      let res = await getDrawlogs({data:{walletId:id}});
+      this.drawlogs= res.data;
+      console.log(this.drawlogs);
+      this.$apply()
+    }
+    events = {};
+    onLoad(opt) {
+      this.message = this.$parent.globalData.message;
+      if(this.message!==''){
+        this.configs = false;
+      }else{
+        this.configs = true;
+      }
+      let info = opt.val;
+      console.log(info);
+      info ? this.plane =JSON.parse(info) : this.plane = '';
+      // const plc=JSON.parse(opt.val);
+      // this.plane = plc
+      this.getDrawlogs()
+    };
+  }
+</script>
+
+
+

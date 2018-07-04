@@ -1,0 +1,140 @@
+<style lang="less">
+    /** less **/
+  Page{
+    background:#fff;
+  }
+  .ju{
+    width:100%;
+    height:278rpx;
+    position: relative;
+  }
+  .bottChild{
+    width:114rpx;
+    height:114rpx;
+    background-color:#d8ae72;
+    border-radius:5rpx;
+    border:solid 2rpx #fff4c0;
+  }
+  .body{
+    text-align: center;
+  }
+  .Lady{
+   color: #333;
+   font-size:32rpx;
+   padding:15rpx 0 20rpx;
+  }
+  .congrat{
+    color:#999;
+    font-size:26rpx;
+    display:block;
+  }
+button{
+  color:#fff;
+  background: #ff4552;
+  font-size:28rpx;
+  box-shadow: 0 0 4px #ff4552;
+  height:80rpx;
+  line-height:80rpx;
+}
+.applyWrapp{
+  padding:68rpx 30rpx 0;
+  text-align:center;
+}
+.packet{
+  text-align: center;
+  color:#cc3638;
+  font-size:26rpx;
+}
+.ten{
+  font-size:112rpx;
+}
+.easy{
+   color:#999999;
+   font-size:26rpx;
+   padding-top:37rpx;
+  text-align: center;
+}
+  .bodyWrapper{
+    position: absolute;
+    left:0;
+    right:0;
+    top:18%;
+  }
+  .yuan{
+    color:#333;
+    font-size:28rpx;
+  }
+.mess{
+  text-align: center;
+  font-size:30rpx;
+  color:#cc3638;
+}
+  .show{
+    display: block;
+  }
+  .hide{
+    display:none;
+  }
+</style>
+
+<template>
+  <view>
+    <image class="ju" src="../../assets/ju.png"></image>
+    <view class="bodyWrapper">
+      <view class="body">
+        <image class="bottChild" src="{{headName.avatarUrl}}"></image>
+        <view class="Lady">{{headName.name}}</view>
+        <view wx:if="{{!message.length}}" class="congrat">恭喜你抢得红包!</view>
+      </view>
+      <view class="packet" wx:if="{{!message.length}}">
+        <view class="ten">{{minge.amount}}<text class="yuan">元</text></view>
+        <view class="show">红包金额满{{minge.attainAmount}}可用</view>
+      </view>
+      <view wx:if="{{message.length}}" class="mess">{{message}}</view>
+      <view class="applyWrapp">
+          <button @tap="buys" disabled="{{disabled}}">去买单</button>
+      </view>  <!--({{minge.store.id}})-->
+      <view  class="easy">不着急，先去逛逛></view>
+    </view>
+  </view>
+</template>
+<script>
+    import wepy from 'wepy';
+    import { SET_PORTRIANT } from '../../store/types/union'
+    import { connect } from 'wepy-redux'
+    @connect({
+      headName(state) {
+        return state.union.headName
+      }
+    })
+    export default class openBag extends wepy.page {
+        config = {
+          backgroundTextStyle: 'light',
+          navigationBarBackgroundColor: '#cc3638',
+          navigationBarTitleText: '店铺红包',
+          navigationBarTextStyle: 'white'
+        };
+        data = {
+          headName: {},
+          configs: '',
+          message: '',
+          nameId: '',
+          minge: {}
+        };
+        methods = {
+          buys(){
+            wx.navigateTo({
+              url:'../../pages/payment/immediately?id='+this.headName.id
+            })
+          }
+        };
+        events = {};
+        onLoad(opt) {
+           this.message = this.$parent.globalData.message;
+           this.minge = opt.val && JSON.parse(opt.val)
+        };
+    }
+</script>
+
+
+

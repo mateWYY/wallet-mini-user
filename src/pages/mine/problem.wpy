@@ -1,0 +1,117 @@
+<template>
+  <view class="container">
+      <repeat class="item-li" for="{{list}}" index="index"  item="item">
+        <view class="item_fa" @tap="togo({{index}})">
+          <view class="item-titlePaper">{{item.name}}</view>
+          <text class="right-icon {{currentIndex == index  ? 'bottom-icon' : ''}}"></text>
+        </view>
+        <view hidden="{{currentIndex != index}}" class="htmlContent">
+          <html2wxml :parserName="currentIndex" :parserContent="content"></html2wxml>
+        </view>
+      </repeat>
+
+  </view>
+</template>
+
+<script>
+    import wepy from 'wepy';
+    import html2wxml from '@/components/html2wxml'
+    import {getVolProblems} from '../../util/util'
+    export default class problem extends wepy.page {
+        config = {
+          backgroundTextStyle: 'light',
+          navigationBarBackgroundColor: '#fff',
+          navigationBarTitleText: '常见问题',
+          navigationBarTextStyle: 'black'
+        };
+       data = {
+         list: [],
+         flag: 999,
+         shows: false,
+         content: '',
+         currentIndex: -1,
+         title: '',
+         name: 'myHtmlParserKiner'
+       };
+       methods = {
+         togo(index) {
+           this.currentIndex = index
+           this.content = this.list[index]
+           this.$apply()
+           this.$invoke('html2wxml', 'htmlParserNotice', this.list[index])
+         }
+       }
+       components = {
+         html2wxml
+       }
+        getVolProblems() {
+          getVolProblems().then(res => {
+            this.list = res.data
+            this.$apply()
+            setTimeout(() => {
+              this.$invoke('html2wxml', 'htmlParserNotice')
+            }, 1000)
+          })
+        }
+          onLoad () {
+            this.getVolProblems()
+          }
+
+      }
+</script>
+<style lang="stylus">
+  @import '../../stylus/mixin.styl'
+
+  page {
+    background:#fafafa;
+  }
+  .container{
+    margin-top:20rpx;
+  }
+  .item-li{
+    overflow: hidden;
+    background: #fff;
+    padding:0 30rpx;
+  }
+  .item-title{
+    color: #000;
+    font-size:28rpx;
+    height:80rpx;
+    line-height:80rpx;
+    flex:1;
+    padding:0 30rpx;
+    background:#fff;
+  }
+  .item-titlePaper{
+    color: #000;
+    font-size: 28rpx;
+    height:80rpx;
+    line-height:80rpx;
+    background-color: #ffffff;
+    flex:1;
+  }
+  .item-content{
+    color:#4e4e4e;
+    font-size:26rpx;
+    box-sizing: border-box;
+    padding:18rpx 30rpx 30rpx;
+  }
+  .item_fa{
+    border-bottom:1px solid #f2f2f2;
+    display: flex;
+    align-items: center
+    background-color:#fff;
+    padding:0 30rpx;
+  }
+  .icon-jiantouxia{
+    align-self: center;
+  }
+  .htmlContent{
+    padding: 30rpx;
+  }
+
+  .right-icon
+    nagavition-icon-sm(#CCC)
+    &.bottom-icon
+      transform:rotateZ(45deg)
+</style>

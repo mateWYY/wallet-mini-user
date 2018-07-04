@@ -1,0 +1,106 @@
+<style lang="less">
+  /* pages/mine/setUp/Personal/nickname/nickname.wxss */
+  Page{
+    background:#fafafa;
+  }
+  .section{
+    background:#fff;
+    margin-top:20rpx;
+  }
+  input{
+    height:84rpx;
+    line-height:84rpx;
+    color:#999999;
+    font-size:26rpx;
+    padding-left:30rpx;
+  }
+  input::-webkit-input-placeholder{
+    color: #ff4552;
+  }
+  .applyWrapp{
+    background: #fafafa;
+    padding:400rpx 30rpx;
+  }
+  .buttonable{
+    border-radius:5px;
+    background-image: -moz-linear-gradient( 120deg, rgb(225,19,34) 0%, rgb(255,69,82) 100%);
+    background-image: -webkit-linear-gradient( 120deg, rgb(225,19,34) 0%, rgb(255,69,82) 100%);
+    background-image: -ms-linear-gradient( 120deg, rgb(225,19,34) 0%, rgb(255,69,82) 100%);
+    box-shadow:0 0 10px 0 rgba(255, 69, 82, 0.57);
+    height:80rpx;
+    line-height:80rpx;
+    background: #ff4552;
+    color:#fff;
+    margin:0 30rpx;
+    font-size:28rpx;
+  }
+  .buttondisable{
+    border-radius:5px;
+    height:80rpx;
+    line-height:80rpx;
+    background:#e6e6e6;
+    color:#999;
+    font-size:28rpx;
+    margin:0 30rpx;
+  }
+</style>
+
+<template>
+<view class="section">
+  <input type="text" placeholder="请输入你的昵称" @input="bindInput"  auto-focus/>
+  </view>
+  <view class="applyWrapp">
+    <button  disabled="{{disabled}}" @tap="onSubmit" class="{{telephone? 'buttonable': 'buttondisable'}}">
+      保存
+    </button>
+  </view>
+</template>
+
+<script>
+    import wepy from 'wepy';
+    import { getVolNickname } from '../util/util'
+    export default class nickname extends wepy.page {
+        config = {
+          backgroundTextStyle: 'light',
+          navigationBarBackgroundColor: '#fff',
+          navigationBarTitleText: '修改昵称',
+          navigationBarTextStyle: 'black'
+        };
+        data = {
+          inputVal: '',
+          telephone: ''
+        };
+        methods = {
+          onSubmit(){
+            let nickname = this.inputVal;
+            getVolNickname({method: 'POST',data:{nickname:nickname}}).then(res =>{
+              wepy.navigateBack({
+                url:'personal'
+              });
+            }).catch(err=>{
+              return wepy.showToast({
+                title: `${err.message}`,
+                icon: 'none',
+                duration:1000
+              });
+            });
+            this.$apply()
+          },
+          bindInput(e){
+            this.inputVal = e.detail.value;
+            if(this.inputVal.length>0){
+              this.telephone = true;
+            }else{
+              this.telephone = false;
+            }
+          }
+        };
+        events = {};
+        onLoad() {
+        };
+        // Other properties
+    }
+</script>
+
+
+

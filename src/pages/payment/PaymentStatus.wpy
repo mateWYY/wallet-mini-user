@@ -1,0 +1,264 @@
+<style lang="less">
+  /*支付成功*/
+  Page{
+    background:#fafafa;
+  }
+  .Operation{
+    background-color: #ffffff;
+  }
+  .PaymentStatus .Operation img{
+    display: flex;
+    margin:20px auto 10px;
+  }
+  .PaymentStatus .Operation .eight{
+    text-align: center;
+  }
+  .suc{
+    margin-bottom:10px;
+    font-size:30rpx;
+    color: #ff4552;
+  }
+  .PaymentStatus .Operation .eight .cess{
+    font-size:32px;
+  }
+  .PaymentStatus .Operation .eight .coin{
+    font-size: 18px;
+    vertical-align: unset;
+    position: relative;
+    bottom: 7px;
+  }
+  .Style{
+    padding:26px 15px 10px;
+  }
+  .PaymentStatus .Member{
+    display: flex;
+    padding-bottom:11px;
+    font-size:13px;
+  }
+  .PaymentStatus .Member .tit{
+    flex:1;
+    color:#999999;
+  }
+  .lever{
+    margin:0 30rpx;
+    padding-bottom:18px;
+    position:relative;
+  }
+  .operatFather{
+    display: flex;
+    padding:34rpx 0;
+  }
+  .operat{
+    width:80rpx;
+    height:80rpx;
+    margin:0 auto;
+  }
+  .sao{
+    width:688rpx;
+    height:148rpx;
+    margin:0 auto;
+  }
+  .titStyle{
+    font-size:26rpx;
+    color: #fdad0a;
+    flex:1;
+  }
+  .val{
+    font-size:26rpx;
+    color: #fdad0a;
+  }
+  .linear{
+    background-image:linear-gradient(-30deg, #ff4552 0%, #ff4a6f 100%);
+    width:100%;
+    height:201rpx;
+    background-size:100% 100%;
+    margin:0 0 20rpx;
+  }
+  .lineared{
+    background-image: linear-gradient(-30deg, rgba(255, 69, 82, 0.63) 0%, rgba(255, 74, 111, 0.63) 100%);
+    opacity: 0.63;
+    width:100%;
+    height:201rpx;
+    background-size:100% 100%;
+    margin-bottom:20rpx;
+  }
+  .triangle{
+    position:absolute;
+    left:0;
+    width:8rpx;
+    height:200rpx;
+  }
+  .triangle1{
+    position:absolute;
+    right:0;
+    width:8rpx;
+    height:200rpx;
+    transform:rotate(180deg);
+    top:0;
+  }
+  .even{
+    width: 1px;
+    height:200rpx;
+    border-left:dashed 1px #ffffff;
+  }
+  .pair{
+    text-align:center;
+    vertical-align:middle;
+    align-self:center;
+    flex:1;
+  }
+  .pairs{
+    width:42rpx;
+    height:42rpx;
+  }
+
+  .hide{
+    display:none;
+  }
+  .timeuser{
+    font-size:22rpx;
+    font-weight: normal;
+    color: #ffffff;
+    padding-bottom: 10rpx;
+  }
+  .immeduser{
+    font-size:24rpx;
+    color:#ffffff;
+    vertical-align:middle;
+    align-self:center;
+    text-align:center;
+    flex:1;
+  }
+  .coined{
+    padding:30rpx 0 20rpx;
+    font-size:24rpx;
+    color:#fff;
+  }
+  .moneyuser{
+    font-size:48rpx;
+    font-weight: normal;
+    color: #ffffff;
+  }
+  .juan{
+    display:flex;
+    padding:0 30rpx;
+    height:200rpx;
+  }
+  .muchuser{
+    width:466rpx;
+  }
+  .line{
+    width:100%;
+    height:1px;
+    border-top:1px solid #999999;
+    color:#999999;
+    position:absolute;
+    top:30rpx;
+    z-index:-1;
+  }
+  .lever .consum{
+    width:155rpx;
+    text-align:center;
+    font-size:13px;
+    background:#fafafa;
+    z-index:100;
+    color:#999999;
+  }
+  .buyBanner{
+    width:100%;
+    height:174rpx;
+  }
+</style>
+
+<template>
+    <view class="PaymentStatus">
+     <view class="Operation">
+        <view class="operatFather">
+             <image wx:if="{{orderSuccess.status===2}}" class="operat" src="../../assets/operation.png"></image>
+             <image wx:if="{{orderSuccess.status!==2}}" class="operat" src="../../assets/paymentFail.png"></image>
+        </view>
+         <view class="eight">
+             <view class="suc">{{orderSuccess.statusText}}</view>
+            <view><text class="coin">￥</text><text class="cess">{{orderSuccess.totalAmount}}</text></view>
+         </view>
+        <view class="Style">
+            <view class="Member" wx:if="{{orderSuccess.status===2}}">
+                <text class="titStyle">红包优惠金额</text>
+                <text class="val">-￥{{orderSuccess.orderWalletAmount}}</text>
+            </view>
+            <view class="Member">
+                <text class="tit">付款方式</text>
+                <text class="value">{{orderSuccess.paymentText}}</text>
+            </view>
+            <view class="Member">
+                <text class="tit">收款方</text>
+                <text class="value">{{orderSuccess.storeName}}</text>
+            </view>
+        </view>
+     </view>
+         <view class="lever">
+             <view style="text-align: center;margin:30rpx auto;">
+               <text class="consum">本次消费获得</text>
+               <view class="line"></view>
+             </view>
+              <image @tap="BannerDetail" class="buyBanner" src="../../assets/buyBanner.png"></image>
+             <!--<view class="{{currentTab == index ?  'lineared' : 'linear'}}" style="position:relative;">-->
+                <!--<image class="triangle" src="../../assets/triangle.png"></image>-->
+                <!--<view class="juan">-->
+                  <!--<view class="muchuser">-->
+                    <!--<view class="coined">￥<text class="moneyuser">100.00</text></view>-->
+                    <!--<view class="timeuser">订单满100元可用</view>-->
+                    <!--<view class="timeuser">使用时间</view>-->
+                  <!--</view>-->
+                  <!--<view class="even"></view>-->
+                  <!--<view class="{{showImd ? 'immeduser': 'hide'}}">立即使用</view>-->
+                  <!--<view class="{{pairs ? 'pair' : 'hide'}}"><image class="pairs" src="../../assets/pair.png"></image></view>-->
+                <!--</view>-->
+                <!--<image class="triangle1" src="../../assets/triangle.png"></image>-->
+              <!--</view>-->
+         </view>
+   </view>
+
+</template>
+
+<script>
+    import wepy from 'wepy';
+    import {getOrderSuccess} from '../../util/util';
+    export default class PaymentStatus extends wepy.page {
+        config = {
+          backgroundTextStyle:'light',
+          navigationBarBackgroundColor: '#fff',
+          navigationBarTitleText: '支付结果',
+          navigationBarTextStyle: 'black'
+        };
+        data = {
+          showImd: true,
+          pairs: false,
+          currentTab: -1,
+          index: 0,
+          orderSuccess: {}
+        };
+        methods = {
+          //进入店铺列表
+          BannerDetail(){
+            wepy.navigateTo({
+              url:'../shopDetail/store?id='+ this.orderSuccess.storeId
+            })
+          }
+        };
+        events = {};
+      getOrderSuccess(id){
+        getOrderSuccess({id:id}).then(res=>{
+          this.orderSuccess = res.data;
+          this.$apply()
+        });
+      }
+        onLoad (opt){
+        let id = JSON.parse(opt.vcd);
+        this.getOrderSuccess(id)
+        };
+    }
+</script>
+
+
+

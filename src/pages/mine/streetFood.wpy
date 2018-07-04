@@ -1,0 +1,519 @@
+<style lang="less">
+  /*福袋店铺列表*/
+  Page{
+    background:#fff;
+  }
+  .wrapper{
+    padding:0 30rpx;
+    background: #fff;
+  }
+  .Lady{
+    color: #333;
+    font-size:13px;
+  }
+  .beauty-1 {
+    font-size:10px;
+    color: #666;
+    display: inline-block;
+    padding:10rpx 0 13rpx;
+  }
+  .minte{
+    padding:2rpx 10rpx 2rpx;
+    align-self: center;
+    font-size: 20rpx;
+    background-color:rgba(255, 165, 0, 0.05);
+    border-radius:5rpx;
+    color: #ffa500;
+  }
+  .minFather{
+    display: flex;
+  }
+  .min{
+    text-align: right;
+    font-size:20rpx;
+    color: #666;
+    flex:1;
+    float:right;
+  }
+  .active{
+    width:120rpx;
+    height:120rpx;
+  }
+  .distance{
+    font-size:0;
+    flex: 1;
+    color:#666;
+  }
+  .shops{
+    width: 20rpx;
+    height: 18rpx;
+    vertical-align: middle;
+    align-self: center;
+    padding-right:6rpx;
+  }
+  .allOther {
+    padding:25rpx 15px 0;
+    border-bottom: 1px solid #ddd;
+    background:#fff;
+  }
+  .footprints{
+    display: flex;
+    padding:20rpx 0;
+    border-bottom:1px solid #f2f2f2;
+    background:#fff;
+  }
+  .shopBag{
+    width:32rpx;
+    height:39rpx;
+    vertical-align:middle;
+  }
+  .melon{
+    padding-left:40rpx;
+    padding-right:30rpx;
+    background: #fff;
+  }
+  .other{
+    display: flex;
+    border-bottom:1px solid #f2f2f2;
+  }
+  .crust{
+    color:#ff4552;
+    font-size:28rpx;
+  }
+  .already{
+    color:#999999;
+    font-size: 20rpx;
+  }
+  .kind{
+    color:#333333;
+    font-size:26rpx;
+  }
+  .total{
+    flex:1;
+    padding:25rpx 0;
+  }
+  .branch{
+    border-radius:10rpx;
+    border:1px solid #ff4552;
+    color:#ff4552;
+    font-size:24rpx;
+    width:133rpx;
+    height: 53rpx;
+    line-height:53rpx;
+    text-align: center;
+    align-self:center;
+  }
+  /*.sorry{*/
+    /*font-size:30rpx;*/
+    /*color:#999;*/
+    /*text-align:center;*/
+    /*margin:500rpx auto 0;*/
+  /*}*/
+
+  .swiper-tab{
+    width:100%;
+    height:80rpx;
+    line-height:71rpx;
+    background:#fff;
+    padding-left:30rpx;
+    border-bottom:1px solid #fafafa;
+  }
+  .swiper-tab-list {
+    font-size: 26rpx;
+    display: inline-block;
+    flex:1;
+    color:#333;
+    margin-right:46rpx;
+  }
+  .on{
+    color: #ff4552;
+    border-bottom: 5rpx solid #ff4552;
+  }
+
+  .three{
+    font-size:40rpx;
+    color: #ff4552;
+    font-weight: bold;
+    padding:0 4rpx 0 10rpx;
+  }
+  .fu{
+    font-size:20rpx;
+    color: #666666;
+  }
+  .yellowBag{
+    display: flex;
+    font-size:0;
+  }
+  .up{
+    font-size:18rpx;
+    color: #999999;
+  }
+  .yello{
+    width:18rpx;
+    height:22rpx;
+  }
+  .curr{
+    vertical-align:middle;
+  }
+  .file{
+    width:16rpx;
+    height:17rpx;
+    vertical-align:middle;
+    align-self:center;
+    padding-right:10rpx;
+  }
+  .yes{
+    flex:1;
+  }
+  .beautyfily{
+    background:#fafafa;
+    align-self:center;
+    font-size:10px;
+    color:#666;
+    display:inline-block;
+    padding-right:15rpx;
+  }
+
+  /*全部类型*/
+  .AllType {
+    display: flex;
+    font-size: 24rpx;
+    color: #333;
+    padding:22rpx 30rpx;
+    background: #fff;
+  }
+  .basc {
+    padding-right: 14rpx;
+  }
+
+  .dot-bottom {
+    display: inline-block;
+    font-size: 0;
+    line-height: 0;
+    border-width: 13rpx;
+    border-color: #999;
+    border-bottom-width: 0;
+    border-style: dashed;
+    border-top-style: solid;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    margin-right: 60rpx;
+  }
+
+  .AllType .active_all{
+    color: #ff4552;
+  }
+  .AllType .active_all .dot-bottom{
+    border-color:#ff4552;
+    border-bottom-width:0;
+    border-style:dashed;
+    border-top-style:solid;
+    border-left-color:transparent;
+    border-right-color:transparent;
+    -webkit-transform:rotate(180deg);
+    transform:rotate(180deg);
+  }
+
+  /*下拉列表*/
+  .person_modal {
+    position: fixed;
+    left: 0;
+    top: 138rpx;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 22;
+  }
+  .person_box{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    left: 0;
+    top: 0;
+  }
+  .phone_select {
+    width: 100%;
+    margin-top: 0;
+    z-index: 100;
+    position: absolute; //小程序中z-index和absolute需要同时存在，元素才能脱离文档。
+  }
+  .phone_select .selectCategory{
+    padding: 0 30rpx;
+    background-color: #fff;
+  }
+
+  .select_one {
+    background-color: #fff;
+    width: 100%; //脱离文档后元素width不能再用百分比。
+    font-size: 26rpx;
+    padding: 26rpx 0;
+    letter-spacing: 1px;
+    color: #333333;
+    display: flex;
+    justify-content: space-between;
+  }
+  .select_one .nice{
+    border-color: #ff4552;
+    width: 10rpx;
+    height: 25rpx;
+    margin:0 auto;
+    position:relative;
+    bottom: 0;
+    border-right:2px solid #ff4552;
+    border-bottom:2px solid #ff4552;
+    transform:rotateZ(45deg)
+  }
+  .select_one .text-color{
+    flex: 1
+  }
+  .rotateRight {
+    transform: rotate(180deg); //180°旋转图片。
+  }
+  .foodList_hidden{
+    height: 100vh;
+    overflow: hidden;
+  }
+  .foodList-top{
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    height: 136rpx;
+  }
+  .distanceSelect{
+    color: #ff4552;
+  }
+  .streetFood{
+    overflow:hidden;
+  }
+  .nav{
+    position: fixed;
+    top:0;
+    left:0;
+    right:0;
+  }
+  .findly{
+    padding-top:150rpx;
+  }
+</style>
+
+<template>
+  <view  class="streetFood">
+    <view class="nav">
+    <scroll-view class="i-scroll" scroll-x="true" scroll-left="{{scrollLeft}}">
+      <view class="swiper-tab">
+        <repeat for="{{typesChild}}" item="item" index="index">
+          <view class="swiper-tab-list {{currentTab == item.id ? 'on' : ''}}" @tap="swichNav({{item}})">{{item.name}}
+          </view>
+        </repeat>
+      </view>
+    </scroll-view>
+    <!--店铺福袋列表-->
+    <view class="AllType">
+      <view @tap="clickPerson(2)" class="{{selectPerson == 2 && selectPersonShow ? 'active_all' :''}}">
+        <text class="basc">附近</text>
+        <view class="dot-bottom"></view>
+      </view>
+      <view @tap="clickPerson(1)" class="{{selectPerson == 1 && selectPersonShow ? 'active_all' :''}}">
+        <text class="basc">智能排序</text>
+        <view class="dot-bottom"></view>
+      </view>
+    </view>
+    </view>
+
+    <view class="person_modal" catchtouchmove="move" wx:if="{{selectPersonShow}}">
+
+      <view class="phone_select" hidden="{{selectPerson == 1}}">
+        <view class="selectCategory">
+          <repeat for="{{distance}}" item="item" index="index">
+            <view class="select_one {{distanceIndex == index ? 'distanceSelect' : ''}}"
+                  @tap="setDistance({{index}},{{item}})">
+              <text class="text-color">{{item}}</text>
+              <view class="nice" wx:if="{{distanceIndex == index}}"></view>
+            </view>
+          </repeat>
+        </view>
+      </view>
+
+      <view hidden="{{selectPerson == 2}}" class="phone_select">
+        <view class="selectCategory">
+          <repeat for="{{sortArr}}" item="item" index="index">
+            <view class="select_one {{sortIndex == index ? 'distanceSelect' : ''}}"
+                  @tap="setSort({{index}})">
+              <text class="text-color">{{item}}</text>
+              <view class="nice" wx:if="{{sortIndex == index}}"></view>
+            </view>
+          </repeat>
+        </view>
+      </view>
+
+      <view class="person_box" @tap="close"></view>
+    </view>
+
+    <loadmore :pullUpStatus.sync="haveMore" :loading.sync="loading" class="findly">
+      <repeat for="{{FindWallet}}" item="item">
+        <Delicious :syncTitle.sync="item" wx:if="{{FindWallet.length}}" :types="-1"></Delicious>
+      </repeat>
+    </loadmore>
+  </view>
+
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import {getCommonChilds, getFindWallet, getCommonCategories} from '../../util/util'
+  import Delicious from '../../components/Delicious';
+  import loadmore from '../../components/loadmore';
+  export default class streetFood extends wepy.page {
+    config = {
+      backgroundTextStyle:'light',
+      navigationBarBackgroundColor:'#fff',
+      navigationBarTitleText:'',
+      navigationBarTextStyle:'black',
+      enablePullDownRefresh: true
+    };
+    components = {
+      Delicious: Delicious,
+      loadmore: loadmore
+    };
+    watch = {
+      currentTab(val) {
+        this.params.page = 1;
+        this.params.categoryId = val
+        this.getAllStores(true)
+      }
+    }
+    data = {
+      names:'',
+      typesChild:[],
+      inputVal:'',
+      FindWallet:[],
+      currentTab: 0,
+      params: {
+        cityId: '',
+        'per-page': 10,
+        page: 1,
+        distance: '',
+        categoryId: '',
+        sort: '',
+        lat: '',
+        lon: ''
+      },
+      loading: true,
+      haveMore: true,
+      distance: ['附近', '1km', '3km', '5km', '10km'],
+      sortArr: ['人气', '发布时间'],
+      sortIndex: 0,
+      selectCategoryId: 0,
+      mainSelectCate: 0,
+      distanceIndex: 0,
+      selectPersonShow: false,
+      selectPerson: 1,
+      selectArea: false
+    };
+    getAllStores(clear) {
+      const {latitude, longitude} = this.$parent.globalData.locationMap
+      this.params.cityId = this.$parent.globalData.cityId.id || ''
+      if (latitude && longitude) {
+        this.params.lat = latitude
+        this.params.lon = longitude
+        getFindWallet({cityId: this.params.cityId, data: this.params}).then(res => {
+          const data = res.data
+          !data.length ? this.loading = false : this.loading = true
+          if (data.length === this.params['per-page']) {
+            this.haveMore = true
+            this.params.page += 1
+          } else {
+            this.haveMore = false
+          }
+          if (clear) {
+            this.FindWallet = data
+          } else {
+            this.FindWallet = this.FindWallet.concat(data)
+          }
+          this.$apply()
+        })
+      }
+    }
+    methods = {
+      /***点击tab切换**/
+      swichNav(item){
+        this.currentTab = item.id
+      },
+      setSort(index, item) {
+        this.sortIndex = index
+        this.params.sort = this.sortIndex + 1
+        this.params.page = 1
+        this.getAllStores(true)
+        this.selectPersonShow = false
+      },
+      setDistance(index, i) {
+        this.distanceIndex = index
+        if (index === 0) {
+          this.params.distance = ''
+        } else {
+          this.params.distance = parseInt(i)
+        }
+        this.params.page = 1
+        this.getAllStores(true)
+        this.selectPersonShow = false
+      },
+      // 点击选择类型
+      clickPerson(val) {
+        this.selectPersonShow = true
+        this.selectPerson = val
+      },
+      move(e) {
+//          console.log(e)
+      },
+      // 点击切换
+      mySelect(e) {
+        this.firstPerson = e.target.dataset.me
+        this.selectPerson = true
+        this.selectArea = false
+      },
+      close() {
+        this.selectPersonShow = false
+      },
+    };
+    //子分类
+    getCommonChilds(id){
+      getCommonChilds({id:id,data:{type:1}}).then(res=>{
+        this.typesChild = res.data
+        if(!this.currentTab) this.currentTab = this.typesChild[0].id
+        this.$apply()
+      })
+    }
+    onPullDownRefresh () {
+      wepy.showNavigationBarLoading()
+      setTimeout(() => {
+        this.params.page = 1
+        this.getAllStores(true)
+        wepy.hideNavigationBarLoading() // 完成停止加载
+        wepy.stopPullDownRefresh() // 停止下拉刷新
+      }, 1000)
+    }
+    onReachBottom (event) {
+      setTimeout(() => {
+        if (this.haveMore) {
+          this.getAllStores()
+        }
+        this.$apply()
+      }, 1000)
+    }
+    onLoad(opt) {
+      const {vcd, id} = opt
+      const category = JSON.parse(vcd) //父类
+      this.getCommonChilds(category.id)
+      if(id){
+        this.currentTab = id //子类id
+      }
+      wepy.setNavigationBarTitle({
+        title: `${category.name}`
+      })
+    };
+  }
+</script>
+
+
+

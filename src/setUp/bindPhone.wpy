@@ -1,0 +1,198 @@
+<style lang="less">
+  /* pages/mine/setUp/Personal/bindPhone/bindPhone.wxss */
+  Page{
+    background:#fafafa;
+  }
+  .applyWrapp{
+    background: #fafafa;
+    padding-top:30rpx;
+  }
+  .change{
+    font-size:24rpx;
+    color:#666666;
+  }
+  .bind{
+    padding:30rpx;
+    line-height:40rpx;
+  }
+  .section{
+    position:relative;
+    background:#fff;
+    display:flex;
+    padding:0 30rpx;
+  }
+  .inputCode{
+    width: 70%;
+    height:84rpx;
+    line-height:84rpx;
+    color:#999999;
+    font-size:26rpx;
+  }
+  .show{
+   font-size:24rpx;
+   width:90rpx;
+   height:44rpx;
+   line-height:44rpx;
+   border:1px solid #666;
+   color:#666;
+   text-align: center;
+   border-radius:10rpx;
+   align-self: center;
+   position:absolute;
+   right:30rpx;
+   background:#f2f2f2;
+   z-index:10;
+ }
+
+  .buttonable{
+    border-radius:5px;
+    background-image: -moz-linear-gradient( 120deg, rgb(225,19,34) 0%, rgb(255,69,82) 100%);
+    background-image: -webkit-linear-gradient( 120deg, rgb(225,19,34) 0%, rgb(255,69,82) 100%);
+    background-image: -ms-linear-gradient( 120deg, rgb(225,19,34) 0%, rgb(255,69,82) 100%);
+    box-shadow:0 0 10px 0 rgba(255, 69, 82, 0.57);
+    height:80rpx;
+    line-height:80rpx;
+    background: #ff4552;
+    color:#fff;
+    margin:0 30rpx;
+    font-size:28rpx;
+  }
+  .buttondisable{
+    border-radius:5px;
+    height:80rpx;
+    line-height:80rpx;
+    background:#e6e6e6;
+    color:#999;
+    font-size:28rpx;
+    margin:0 30rpx;
+  }
+</style>
+
+<template>
+<view>
+ <view class="bind">
+  <view class="change">更换手机号后,下次登陆可使用新手机号登陆</view>
+  <view class="change">当前手机号:{{storeInfo.phone}}</view>
+ </view>
+  <view class="section">
+    <input value="{{inputValue}}" type="number" class="inputCode" placeholder="请输入验证码" @input="bindKeyInput"/>
+    <view @tap="getVerificationCode" class="show" wx:if="{{isShow}}">{{time}}</view>
+  </view>
+  <view class="applyWrapp">
+    <button disabled="{{togoable}}" class="{{telephone ? 'buttonable': 'buttondisable'}}" @tap="getCode">{{coding}}</button>
+  </view>
+</view>
+</template>
+<script>
+    import wepy from 'wepy';
+    import {getCommonCodes, getCommonModify} from '../util/util'
+    export default class bindPhone extends wepy.page {
+        config = {
+          backgroundTextStyle: 'light',
+          navigationBarBackgroundColor: 'white',
+          navigationBarTitleText: '验证手机号',
+          navigationBarTextStyle: 'black'
+        };
+        data ={
+          coding: '获取验证码',
+          time:'', //倒计时嗯
+          telephone: true,
+          currentTime: 60,
+          storeInfo: '',
+          isShow: false,
+          inputValue: '',
+          sendCode: false
+        };
+      computed = {
+        // telnum() {
+        //   return this.telephone.substr(0, 3) + "****" + this.telephone.substr(7);
+        // },
+        togoable(){
+          return !(this.telephone)
+        }
+      };
+        methods = {
+          bindKeyInput(e){
+            this.inputValue = e.detail.value;
+          },
+          getCode(){
+            if(this.sendCode) {
+              // 验证老手机modify
+              let code = this.inputValue;
+              getCommonModify({method:'post',data:{code:code}}).then(res=>{
+                this.$parent.globalData.modify = res.data.modify;
+                wx.navigateTo({
+                  url:'confirmPhone'
+                });
+              }).catch(err=>{
+                return wepy.showToast({
+                  title: `${err.message}`,
+                  icon: 'none',
+                  duration:1000
+                });
+              });
+              return
+            }
+              this.getCommonCodes();
+              this.$apply()
+            // if(this.inputValue.length>=6){
+            //   let telreg =/^\d{6}$/;
+            //   if (!telreg.test(this.inputValue) || !this.inputValue) {
+            //     wx.showToast({
+            //       title: '验证码有误',
+            //       icon:'none',
+            //       duration:1000
+            //     });
+            //     return false
+            //   }
+            // }
+          },
+          getVerificationCode(){
+            this.getCommonCodes();
+            this.$apply()
+          }
+        };
+      getCommonCodes(){
+        this.isShow = true;
+        let loginCode = this.storeInfo.phone;
+        getCommonCodes({method: 'POST', data: {phone: loginCode, type: 4}}).then(res => {
+            this.coding = '下一步';
+            this.sendCode = true;
+            this.onPhone();
+            this.telephone = true;
+
+        }).catch(err => {
+          return wepy.showToast({
+            title: `${err.message}`,
+            icon: 'none',
+            duration: 1000
+          });
+        });
+        this.$apply()
+      }
+      onPhone(){
+        let interval = null;
+        let currentTime = 60;
+        this.time = '60秒';
+        clearInterval(interval);
+        interval = setInterval(() => {
+          currentTime--;
+          this.time= currentTime + '秒';
+          if (currentTime <=0) {
+            clearInterval(interval);
+            this.time = '获取';
+            currentTime = 60;
+          }
+          this.$apply()
+        }, 1000);
+      }
+        events = {};
+        onLoad() {
+          this.storeInfo = this.$parent.globalData.storeInfo;
+          console.log(this.storeInfo)
+        };
+    }
+</script>
+
+
+

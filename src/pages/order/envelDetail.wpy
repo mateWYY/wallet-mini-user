@@ -1,0 +1,196 @@
+<style lang="less">
+  Page{
+    background:linear-gradient(to top, #ff4553,#ff4a6f);
+  }
+  .detail{
+    background:#fff;
+    margin:50rpx 30rpx 0;
+    font-size:0;
+  }
+  .mine-bott {
+    width:90rpx;
+    height:90rpx;
+    border-radius:50%;
+    position: relative;
+    left:43%;
+    right:0;
+    top:-44rpx;
+    margin:0 auto;
+  }
+  .Lady {
+    font-size:13px;
+    color:#666;
+    text-align: center;
+    padding:0 0 20rpx;
+  }
+  .sum{
+    font-size:30rpx;
+    color:#333333;
+    text-align: center;
+  }
+  .element{
+    color:#333333;
+    font-size:60rpx;
+    text-align: center;
+    padding:46rpx 0 0;
+  }
+  .level{
+    border:1px solid #ff274a;
+    background:#ff274a;
+    color:#fff;
+    width:310rpx;
+    height:65rpx;
+    line-height:65rpx;
+    text-align:center;
+    display:inline-block;
+    border-radius:5rpx;
+    font-size:30rpx;
+    box-shadow: 0 0 10rpx 0 rgba(255, 69, 82, 0.57);
+  }
+  .Term{
+    font-size:24rpx;
+    color:#666666;
+    padding:20rpx 30rpx;
+    text-align: center;
+    border-bottom:1px dashed #fafafa;
+  }
+  .useWrapper{
+    font-size:22rpx;
+    color:#333333;
+    padding:20rpx 30rpx 0;
+  }
+  .used{
+    padding-right:30rpx;
+    margin-bottom:20rpx;
+  }
+  .arrow {
+    width:16rpx;
+    height:16rpx;
+    padding-left:16rpx;
+    float: right;
+  }
+  .Notice{
+    font-size:28rpx;
+    color:#333333;
+    border-top:1px solid #f2f2f2;
+    padding:26rpx 30rpx;
+  }
+  .levelFather{
+    text-align:center;
+  }
+  .user{
+    margin-bottom:20rpx;
+  }
+  .spot{
+    color:#ccc;
+    padding-right:11rpx;
+  }
+  .circle{
+    position: relative;
+    left:-2rpx;
+    width:10rpx;
+    height:10rpx;
+    background-color: red;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+  }
+  .circle1{
+    position:relative;
+    right:-2rpx;
+    width:10rpx;
+    height:10rpx;
+    background-color:red;
+    border-radius:50%;
+    -moz-border-radius:50%;
+    -webkit-border-radius:50%;
+    float:right;
+  }
+  .clear{
+    padding-right:0;
+  }
+</style>
+
+<template>
+  <view class="detail">
+    <image class="mine-bott" src="{{wallet.store.avatarUrl}}"></image>
+    <view class="Lady">{{wallet.store.name}}</view>
+    <view class="sum">红包金额</view>
+    <view class="element">{{wallet.amount}}元</view>
+    <view class="circle1"></view>
+    <view class="circle"></view>
+    <view class="levelFather" wx:if="{{wallet.statusText==='待使用'}}" @tap="levelBuy({{wallet.id}})">
+      <text class="level">去买单</text>
+    </view>
+    <view class="Term">有效期至{{wallet.effectiveEndAt}}</view>
+    <view class="useWrapper">
+      <view class="user">
+        <text class="spot">•</text><text style="padding-right:29rpx;">到店购买指定商品使用</text>
+        <text class="spot">•</text><text>订单满{{wallet.attainAmount}}元可用</text>
+      </view>
+      <view class="used">
+        <text class="spot">•</text>单品满{{wallet.attainAmount}}元可用
+      </view>
+    </view>
+
+    <view class="Notice" @tap="Notice">
+      <text>使用须知</text>
+      <image mode="widthFix" class="arrow" src="../../assets/arrow.png"></image>
+    </view>
+    <view class="Notice" @tap="getStore({{wallet.store.id}})">
+      <text>进入店铺</text>
+      <image mode="widthFix" class="arrow" src="../../assets/arrow.png"></image>
+    </view>
+  </view>
+</template>
+
+<script>
+    import wepy from 'wepy';
+    import { getWalletId } from '../../util/util'
+    export default class envelDetail extends wepy.page {
+        config = {
+          backgroundTextStyle:'light',
+          navigationBarBackgroundColor:'#ff4a6f',
+          navigationBarTitleText:'红包详情',
+          navigationBarTextStyle:'white'
+        };
+        data = {
+          wallet:[],
+          Walletname:[]
+        };
+        methods = {
+          levelBuy(id, event){
+            wx.navigateTo({
+              url: '../../pages/payment/bagBuy?id='+id
+            })
+          },
+          Notice(){
+            wx.navigateTo({
+              url: `../../pages/order/Use?val=${this.wallet.attainAmount}&vcd=${this.wallet.store.consumeNotes}`
+            })
+          },
+          getStore(id){
+            wx.navigateTo({
+              url:'../../pages/shopDetail/store?id='+id
+            })
+          }
+        };
+        async getWalletId(){
+          let res = await getWalletId({id:this.Walletname});
+          this.wallet = res.data;
+          console.log(this.wallet)
+          this.$apply()
+        }
+        onShow(){
+          this.getWalletId()
+        }
+        events = {};
+        onLoad(opt){
+          let id = opt.id;
+          this.Walletname = id;
+        };
+    }
+</script>
+
+
+

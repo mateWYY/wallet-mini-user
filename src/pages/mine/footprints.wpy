@@ -1,0 +1,237 @@
+<style lang="less">
+  .footprints{
+    display: flex;
+    position:relative;
+    padding:10rpx 0;
+  }
+  .wrapper{
+    padding:0 30rpx;
+  }
+  .Lady {
+    color: #333;
+    font-size:13px;
+  }
+  .beauty-1 {
+    font-size:10px;
+    color:#666;
+    display:inline-block;
+    padding-bottom:14rpx;
+  }
+  .minte{
+    font-size:20rpx;
+    color:#666;
+    background:#fafafa;
+    padding:7rpx 0;
+  }
+  .minFather{
+    display: flex;
+  }
+  .min{
+    text-align: right;
+    font-size:20rpx;
+    color: #666;
+    flex: 1;
+  }
+  .active{
+    width:120rpx;
+    height:120rpx;
+  }
+  .distance{
+    padding-left:20rpx;
+    flex: 1;
+    color:#666;
+  }
+  .shops{
+    width: 20rpx;
+    height: 18rpx;
+    vertical-align: middle;
+    align-self: center;
+    padding-right:6rpx;
+  }
+  .buys{
+    border-radius:5rpx;
+    border:1px solid #feae0f;
+    color:#fff;
+    background:#feae0f;
+    font-size:24rpx;
+    width:133rpx;
+    height:53rpx;
+    line-height:53rpx;
+    text-align: center;
+    align-self:center;
+    flex:1;
+    margin-bottom:19rpx;
+  }
+  .shopBag{
+    width:19rpx;
+    height:24rpx;
+    vertical-align:middle;
+    align-self:center;
+  }
+  .goBuy{
+    text-align:right;
+    align-self:center;
+    vertical-align:middle;
+    font-size:0;
+  }
+  .newCoupon{
+    position: absolute;
+    top:21rpx;
+    left:54rpx;
+    z-index:100;
+    width:67rpx;
+    height:67rpx;
+  }
+  .font-Title{
+    flex:1;
+    display:flex;
+    border-bottom:1px solid #f2f2f2;
+    padding-bottom:20rpx;
+  }
+</style>
+
+<template>
+  <loadmore :pullUpStatus.sync="haveMore">
+  <repeat for="{{Draw}}" item="item">
+    <view class="wrapper">
+      <view class="footprints"  @tap.stop="footprint({{item.id}})">
+          <image class="active" src="{{item.avatarUrl}}"></image>
+          <image wx:if="{{item.isNew}}" class="newCoupon" src="../../assets/newCoupon.png"></image>
+        <view class="font-Title">
+          <view class="distance">
+            <view class="Lady">{{item.name}}</view>
+            <view class="beauty-1">
+              <!--<image class="shops" mode='widthFix' src="../../assets/shops-1.png"></image>-->
+              {{item.categoryText}}
+            </view>
+            <view class="minFather" wx:if="{{item.userWallets.length>0}}">
+              <view class="minte">
+                <image class="shopBag" src="../../assets/shopBag.png"></image>
+                <repeat for="{{item.userWallets}}" item="item">
+                  已领￥{{item.amount}}元红包(满{{item.attainAmount}}可用)
+                </repeat>
+              </view>
+            </view>
+            <view class="minFather" wx:if="{{!item.userWallets.length}}">
+              <view class="minte">
+                <image class="shopBag" src="../../assets/shopBag.png"></image>
+                暂无可用红包
+              </view>
+              <!--<text class="minte">当前人气{{item.ordersCount}}</text>-->
+            </view>
+          </view>
+          <view class="goBuy">
+          <view class="buys" wx:if="{{item.isWallet}}" @tap.stop="buysImmedly({{item.id}})">
+            <view>去买单</view>
+          </view>
+          <text class="min">距离{{item.distance}}</text>
+        </view>
+        </view>
+      </view>
+    </view>
+  </repeat>
+ </loadmore>
+  <view wx:if="{{!Draw.length}}" style="height:500rpx;"></view>
+</template>
+
+<script>
+    import wepy from 'wepy';
+    import loadmore from '../../components/loadmore';
+    import { getVolDraw } from '../../util/util'
+    export default class footprints extends wepy.page {
+        config = {
+          backgroundTextStyle: 'light',
+          navigationBarBackgroundColor: '#fff',
+          navigationBarTitleText: '领取足迹',
+          navigationBarTextStyle: 'black',
+          enablePullDownRefresh: true,
+          onReachBottomDistance: '500'
+        };
+        data = {
+          haveMore:true,
+          Draw:[],
+          params:{
+            'per-page':10,
+            page:1,
+            login: 1
+          }
+        };
+      components={
+        loadmore: loadmore
+      };
+        methods = {
+          // 进入店铺详情
+          footprint(id){
+            wx.navigateTo({
+              url: '../shopDetail/store?id='+id
+            });
+          },
+          // 立即买单///
+          buysImmedly(id){
+            wx.navigateTo({
+              url: '../payment/immediately?id='+id
+            })
+          },
+        };
+      events = {};
+      /*下拉刷新*/
+      onPullDownRefresh () {
+        wepy.showNavigationBarLoading();
+        setTimeout(() => {
+          this.params.page = 1;
+          this.getVolDraw(true);
+          wepy.hideNavigationBarLoading(); // 完成停止加载
+          wepy.stopPullDownRefresh() // 停止下拉刷新
+        }, 1000)
+      }
+      // 加载更多
+      onReachBottom (e) {
+        setTimeout(() => {
+          if (this.haveMore) {
+            this.getVolDraw();
+          }
+          this.$apply()
+        }, 1000)
+      }
+      getVolAlls(){
+        const {latitude, longitude} = this.$parent.globalData.locationMap
+        if (latitude && longitude) {
+          this.params = {
+            lat: latitude,
+            lon: longitude
+          };
+          this.getVolDraw(this.params)
+        }else {
+          setTimeout(() => {
+            this.getVolAlls()
+          }, 1000)
+        }
+      }
+      getVolDraw(clear){
+        getVolDraw({data:this.params}).then(res =>{
+          const data = res.data;
+          if(data.length === this.params['per-page']){
+            this.haveMore = true;
+            this.params.page += 1
+          }else{
+            this.haveMore = false
+          }
+          if (clear) {
+            this.Draw = data
+          } else {
+            this.Draw = this.Draw.concat(data)
+          }
+          this.$apply()
+        });
+      }
+
+        onLoad() {
+          this.getVolAlls()
+          this.getVolDraw(true);
+        }
+    }
+
+</script>
+
+
+

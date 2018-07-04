@@ -1,0 +1,311 @@
+<style lang="less">
+    Page{
+      background:#fafafa;
+    }
+    .Lady {
+      color: #333;
+      font-size: 13px;
+    }
+    .shops {
+      width: 20rpx;
+      height: 18rpx;
+      vertical-align: middle;
+      align-self: center;
+      padding-right: 8rpx;
+    }
+    .date {
+      font-size: 26rpx;
+      font-weight: normal;
+      color: #666666;
+    }
+    .money {
+      font-size: 56rpx;
+      font-weight: bold;
+    }
+    .leftMore {
+      float: right;
+    }
+    .rightMore {
+      display: flex;
+      padding-bottom: 20rpx;
+    }
+    .more {
+      text-align: right;
+    }
+    .coin {
+      font-size: 40rpx;
+    }
+    .flower {
+      width: 122rpx;
+      height: 122rpx;
+      border-radius: 50%;
+    }
+    .newparket {
+      width: 64rpx;
+      height: 64rpx;
+      position: absolute;
+      right: 10rpx;
+      bottom: 10rpx;
+    }
+    .red-news {
+      margin: 20rpx auto;
+      border-radius: 10rpx;
+      position: relative;
+    }
+    .swiper-tab {
+      display: flex;
+      background: #fff;
+      border-bottom: 1rpx solid #ececec;
+      text-align: center;
+      line-height: 80rpx;
+    }
+    .swiper-tab-list {
+      font-size:26rpx;
+      display: inline-block;
+      flex:1;
+      color: #333;
+      margin:0 45rpx;
+    }
+    .on {
+      color: #ff4552;
+      border-bottom: 5rpx solid #ff4552;
+    }
+  .swipeList{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:100;
+    right:0;
+  }
+  .wrap{
+    margin-top:100rpx;
+  }
+  .leftNews{
+    vertical-align: middle;
+    color:#fff;
+    font-size:25rpx;
+    padding:24rpx 30rpx 22rpx;
+    background:#ff4a6f;
+    border-radius:10rpx;
+  }
+  .leftNewed{
+    vertical-align: middle;
+    color:#fff;
+    font-size:25rpx;
+    padding:24rpx 30rpx 22rpx;
+    background:#c2c2c2;
+    border-radius:10rpx;
+  }
+  .rightNews{
+    padding:30rpx 0 0 22rpx;
+    background-color: #fff;
+    border-radius:10rpx;
+    display: flex;
+  }
+  .yuan{
+    width:100%;
+    height:14rpx;
+    position:absolute;
+    left:0;
+    right:0;
+    top:165rpx;
+  }
+  .alred{
+    width:128rpx;
+    height:110rpx;
+    padding-right:20rpx;
+  }
+  .fath{
+    flex:1;
+  }
+  .newLeft{
+    flex:1;
+    padding-bottom:20rpx;
+  }
+</style>
+<template>
+  <loadmore :pullUpStatus.sync="haveMore">
+  <view class="swipeList">
+    <view class="swiper-tab">
+      <view class="swiper-tab-list {{params.status ==1? 'on': ''}}" data-current="0"  @tap="swichNav(1)">未使用({{count.userWalletOnCount}})</view>
+      <view class="swiper-tab-list {{params.status ==2? 'on': ''}}" data-current="1"  @tap="swichNav(2)">已使用({{count.userWalletUseCount}})</view>
+      <view class="swiper-tab-list {{params.status ==3? 'on': ''}}" data-current="2"  @tap="swichNav(3)">已过期({{count.userWalletExpiredCount}})</view>
+    </view>
+  </view>
+    <view class="wrap">
+     <repeat for="{{UserWalletes}}" item="item">
+      <view @tap="envel({{item}})" class="red-news" style="width:704rpx;">
+        <view class="{{item.status != 1? 'leftNewed': 'leftNews'}}">
+          <image class="flower" src="{{item.storeAvatar}}"></image>
+          <view class="leftMore">
+            <text class="coin">￥</text>
+            <text class="money">{{item.amount}}</text>
+            <view class="more">满{{item.attainAmount}}元可用</view>
+          </view>
+          <image class="yuan" src="../../assets/yuan.png"></image>
+        </view>
+
+        <view class="rightNews">
+          <view class="newLeft">
+            <view class="rightMore">
+              <image class="shops" mode='widthFix' src="../../assets/shops-1.png"></image>
+              <view class="Lady">{{item.storeName}}</view>
+            </view>
+              <view class="fath">
+                <image class="shops" mode='widthFix' src="../../assets/clock-1.png"></image>
+                <text class="date">{{item.effectiveAt}}-{{item.effectiveEndAt}}</text>
+              </view>
+          </view>
+          <image class="alred" wx:if="{{item.status===2}}" src="../../assets/alred2.png"></image>
+          <image class="alred" wx:if="{{item.status===3}}" src="../../assets/alred1.png"></image>
+        </view>
+        <image class="newparket" wx:if="{{item.isNew}}" src="../../assets/newparket.png"></image>
+      </view>
+    </repeat>
+    </view>
+ </loadmore>
+ <!--<view class="swipeList">-->
+   <!--<view class="swiper-tab">-->
+      <!--<view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}"  data-current="0"  @tap="swichNav">未使用({{count.userWalletOnCount}})</view>-->
+      <!--<view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}"  data-current="1"  @tap="swichNav">已使用({{count.userWalletUseCount}})</view>-->
+      <!--<view class="swiper-tab-list {{currentTab==2 ? 'on' : ''}}"  data-current="2"  @tap="swichNav">已过期({{count.userWalletExpiredCount}})</view>-->
+   <!--</view>-->
+  <!--</view>-->
+<!--<swiper class="swiper-box" duration="300" style="height:{{winHeight}}px;">-->
+    <!--&lt;!&ndash;未使用&ndash;&gt; -->
+  <!--<view>-->
+    <!--<swiper-item>-->
+      <!--<repeat for="{{UserWallets}}"  item="item">-->
+        <!--<redBag :syncUser.sync="item"></redBag>-->
+      <!--</repeat>-->
+    <!--</swiper-item>-->
+    <!--&lt;!&ndash; 已使用&ndash;&gt;-->
+    <!--<swiper-item>-->
+      <!--<repeat for="{{UserWallets}}" item="item">-->
+        <!--<redBag1 :syncUser.sync="item"></redBag1>-->
+      <!--</repeat>-->
+    <!--</swiper-item>-->
+    <!--&lt;!&ndash;已过期&ndash;&gt;-->
+    <!--<swiper-item>-->
+      <!--<repeat for="{{UserWallets}}" item="item">-->
+        <!--<redBag2 :syncUser.sync="item"></redBag2>-->
+      <!--</repeat>-->
+    <!--</swiper-item>-->
+  <!--</view>-->
+<!--</swiper>-->
+</template>
+<script>
+    import wepy from 'wepy';
+    import { getUserWallets, getUserWalletCount } from '../../util/util'
+    import loadmore from '../../components/loadmore';
+    export default class myBag extends wepy.page {
+        config = {
+          backgroundTextStyle: 'light',
+          navigationBarBackgroundColor: '#fff',
+          navigationBarTitleText: '我的红包',
+          navigationBarTextStyle: 'black',
+          enablePullDownRefresh: true,
+          onReachBottomDistance: '500'
+        };
+        data = {
+          leftNews:true,
+          haveMore:true,
+          count:{},
+          index:0,
+          UserWallets:[],
+          params:{
+           'per-page':10,
+            page:1,
+            status:'1'
+          }
+        };
+      components = {
+        loadmore:loadmore
+      };
+      computed={
+        UserWalletes() {
+          return this.UserWallets.map((item ,index) => {
+              const {effectiveAt, effectiveEndAt, ...items} = item;
+              let time = {
+                effectiveAt: effectiveAt.split(' ')[0].replace(/-/g, '.'),
+                effectiveEndAt: effectiveEndAt.split(' ')[0].replace(/-/g, '.')
+              };
+              return {...time, ...items}
+          })
+        }
+      };
+        methods = {
+          envel(item){
+            if(item.status!==1){
+              return
+            }
+            wx.navigateTo({
+              url:`../../pages/order/envelDetail?id=${item.id}`
+            })
+          },
+          /**滑动切换tab*/
+          // bindChange(e) {
+          //   let that = this;
+          //   that.currentTab = e.detail.current;
+          //   this.params.status = parseInt(e.detail.current) + 1;
+          //   this.getUserWallets()
+          // },
+          /**点击tab切换*/
+          swichNav(e){
+            this.params.status = e;
+            this.params.page =1;
+            this.getUserWallets(true);
+          }
+        };
+       async getUserWallets(clear) {
+        let res = await getUserWallets({data:this.params});
+            const data = res.data;
+            if(data.length ===this.params['per-page']){
+              this.haveMore = true;
+              this.params.page += 1
+            }else{
+              this.haveMore = false
+            }
+            if (clear) {
+              this.UserWallets = data
+            } else {
+              this.UserWallets = this.UserWallets.concat(data)
+            }
+            this.$apply();
+        }
+      async getUserWalletCount(){
+      let res = await getUserWalletCount();
+      this.count = res.data;
+      this.$apply()
+     }
+      /*下拉刷新*/
+      onPullDownRefresh () {
+        wepy.showNavigationBarLoading();
+        setTimeout(() => {
+          this.params.page = 1;
+          this.getUserWallets(true);
+          wepy.hideNavigationBarLoading(); // 完成停止加载
+          wepy.stopPullDownRefresh() // 停止下拉刷新
+        }, 1000)
+      }
+      // 加载更多
+      onReachBottom (e) {
+        setTimeout(() => {
+          if (this.haveMore) {
+            this.getUserWallets();
+          }
+          this.$apply()
+        }, 1000)
+      }
+      onShow(){
+        this.getUserWallets(true);
+        this.getUserWalletCount();
+      }
+        onLoad() {
+
+        };
+    }
+</script>
+
+
+

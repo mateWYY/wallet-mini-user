@@ -1,0 +1,317 @@
+<style lang="less">
+    /** less **/
+    Page{
+      background:#ffc366;
+    }
+    .immed{
+      width:100%;
+      height:726rpx;
+    }
+  .abroad{
+    margin:0 30rpx 30rpx;
+    background:rgba(255,255,255,0.2);
+    padding:30rpx 30rpx 24rpx;
+    text-align: center;
+  }
+  .todaty{
+    background:#fff7ea;
+    position: relative;
+    padding:30rpx;
+  }
+  .remain{
+    width:264rpx;
+    height:60rpx;
+    line-height:60rpx;
+    border-radius:20rpx;
+    background:#f9f588;
+    color: #b06235;
+    font-size:32rpx;
+    display: inline-block;
+    font-weight: bold;
+  }
+  .Box{
+    width:573rpx;
+    height:398rpx;
+  }
+  .partIn{
+    position: absolute;
+    top:40%;
+    left:0;
+    right:0;
+  }
+  .cash{
+    font-size:30rpx;
+    color:#984311;
+    margin:30rpx 0 34rpx;
+  }
+  .snidel{
+    font-size:24rpx;
+    color:#a47b53;
+  }
+  .hefei{
+    font-size:26rpx;
+    color:#fff;
+    margin-top:70rpx;
+  }
+  .he{
+    border-bottom:1px solid #fff;
+  }
+  .eight{
+    color:#ff4552;
+    font-size:74rpx;
+    font-weight: bold;
+  }
+  .num{
+    color:#fadfa8;
+  }
+  .for-ready{
+    padding-top:16rpx;
+  }
+  .coin{
+    color:#ff4552;
+    font-weight: bold;
+  }
+  .sharely{
+    height:100rpx;
+    line-height:100rpx;
+    display:flex;
+    text-align:center;
+    font-size:28rpx;
+    vertical-align:middle;
+  }
+  .leftShare{
+    background: #fff;
+    flex:1;
+    border-radius:0;
+    color:#333333;
+    font-size:28rpx;
+    line-height:100rpx;
+    border:0;
+    padding:0;
+  }
+  .rightShare{
+    background: #ff4552;
+    flex:1;
+    color:#ffffff;
+  }
+  .adopt{
+    color:#333;
+    font-size:24rpx;
+    padding:30rpx 0 46rpx;
+  }
+  .newLady{
+    width:476rpx;
+    height:158rpx;
+  }
+  .direct{
+    font-size:24rpx;
+    color:#b06235;
+  }
+  .longArrow{
+    width:41rpx;
+    height:46rpx;
+    margin-top:40rpx;
+  }
+  .step{
+  flex:1;
+  }
+  .obtian{
+    font-size:22rpx;
+    color:#333333;
+  }
+  .user{
+    font-size:24rpx;
+    color:#333333;
+    text-align: left;
+    padding:30rpx 0 0;
+  }
+  .take1{
+    width:110rpx;
+    height:110rpx;
+    border-radius:50%;
+  }
+  .join{
+    display: flex;
+    padding:45rpx 0 35rpx;
+  }
+  .firphone{
+    width:562rpx;
+    height:552rpx;
+  }
+  /*.moncake{*/
+    /*width:38rpx;*/
+    /*height:38rpx;*/
+    /*border-radius:50%;*/
+    /*vertical-align: middle;*/
+  /*}*/
+  .guaFen{
+    color:#fff;
+    font-size:22rpx;
+    text-align:center;
+    position:relative;
+    left:0;
+    right:0;
+    top:0;
+  }
+.swiper_container {
+  height: 50rpx;
+  width:72vw;
+  margin:0 auto;
+}
+.swiper_item {
+  font-size:24rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left:11rpx;
+}
+  .message{
+    display: flex;
+  }
+  button::after{
+    border:0;
+    border-radius:0;
+  }
+</style>
+<template>
+    <view>
+      <image mode="widthFix" class="immed" src="../assets/immed.png"></image>
+      <!--<view class="guaFen">-->
+        <!--<swiper class="swiper_container" vertical="true" autoplay="true" circular="true" interval="1000">-->
+          <!--<repeat for="{{msgList}}">-->
+                <!--<swiper-item class="message">-->
+                  <!--&lt;!&ndash;<image class="moncake"  src="../assets/cake.png"></image>&ndash;&gt;-->
+                  <!--<view class="swiper_item">{{item.title}}</view>-->
+                <!--</swiper-item>-->
+          <!--</repeat>-->
+        <!--</swiper>-->
+      <!--</view>-->
+
+      <view class="abroad">
+        <view class="todaty">
+           <view class="remain">◆ 今日剩余 ◆</view>
+           <view class="cash">///  瓜分福袋 立抢现金红包  ///</view>
+          <view class="partIn">
+            <text class="snidel">今日福袋剩余金额</text>
+            <view class="coin">
+              ￥<text wx:if="{{cityId.commentAmount.amount>0}}" class="eight">{{cityId.commentAmount.amount}}</text>
+                <text wx:if="{{cityId.commentAmount.amount==null}}" class="eight">0.00</text>
+            </view>
+            <view class="hefei">
+              <text class="he">{{cityId.city.name}}</text>
+              <view class="for-ready">已有<text class="num">{{cityId.storeNum}}</text>家商家参加活动</view>
+            </view>
+          </view>
+           <image  class="Box" src="../assets/Box.png"></image>
+        </view>
+        </view>
+
+      <view class="abroad">
+        <view class="todaty">
+          <view class="remain">◆ 玩法介绍 ◆</view>
+          <view class="adopt">通过平台智能推荐，用户领取附近商家红包，先领红包再付款，获取更多优惠</view>
+          <image class="newLady" src="../assets/newLady.png"></image>
+            <view class="direct">用户通过纸象优惠APP首页,瓜分商家福袋,领取红包.商家红包金额随机,点击去买单输入金额后选中红包直接抵扣。
+            </view>
+        </view>
+      </view>
+
+      <view class="abroad">
+        <view class="todaty">
+          <view class="remain">◆ 参与步骤 ◆</view>
+       <view class="join">
+         <view class="step">
+           <image  class="take1" src="../assets/take1.png"></image>
+           <view class="obtian"><view>1.输入手机号</view>获取验证码</view>
+         </view>
+         <image  class="longArrow" src="../assets/longArrow.png"></image>
+         <view class="step">
+           <image  class="take1" src="../assets/take2.png"></image>
+           <view class="obtian"><view>2.进入店铺详情页</view>点击抢红包</view>
+         </view>
+         <image  class="longArrow" src="../assets/longArrow.png"></image>
+         <view class="step">
+           <image  class="take1" src="../assets/take3.png"></image>
+           <view class="obtian"><view>3.抢到红包金额</view> 消费付款</view>
+         </view>
+       </view>
+          <image class="firphone" src="../assets/present.png"></image>
+        </view>
+      </view>
+
+      <view class="abroad">
+        <view class="todaty">
+          <view class="remain">◆ 活动规则 ◆</view>
+          <view class="user">
+            <view>用户领取红包，活动须知：</view>
+            <view>1、仅限在线支付使用，且购买者手机号、领取红包时的手机号和账号为同一手机号</view>
+            <view>2、红包有品类及金额限制，需要在对应品类下且满足限制金额后才可使用</view>
+            <view>3、每个订单只能使用一张红包</view>
+          </view>
+        </view>
+      </view>
+      <view class="sharely">
+        <button  open-type="share" class="leftShare">立即分享</button>
+        <view @tap="myBag" class="rightShare">我的红包</view>
+      </view>
+    </view>
+</template>
+
+<script>
+    import wepy from 'wepy';
+    import {getVolRemaining} from '../util/util'
+    export default class present extends wepy.page {
+        config = {
+          backgroundTextStyle: 'light',
+          navigationBarBackgroundColor: '#f55612',
+          navigationBarTitleText: '',
+          navigationBarTextStyle: ''
+        };
+        data = {
+          cityId:{}
+        };
+        methods = {
+            onShareAppMessage (res) {
+              if (res.from === 'button') {
+                // 来自页面内转发按钮
+                console.log(res.target)
+              }
+              return {
+                title: '今日分享',
+                path: 'pages/present'
+              }
+            },
+          myBag(){
+            wx.navigateTo({
+              url:'mine/myBag'
+            })
+          }
+        };
+      getVolRemaining(){
+        const {latitude, longitude} = this.$parent.globalData.locationMap
+        if (latitude && longitude) {
+          this.params = {
+            lat: latitude,
+            lon: longitude
+          };
+          getVolRemaining({data:this.params, cityId:this.$parent.globalData.cityId.id}).then(res =>{
+            this.cityId = res.data;
+            this.$apply()
+          });
+        }
+      }
+      onLoad(){
+        this.getVolRemaining()
+        // this.setData({
+        //   msgList: [
+        //     { url: "url", title: "i***苏刚刚瓜分了店铺红包获得金额￥5.00红包" },
+        //     { url: "url", title: "i***苏刚刚瓜分了店铺红包获得金额￥6.00红包" },
+        //     { url: "url", title: "i***苏刚刚瓜分了店铺红包获得金额￥7.00红包" }
+        //   ]
+        // })
+      }
+    }
+</script>
+
+
+

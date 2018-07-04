@@ -1,0 +1,71 @@
+<style lang="less">
+    /** less **/
+  .wrapp{
+   border-top:1px solid #fafafa;
+   padding:0 30rpx 30rpx;
+   overflow: hidden;
+  }
+  .preview1{
+    width:330rpx;
+    height:330rpx;
+    float: left;
+    padding-top:30rpx;
+  }
+  .preview1:nth-child(2n+1){
+   padding-right:30rpx;
+  }
+</style>
+
+<template>
+  <view class="wrapp">
+    <repeat for="{{preView}}" item="item">
+      <image class="preview1" data-src="{{item.thumbnailUrl}}" src="{{item.thumbnailUrl}}" @tap="previewImages({{item}})"></image>
+    </repeat>
+  </view>
+</template>
+
+<script>
+    import wepy from 'wepy';
+    import { getStoreBanner } from '../../util/util'
+    export default class picture extends wepy.page {
+        config = {
+          backgroundTextStyle: "light",
+          navigationBarBackgroundColor: '#fff',
+          navigationBarTitleText: "商家相册",
+          navigationBarTextStyle: "black"
+        };
+        data = {
+          preView:[]
+        };
+        methods = {
+          /**预览图片*/
+          previewImages(item){
+            let current = item.url;
+            wepy.previewImage({
+              current: current,
+              urls:this.preViews//需要预览的图片http链接列表
+            })
+          }
+        };
+      events = {};
+      getStoreBanner(id){
+        getStoreBanner({id:id}).then(res=>{
+          this.preView = res.data;
+          // 把url列表提取出来push到数组中
+          let urls = [];
+          for(let i= 0; i<res.data.length; i++) {
+            urls.push(res.data[i].url)
+          }
+          this.preViews = urls;
+          this.$apply()
+        })
+      }
+        onLoad(opt){
+          let id= opt.id;
+          this.getStoreBanner(id);
+        };
+    }
+</script>
+
+
+

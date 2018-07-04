@@ -1,0 +1,96 @@
+<style lang="less">
+  /* pages/mine/setUp/Personal/birthday/birthday.wxss */
+  Page{
+    background: #fafafa;
+  }
+  .pickWrapp{
+    background: #fff;
+  }
+  .picker{
+    font-weight: bold;
+    text-align: center;
+    height:84rpx;
+    line-height:84rpx;
+    color:#333333;
+    font-size:26rpx;
+  }
+  .section{
+    margin-top:20rpx;
+  }
+  .Apply{
+    color:#fff;
+    background: #ff4552;
+    margin:0 30rpx;
+    font-size:28rpx;
+    box-shadow: 0px 0px 4px #ff4552;
+  }
+  .applyWrapp{
+    background: #fafafa;
+    padding:400rpx 30rpx;
+  }
+  .section__title{
+    font-size:26rpx;
+    color:#666;
+    padding:20rpx 30rpx;
+  }
+</style>
+
+<template>
+ <view>
+  <view class="section">
+     <view class="section__title">选择你的生日</view>
+    <picker class="pickWrapp" mode="date" value="{{date}}"  bindchange="bindDateChange">
+      <view  class="picker">{{date}}</view>
+    </picker>
+  </view>
+  <view class="applyWrapp">
+    <button class="Apply"  disabled="{{disabled}}" @tap="birthSumbit">
+      保存
+    </button>
+  </view>
+</view>
+</template>
+
+<script>
+    import wepy from 'wepy';
+    import { getVolBirthday } from '../util/util'
+    export default class birthday extends wepy.page {
+        config = {
+          backgroundTextStyle: 'light',
+          navigationBarBackgroundColor:'#fff',
+          navigationBarTitleText: '生日',
+          navigationBarTextStyle: 'black'
+        };
+        data = {
+          date: '2016-09-01'
+        };
+        methods = {
+          bindDateChange(e){
+              this.date = e.detail.value
+          },
+          birthSumbit(){
+            let birthday = this.date
+            getVolBirthday({method:'POST',data:{birthday:birthday}}).then(res =>{
+              wepy.navigateBack({
+                url: 'personal'
+              })
+              const {birthdays} = res.data;
+              this.$parent.globalData.nickname = birthdays;
+            });
+            this.$apply()
+          }
+        }
+        events = {}
+        onLoad(opt) {
+          if(!!opt.vcd){
+            this.date = opt.vcd
+          } else {
+            this.date = '2018-09-01'
+          }
+        }
+        // Other properties
+    }
+</script>
+
+
+

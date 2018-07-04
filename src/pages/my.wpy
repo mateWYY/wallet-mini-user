@@ -1,0 +1,645 @@
+<style lang="less">
+  Page {
+    background: #fafafa;
+  }
+  .mine-bott {
+    border-radius: 50%;
+    width: 120rpx;
+    height: 120rpx;
+    margin-right: 14rpx;
+    vertical-align: middle;
+    align-self: center;
+  }
+  .beauty {
+    font-size:10px;
+    color: #fff;
+    border: 1px solid #fff;
+    margin-right: 28rpx;
+    padding:4rpx 10rpx;
+    border-radius:5rpx;
+  }
+  .orderWrapper {
+    background:#fff;
+    height: 150rpx;
+    display: flex;
+    padding: 0 30rpx;
+    text-align: center;
+    font-size: 24rpx;
+    line-height: 40rpx;
+    align-items: center;
+    position:relative;
+    top:-8rpx;
+  }
+  .orderChild {
+    flex: 1;
+  }
+  .Common {
+    height:650rpx;
+    background: #fff;
+    margin: 20px 0;
+    border-bottom:1px solid #f2f2f2;
+  }
+  .Receive {
+    display: flex;
+    text-align: center;
+  }
+  .ReceiveChild {
+    padding:46rpx 45rpx;
+    line-height: 44rpx;
+    font-size: 24rpx;
+    border-left: 1px solid #f2f2f2;
+    border-top: 1px solid #f2f2f2;
+    flex:1;
+    background: #fff;
+  }
+  .fairyChild {
+    display: flex;
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    padding:30rpx;
+  }
+  .fairyRight {
+    vertical-align: middle;
+    color: #fff;
+    align-self: center;
+  }
+  .phone {
+    width: 15rpx;
+    height: 22rpx;
+  }
+  .phoneChild {
+    font-size: 22rpx;
+  }
+  .small {
+    font-size: 30rpx;
+    padding-bottom: 20rpx;
+    font-weight: bold;
+  }
+  .rightfill {
+    width: 18rpx;
+    height: 18rpx;
+  }
+  .Fill {
+    margin-top: 20rpx;
+    color: #fff;
+    font-size: 22rpx;
+    display: flex;
+    padding-left: 10px;
+  }
+  .riceing{
+    margin-right: 104rpx;
+  }
+  .function {
+    font-size: 26rpx;
+    color: #333;
+    font-weight: bold;
+    padding:26rpx 30rpx;
+    background:#fff;
+  }
+  .navbar {
+    position: relative;
+    padding: 0 15px;
+  }
+  .navbar .item {
+    position: relative;
+    flex: auto;
+    margin-right: 54rpx;
+    text-align: center;
+    font-size: 13px;
+    color: #000;
+    display: inline-block;
+    height: 35px;
+    line-height: 60rpx;
+  }
+  .navbar .item.active {
+    color: #ff4552;
+  }
+  .navbar .item.active:after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 5rpx;
+    background: #ff4552;
+  }
+  .robbed {
+    background: #fff;
+    margin: 20rpx 10rpx;
+    padding: 30rpx 0 30rpx 20rpx;
+    display: flex;
+  }
+  .robbedImage {
+    width: 140rpx;
+    height: 140rpx;
+  }
+  .Lady-1 {
+    color: #333;
+    font-size: 13px;
+  }
+  .extract {
+    font-size: 20rpx;
+    color: #999;
+    background: #fafafa;
+  }
+  .rice {
+    color: #666;
+    font-size: 20rpx;
+  }
+  .shops {
+    width:20rpx;
+    height:18rpx;
+    align-self:center;
+    vertical-align:middle;
+  }
+  .read {
+    width:205rpx;
+    height:55rpx;
+    line-height:55rpx;
+    font-size: 24rpx;
+    color:#fff;
+    background: #ff4552;
+    text-align: center;
+  }
+  .replace {
+    width: 205rpx;
+    height: 55rpx;
+    line-height: 55rpx;
+    font-size: 24rpx;
+    color: #fff;
+    background: #e6e6e6;
+    text-align: center;
+  }
+  .rightRobbed {
+    flex: 1;
+    padding-left: 20rpx;
+    line-height: 35rpx;
+    height: 36rpx;
+    vertical-align: top;
+  }
+  .readyWrapper {
+    font-size: 32rpx;
+    color: #ff4552;
+    font-weight: bold;
+  }
+  .readFather {
+    display: flex;
+    position: relative;
+    margin-top: 48rpx;
+  }
+  .rightblock {
+    text-align: right;
+    padding-right: 20rpx;
+    font-size: 20rpx;
+    color: #ff4552;
+  }
+  .footprint {
+    width:40rpx;
+    height:40rpx;
+  }
+  /*.setUp {*/
+    /*display:flex;*/
+    /*color: #fff;*/
+    /*text-align: right;*/
+    /*font-size: 24rpx;*/
+    /*padding: 0 30rpx 30rpx;*/
+  /*}*/
+  /*.set{*/
+    /*flex:1;*/
+  /*}*/
+  /*.icon-xiaoxi {*/
+    /*margin-left:20rpx;*/
+    /*position: relative;*/
+  /*}*/
+  .iconfont {
+    font-size: 40rpx;
+  }
+  /*.circle {*/
+    /*position: absolute;*/
+    /*right:20rpx;*/
+    /*width:24rpx;*/
+    /*height:24rpx;*/
+    /*line-height:24rpx;*/
+    /*font-size:20rpx;*/
+    /*background-color: #fff;*/
+    /*color:#ff4552;*/
+    /*text-align: center;*/
+    /*border-radius: 50%;*/
+    /*-moz-border-radius: 50%;*/
+    /*-webkit-border-radius: 50%;*/
+  /*}*/
+
+  /*瓜分福袋*/
+  .melon{
+    padding-left:40rpx;
+    padding-right:30rpx;
+    background: #fff;
+  }
+  .other{
+    display: flex;
+    border-bottom:1px solid #f2f2f2;
+  }
+  .total{
+    flex:1;
+    padding:25rpx 0;
+  }
+  .allonter{
+    padding:25rpx 30rpx 25rpx 10rpx;
+  }
+  .crust{
+    color:#ff4552;
+    font-size:28rpx;
+  }
+  .kind{
+    color:#333333;
+    font-size:26rpx;
+  }
+  .aready{
+    color:#999999;
+    font-size: 20rpx;
+  }
+  .branch{
+    border-radius:10rpx;
+    border:1px solid #ff4552;
+    color:#ff4552;
+    font-size:24rpx;
+    width:133rpx;
+    height: 53rpx;
+    line-height:53rpx;
+    text-align: center;
+    align-self:center;
+  }
+  .lucky-top{
+    display: flex;
+    padding:30rpx 20rpx 0;
+    color:#333333;
+    font-size:26rpx;
+  }
+  .shopmon{
+    width:36rpx;
+    height: 36rpx;
+    padding-right:20rpx;
+  }
+  .buys{
+    border-radius:10rpx;
+    border:1px solid #feae0f;
+    color:#fff;
+    background:#feae0f;
+    font-size:24rpx;
+    width:133rpx;
+    height: 53rpx;
+    line-height:53rpx;
+    text-align: center;
+    align-self:center;
+  }
+  .deep{
+    color:#ff4552;
+    font-size:26rpx;
+    padding:23rpx 0;
+    text-align: center;
+    background:#fff;
+    margin-bottom:20rpx;
+  }
+  .footprints{
+    display: flex;
+    padding:10rpx 0;
+    background:#fff;
+  }
+  .wrapper{
+    padding:0 30rpx;
+    background: #fff;
+  }
+  .Lady {
+    color: #333;
+    font-size: 13px;
+    flex:1;
+  }
+  .beauty-1 {
+    font-size:20rpx;
+    color: #666;
+    display: inline-block;
+    padding:15rpx 15rpx 13rpx 0;
+  }
+  .minte{
+    font-size: 20rpx;
+    background-color: #fafafa;
+    /*padding:0 10rpx 0;*/
+    background-color: rgba(255, 165, 0, 0.05);
+    border-radius:5rpx;
+    align-self: center;
+    color: #ffa500;
+  }
+  .min{
+    text-align: right;
+    font-size:20rpx;
+    color: #666;
+    flex: 1;
+    float:right;
+  }
+  .active{
+    width:120rpx;
+    height:120rpx;
+  }
+  .distance{
+    flex: 1;
+    color:#666;
+    font-size:0;
+    padding-bottom:10rpx;
+    border-bottom: 1px solid #f2f2f2;
+  }
+  .button-hover{
+    background-color:#fff;
+  }
+  .shopBag{
+    width:19rpx;
+    height:24rpx;
+    vertical-align:middle;
+    align-self:center;
+  }
+  button::after{
+    border:none;
+    border-radius:0;
+  }
+  .mine-red{
+    width:100%;
+    height:214rpx;
+  }
+</style>
+<template>
+  <view>
+    <!-- 最顶部 -->
+    <view style="position:relative;">
+      <image class="mine-red" src="../assets/mine-red.png"></image>
+      <!--style="background:url('../assets/mine-red.png')no-repeat;width:100%;height:214rpx;background-size:100% 100%;"-->
+      <!--<view class="setUp">-->
+        <!--<navigator class="set" url="/setUp/setUp" hover-class="none">-->
+          <!--设置-->
+        <!--</navigator>-->
+        <!--<navigator  url="../pages/mine/news" hover-class="none">-->
+          <!--<text class="iconfont icon-xiaoxi"></text>-->
+        <!--</navigator>-->
+        <!--<text class="circle">1</text>-->
+      <!--</view>-->
+        <view class="fairyChild">
+          <image class="mine-bott" @tap="avatar" src="{{users.avatarUrl}}"></image>
+          <view class="fairyRight">
+            <view class="small">{{users.nickname}}</view>
+            <view class="phoneChild">
+              <image class="phone" mode='widthFix' src="../assets/phone.png"></image>
+              {{telnum}}
+            </view>
+          </view>
+        </view>
+        <!--<view class="Fill">-->
+          <!--<text class="beauty">美食餐饮</text>-->
+          <!--<view>-->
+            <!--i***苏刚刚瓜分了￥5.00红包 |-->
+            <!--<text class="riceing">233m</text>-->
+            <!--<image class="rightfill" mode="widthFix" src="../assets/rightfill.png"></image>-->
+          <!--</view>-->
+        <!--</view>-->
+    </view>
+    <!-- 订单分类 -->
+    <view class="orderWrapper">
+      <navigator class="orderChild" url="../pages/order/order" hover-class="none">
+        <text class="iconfont icon-dingdan"></text>
+        <view>订单</view>
+      </navigator>
+      <navigator class="orderChild" url="../pages/mine/nearby" hover-class="none">
+        <text class="iconfont icon-fujin"></text>
+        <view>附近可用</view>
+      </navigator>
+      <navigator class="orderChild" url="../pages/mine/myBag" hover-class="none">
+        <text class="iconfont icon-hongbao"></text>
+        <view>更多红包</view>
+      </navigator>
+    </view>
+    <!-- 常用功能 -->
+    <view class="Common">
+      <view class="function">常用功能</view>
+      <!-- 领取足迹 -->
+      <view class="Receive">
+        <view class="ReceiveChild" @tap="scanningCode">
+          <image class="footprint" src="../assets/saoma.png"></image>
+          <view>扫码</view>
+        </view>
+        <navigator class="ReceiveChild" url="../pages/mine/news" hover-class="none">
+          <image class="footprint" src="../assets/footprint.png"></image>
+          <view>消息</view>
+        </navigator>
+        <navigator class="ReceiveChild" url="../pages/mine/footprints" hover-class="none">
+          <image class="footprint" src="../assets/foo.png"></image>
+          <view>领取足迹</view>
+        </navigator>
+        <navigator class="ReceiveChild" url="../pages/mine/Record" hover-class="none">
+          <image class="footprint" src="../assets/Record.png"></image>
+          <view>浏览记录</view>
+        </navigator>
+      </view>
+      <view class="Receive">
+        <navigator class="ReceiveChild" url="../pages/mine/cooperation" hover-class="none">
+          <image class="footprint" src="../assets/Record.png"></image>
+          <view>加盟合作</view>
+        </navigator>
+        <navigator class="ReceiveChild" url="../pages/mine/feedback" hover-class="none">
+          <image class="footprint" src="../assets/feedback.png"></image>
+          <view>意见反馈</view>
+        </navigator>
+        <navigator class="ReceiveChild" url="../pages/mine/problem" hover-class="none">
+          <image class="footprint" src="../assets/problem.png"></image>
+          <view>常见问题</view>
+        </navigator>
+        <navigator class="ReceiveChild" url="../pages/mine/rule" hover-class="none">
+          <image class="footprint" src="../assets/rule.png"></image>
+          <view>平台规则</view>
+        </navigator>
+      </view>
+
+      <view class="Receive">
+        <button class="ReceiveChild" open-type="contact" hover-class="none">
+          <image class="footprint"  src="../assets/custer.png"></image>
+          <view>我的客服</view>
+        </button>
+
+        <navigator store="{store}" class="ReceiveChild"  url="../setUp/setUp" hover-class="none">
+          <image class="footprint"  src="../assets/setup.png"></image>
+          <view>设置</view>
+        </navigator>
+        <navigator class="ReceiveChild" url="" hover-class="none">
+          <view></view>
+        </navigator>
+        <navigator class="ReceiveChild" url="" hover-class="none">
+          <view></view>
+        </navigator>
+      </view>
+    </view>
+    <!-- 附近推荐-->
+      <view class="near" wx:if="{{FindWallet.length}}">
+        <view class="function">周边商家</view>
+        <loadmore :pullUpStatus.sync="haveMore" :loading.sync="loading">
+        <repeat for="{{FindWallet}}">
+          <Delicious :syncTitle.sync="item" wx:if="{{FindWallet.length}}" types="0"></Delicious>
+        </repeat>
+        <slot name="other"></slot>
+        </loadmore>
+      </view>
+  </view>
+</template>
+
+<script>
+    import wepy from 'wepy';
+    import {getVolById, getFindWallet} from '../util/util'
+    import Delicious from '../components/Delicious'
+    import loadmore from '../components/loadmore'
+    export default class my extends wepy.page {
+      config = {
+        backgroundTextStyle: 'light',
+        navigationBarBackgroundColor: '#ff4552',
+        navigationBarTitleText: '我的',
+        navigationBarTextStyle: 'white',
+        onReachBottomDistance: '500'
+      };
+      data = {
+        index: 0,
+        lips:1,
+        id:0,
+        users:{},
+        avatarUrl:{},
+        FindWallet: [],
+        telnum:'',
+        loading: true,
+        haveMore: true,
+        walletPerage: {
+          'per-page': 10,
+          page: 1
+        },
+      };
+      components={
+        Delicious: Delicious,
+        loadmore: loadmore
+      };
+      methods = {
+        avatar(){
+         wx.navigateTo({
+           url:'../setUp/personal'
+         })
+        },
+        scanningCode(){
+          wx.scanCode({
+            success(res){
+              let reg_url = /^[^\?]+\?([\w\W]+)$/,
+                reg_para = /([^&=]+)=([\w\W]*?)(&|$|#)/g,
+                arr_url = reg_url.exec(res.result),
+                ret = {};
+              if (arr_url && arr_url[1]) {
+                let str_para = arr_url[1], result;
+                while ((result = reg_para.exec(str_para)) != null) {
+                  ret[result[1]] = result[2];
+                }
+              }
+              let  str = ret
+              if(str.toString() !== ''){
+                if(str.type && str.type == 'store'){
+                  setTimeout(()=>{
+                    wx.showToast({
+                      title: '成功',
+                      icon: 'success',
+                      duration: 2000
+                    })
+                  })
+                  wx.navigateTo({
+                    url:'../pages/payment/immediately?id='+str.id
+                  })
+                }
+              }else{
+                wx.showToast({
+                  title: '二维码不合法',
+                  icon: 'none',
+                  duration: 2000
+                })
+              }
+            },
+            fail () {
+              wx.showToast({
+                title: '扫描失败',
+                duration: 2000
+              })
+            }
+          })
+        }
+      };
+      bindPhone() {
+        let token = wepy.getStorageSync('token')
+        if (!token) {
+          wepy.redirectTo({
+            url: './bindCell'
+          })
+        }
+      }
+      getuserPhone(){
+        this.telnum = this.users.phone.substr(0, 3) + "****" + this.users.phone.substr(7)
+      }
+      onShow(){
+        getVolById().then(res => {
+          this.users = res.data;
+          this.getuserPhone();
+          this.$parent.globalData.storeInfo = this.users;
+          this.$apply()
+        })
+        this.bindPhone()
+      }
+      // 加载更多
+      onReachBottom (e) {
+        setTimeout(() => {
+          if (this.haveMore) {
+            this.getFindWallet()
+          }
+          this.$apply()
+        }, 1000)
+      }
+      // 发现福袋
+      getFindWallet(clear){
+        const {latitude, longitude} = this.$parent.globalData.locationMap
+        const cityId = this.$parent.globalData.cityId.id || ''
+        if (latitude && longitude) {
+          const data = {
+            lat: latitude,
+            lon: longitude
+          }
+          getFindWallet({
+            cityId: cityId,
+            data: {
+              ...this.walletPerage,
+              ...data
+            }
+          }).then(res =>{
+            const data = res.data;
+            if (!data.length) {
+              this.loading = false
+            } else {
+              this.loading = true
+            }
+            if (data.length === this.walletPerage['per-page']) {
+              this.haveMore = true;
+              this.walletPerage.page += 1
+            } else {
+              this.haveMore = false
+            }
+            if (clear) {
+              this.FindWallet = data
+            } else {
+              this.FindWallet = this.FindWallet.concat(data)
+            }
+            this.$apply()
+          });
+        }
+      }
+      onLoad() {
+        this.getFindWallet(true)
+      }
+    }
+
+</script>

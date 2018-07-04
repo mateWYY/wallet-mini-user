@@ -1,0 +1,181 @@
+<style lang="less">
+  Page{
+    background:#fafafa;
+  }
+.wrapper{
+  height:100vh;
+  background-color: #f9f9f9;
+}
+.bind-des{
+  height:84rpx;
+  padding:0 3rpx;
+  font-size:24rpx;;
+  line-height:84rpx;
+  color:#666;
+}
+.input-wrapper{
+  position:relative;
+  display: flex;
+  align-items: center;
+  background:#fff;
+}
+.tel{
+  height:80rpx;
+  line-height:80rpx;
+  width:70%;
+  display:block;
+  /*border-top:1px solid #e6e6e6;*/
+  /*border-bottom:1px solid #e6e6e6;*/
+  color:#666666;
+  padding-left:30rpx;
+  font-size:24rpx;
+  background-color:#fff;
+  border:none;
+  box-sizing:border-box;
+}
+
+.button-wrapper{
+  background: #fafafa;
+  padding-top:30rpx;
+}
+.buttonable{
+  border-radius:5px;
+  background-image: -moz-linear-gradient( 120deg, rgb(225,19,34) 0%, rgb(255,69,82) 100%);
+  background-image: -webkit-linear-gradient( 120deg, rgb(225,19,34) 0%, rgb(255,69,82) 100%);
+  background-image: -ms-linear-gradient( 120deg, rgb(225,19,34) 0%, rgb(255,69,82) 100%);
+  box-shadow:0 0 10px 0 rgba(255, 69, 82, 0.57);
+  height:80rpx;
+  line-height:80rpx;
+  background: #ff4552;
+  color:#fff;
+  margin:0 30rpx;
+  font-size:28rpx;
+}
+.buttondisable{
+  border-radius:5px;
+  height:80rpx;
+  line-height:80rpx;
+  background:#e6e6e6;
+  color:#999;
+  font-size:28rpx;
+  margin:0 30rpx;
+}
+  .first{
+  font-size:24rpx;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0;
+  color: #666666;
+  padding:30rpx;
+  }
+  .show{
+    font-size:24rpx;
+    width:90rpx;
+    height:44rpx;
+    line-height:44rpx;
+    border:1px solid #666;
+    color:#666;
+    display: block;
+    text-align: center;
+    border-radius:10rpx;
+    align-self: center;
+    position:absolute;
+    right:30rpx;
+    background:#f2f2f2;
+    z-index:10;
+  }
+  .codeBtn[plain] {
+    font-size: 24rpx;
+    box-sizing: border-box;
+    color: #ff4552;
+    border: 1px solid #ff4552;
+  }
+  .codeBtn[plain][disabled] {
+    background-color: transparent;
+    border: none;
+  }
+</style>
+<template>
+  <view>
+    <form @submit="formSubmit">
+        <view class="first">验证码短信已发送到:{{phone}}</view>
+        <view class="input-wrapper">
+          <input type="number" name="code"  placeholder="请输入短信中的验证码" @input="bindKeyInput" class="tel" maxlength="6"/>
+          <button @tap="reqCode" class="codeBtn" disabled="{{buttonDisable}}" plain>{{buttonText}}</button>
+        </view>
+        <view class="button-wrapper">
+          <button formType="submit" disabled="{{!code}}"  class="{{ code ? 'buttonable': 'buttondisable'}}">完成绑定</button>
+        </view>
+    </form>
+  </view>
+</template>
+
+<script>
+    import wepy from 'wepy';
+    import getCode from '@/mixins/getCode'
+    import {getCommonLoginCodes, getCommonloginCoding} from '../util/util'
+    export default class OverCell extends wepy.page {
+      config ={
+        backgroundTextStyle: 'light',
+        navigationBarBackgroundColor: 'white',
+        navigationBarTitleText: '绑定手机号',
+        navigationBarTextStyle: 'black'
+      };
+      data ={
+        phone: '',
+        code: ''
+      };
+      mixins = [getCode]
+      methods = {
+        reqCode() {
+          const api = getCommonloginCoding({data: {phone: this.phone}, method: 'Post'})
+          this.getCode(api)
+        },
+        bindKeyInput(e) {
+          this.code = e.detail.value
+        },
+        formSubmit(e) {
+          const {code} = e.detail.value
+          let weixinUserId = this.$parent.globalData.weixinUserId
+          let phone = this.phone
+          console.log(code)
+          console.log(this.phone)
+          if (this.phone && code) {
+            getCommonLoginCodes({
+              method: 'POST',
+              data: {
+                phone: phone,
+                code: code,
+                loginType: 1,
+                weixinUserId: weixinUserId
+              }
+            }).then(res => {
+              if (res) {
+                const {token, ...data} = res.data
+                wepy.setStorageSync('token', token)
+                wepy.setStorageSync('store', data)
+                this.$apply()
+                wepy.switchTab({
+                  url: './first'
+                })
+              }
+            }).catch(err => {
+              return wepy.showToast({
+                title: `${err.message}`,
+                icon: 'none',
+                duration: 1000
+              })
+            })
+          }
+        }
+      };
+      onLoad(opt) {
+        const {phone} = opt
+        this.phone = phone || ''
+        if (phone) this.countDown()
+      };
+    }
+</script>
+
+
+

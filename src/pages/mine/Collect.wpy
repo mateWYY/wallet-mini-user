@@ -1,0 +1,301 @@
+<style lang="less">
+  /* setUp/mine/Collect/Collect.wxss */
+  .kaxi {
+    border-radius: 50%;
+    width: 70rpx;
+    height: 70rpx;
+    margin-right:20rpx;
+  }
+  .Lady {
+    font-size: 13px;
+  }
+  .beauty {
+    font-size: 10px;
+    color: #ff4552;
+    border: 1px solid #ff4552;
+    width:120rpx;
+    text-align: center;
+    margin:15rpx 0 25rpx;
+  }
+  .Lady-1 {
+    color: #999;
+    font-size: 13px;
+  }
+  .beauty-1 {
+    font-size: 10px;
+    color: #999;
+    width:120rpx;
+    text-align: center;
+    border: 1px solid #999;
+    margin:15rpx 0 25rpx;
+  }
+  .buy {
+    align-self: center;
+    color: #fff;
+    font-size: 26rpx;
+  }
+  .money {
+    color: #ff4552;
+  }
+  .money-1 {
+    color: #999;
+  }
+  .wal {
+    color: #ff4552;
+    font-size: 30rpx;
+  }
+  .more {
+    font-size: 24rpx;
+    color: #333;
+  }
+  .discount {
+    width: 100%;
+  }
+  .count {
+    padding: 0 15px;
+  }
+  .found {
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+  }
+  .allOther {
+    margin: 43px 0 25px;
+    padding: 0 15px;
+    border-bottom: 1px solid #ddd;
+  }
+  .all {
+    margin: 20px 0 12px;
+    display: flex;
+    color: #333;
+    font-size: 12px;
+  }
+  .near {
+    display: none;
+  }
+  .owner {
+    flex:1;
+  }
+  .westFather{
+    display: flex;
+    padding:30rpx 25rpx;
+    margin:20rpx 0 0 0;
+  }
+  .min{
+    color:#666666;
+    font-size: 22rpx;
+  }
+  .shops{
+    width:20rpx;
+    height:18rpx;
+    padding-right:7rpx;
+    vertical-align: middle;
+  }
+  .bottRight {
+    flex: 1;
+  }
+  .Carve {
+    font-size: 14px;
+    background: #ff4552;
+    color: #fff;
+    width: 70px;
+    height: 50rpx;
+    line-height: 25px;
+    float: right;
+  }
+  .shopBag {
+    font-size: 14px;
+    font-weight: bold;
+    padding-top: 20rpx;
+  }
+  .date {
+    font-size: 11px;
+    color: #999;
+    margin-bottom: 15px;
+  }
+  .dot-bottom {
+    font-size: 0;
+    line-height: 0;
+    border-width: 14rpx;
+    border-color: #999;
+    border-bottom-width: 0;
+    border-style: dashed;
+    border-top-style: solid;
+    border-left-color: transparent;
+    border-right-color: transparent;
+  }
+  .mon {
+    color: #ff4552;
+    padding-top: 15px;
+  }
+  .cool {
+    padding-bottom: 8px;
+    font-size: 13px;
+  }
+  .Dessert {
+    width:60px;
+    border: 1px solid #ff4552;
+    margin-right: 7px;
+    padding: 0 5px;
+    color: #ff4552;
+  }
+  .sort {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    width: 500px;
+    height: 400rpx;
+    margin-left: -250px;
+    background: #fcfcfc;
+    z-index: 100;
+  }
+  .carup {
+    display: flex;
+    margin:20rpx 0 36rpx 0;
+    padding:30rpx 20rpx 25rpx;
+  }
+  .distance {
+    float: right;
+  }
+  .today {
+    height: 98rpx;
+    line-height: 98rpx;
+    padding: 0 30rpx;
+    margin-top: 45rpx;
+    background: #fcfcfc;
+    display: flex;
+    align-items: center;
+  }
+  .radio {
+    width: 26rpx;
+  }
+  .arrow {
+    width: 16rpx;
+    height: 16rpx;
+    padding-left: 16rpx;
+  }
+  .cur {
+    transform: rotateX(0deg);
+  }
+  .tit {
+    font-size: 26rpx;
+    color: #333;
+    padding: 0 52rpx 0 20rpx;
+  }
+  .des {
+    flex:1;
+    color: #999;
+    padding-right: 7px;
+  }
+  .des-1 {
+    color: #999;
+    padding-right: 7px;
+  }
+  .title {
+    display: flex;
+    font-size: 10px;
+    padding-bottom: 30rpx;
+    border-bottom: 1px solid #f2f2f2;
+  }
+  .headerWrapper{
+    margin:0 30rpx;
+  }
+  .of {
+    color: #999;
+    padding-left:15rpx;
+  }
+  .thound {
+    padding-right: 10rpx;
+  }
+</style>
+
+<template>
+<view>
+ <view class="headerWrapper">
+ <repeat for="{{bacItems}}" key="index" index="index" item="item">
+   <view  class="westPoser" style="background:url('../../assets/westrn-1.png')no-repeat; width:100%;background-size:100% 100%;">
+    <view class="westFather">
+      <image mode="widthFix" class="kaxi" src="../../assets/bottle.png"></image>
+      <view class="owner">
+        <view class="Lady">
+          Lady西餐厅
+          <text class="min">486m</text>
+        </view>
+        <view class="beauty"><image class="shops" mode='widthFix' src="../../assets/shops.png"></image>美食餐饮</view>
+        <view class="money">￥<text>15.50</text></view>
+      </view>
+      <view class="buy">去买单</view>
+    </view>
+  </view>
+</repeat>
+</view>
+
+<view class="headerWrapper">
+   <view class="westPoser" style="background:url('../../assets/westrn.png')no-repeat; width: 100%;background-size:100% 100%;">
+   <view class="westFather">
+    <image mode="widthFix" class="kaxi" src="../../assets/bottle.png"></image>
+    <view class="owner">
+      <view class="Lady-1">Lady西餐厅
+        <text>486m</text>
+      </view>
+      <view class="beauty-1"><image class="shops" mode='widthFix' src="../../assets/shops-1.png"></image>美食餐饮</view>
+      <view class="money-1">￥<text>0.00</text></view>
+    </view>
+    <view class="buy">已抢光</view>
+  </view>
+  </view>
+</view>
+
+<!-- 去瓜分 -->
+<view class="headerWrapper">
+      <view  style="background:url('../../assets/complete.png')no-repeat; width: 100%;background-size:100% 100%;">
+      <view class="carup">
+         <image mode='widthFix' class="kaxi" src="../../assets/bottle.png"></image>
+        <view class="bottRight">
+          <view class="cool">Lady西餐厅</view>
+          <view class="title">
+            <view class="Dessert"><image class="shops" mode='widthFix' src="../../assets/shops.png"></image>美食餐饮</view>
+           <view class="des">|<text class="of">23人已抢</text></view>
+            <view class="des-1">距离486m</view>
+          </view>
+          <view class="luckyBag">
+            <view class="shopBag">店铺福袋</view>
+            <text class="date">2018.03.03-2018.03.06</text>
+            <button class="Carve">去瓜分</button>
+            <view class="mon">
+              <text class="thound">￥1500.00</text>
+              <text class="iconfont icon-fudai"></text>
+            </view>
+          </view>
+        </view>
+      </view>
+     </view>
+</view>
+
+</view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class Collect extends wepy.page {
+    config = {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#fff',
+      navigationBarTitleText: '领取足迹',
+      navigationBarTextStyle: 'black'
+    };
+    data = {
+      bacItems:3
+    };
+    onShow () {
+    }
+    methods = {
+    };
+
+    events = {};
+    onLoad() {};
+    // Other properties
+  }
+</script>
+

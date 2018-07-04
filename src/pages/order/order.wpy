@@ -1,0 +1,278 @@
+<style lang="less">
+  Page{
+    background:#fafafa;
+  }
+  .swiper-tab {
+    display: flex;
+    background: #fff;
+    border-bottom: 1rpx solid #ececec;
+    text-align: center;
+    line-height: 80rpx;
+  }
+  .swiper-tab-list {
+    font-size:26rpx;
+    display: inline-block;
+    flex:1;
+    color: #333;
+    margin:0 70rpx;
+  }
+  .on {
+    color:#ff4552;
+    border-bottom: 5rpx solid #ff4552;
+  }
+  .swiper-box {
+    display: block;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    margin-top:90rpx;
+  }
+  .mine-bott {
+    width: 30rpx;
+    height:30rpx;
+    margin-right:22rpx;
+    align-self: center;
+    vertical-align: middle;
+  }
+  .arrow {
+    width:15rpx;
+    height:19rpx;
+    padding-left:19rpx;
+    align-self:center;
+  }
+  .writer{
+      display: flex;
+      padding:20rpx 30rpx;
+      background:#fff;
+    }
+  .waiter{
+    flex:1;
+    font-size:24rpx;
+    color:#333;
+  }
+  .payment{
+    float: right;
+    color:#ff4552;
+  }
+  .active{
+    width:120rpx;
+    height:120rpx;
+  }
+  .mountCenter{
+    display:flex;
+    background:#fff;
+    padding:20rpx 30rpx;
+    border-bottom:1px solid #f2f2f2;
+    border-top:1px solid #f2f2f2;
+  }
+  .mountLeft{
+    flex:1;
+  }
+  .descript{
+    margin-left:20rpx;
+    font-size:24rpx;
+    color:#333333;
+  }
+  .Actual{
+    background:#fff;
+    text-align: right;
+    padding:23rpx 30rpx 20rpx;
+    font-size:22rpx;
+    border-bottom: 1px solid #f2f2f2;
+  }
+  .leave{
+    background:#fff;
+    text-align: right;
+    padding:10rpx 30rpx;
+  }
+  .leaveChild{
+    border:1px solid #ff4552;
+    color:#ff4552;
+    font-size:24rpx;
+    padding:0 33rpx;
+    height:50rpx;
+    line-height:50rpx;
+    text-align:right;
+    display:inline-block;
+  }
+  .grey{
+    color:#999999;
+  }
+  .AmountWrapper{
+    margin-bottom:20rpx;
+  }
+  .big{
+    font-size:28rpx;
+  }
+  .Mountain{
+    display: flex;
+    padding-bottom:15rpx;
+  }
+  .should{
+    font-size:24rpx;
+    flex: 1;
+  }
+  .swipeList{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:100;
+    right:0;
+  }
+  .wrap{
+    margin-top:80rpx;
+  }
+</style>
+
+<template>
+<view>
+  <view class="swipeList">
+   <view class="swiper-tab">
+     <view class="swiper-tab-list {{params.status == '' ? 'on' : ''}}" data-current="0" @tap="swichNav('')">全部订单</view>
+     <view class="swiper-tab-list {{params.status ==1 ? 'on' : ''}}" data-current="1" @tap="swichNav(1)">待付款</view>
+     <view class="swiper-tab-list {{params.status ==3 ? 'on' : ''}}" data-current="3" @tap="swichNav(3)">已完成</view>
+  </view>
+ </view>
+    <!--全部订单//待付款//已完成-->
+  <loadmore :pullUpStatus.sync="haveMore">
+    <view class="wrap">
+      <repeat for="{{orders}}" item="item">
+        <view class="AmountWrapper">
+          <view @tap="shopDetail({{item.storeId}})"  class="writer">
+            <image class="mine-bott" src="{{item.storeAvatar}}"></image>
+            <view  class="waiter">
+              <text>{{item.storeName}}</text>
+              <image class="arrow" src="../../assets/arrow.png"></image>
+              <text class="payment">{{item.statusText}}</text>
+            </view>
+          </view>
+          <view class="mountCenter" @tap="writer({{item.id}})">
+            <image  class="active" src="{{item.storeAvatar}}"></image>
+            <view class="mountLeft">
+              <view class="descript">
+                <view class="Mountain">
+                  <text class="should">应付金额</text>
+                  <view>￥{{item.orderAmount}}</view>
+                </view>
+                <view class="Mountain">
+                  <text class="should">红包金额</text>
+                  <view class="grey">-￥{{item.storeDiscountAmount}}</view>
+                </view>
+                <view class="Mountain">
+                  <text class="should">下单时间</text>
+                  <view class="grey">{{item.createdAt}}</view>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view class="Actual">
+            实付金额:￥<text class="big">{{item.totalAmount }}</text>
+          </view>
+          <view class="leave" wx:if="{{item.status==1}}">
+            <view @tap="leaveChild({{item}})" class="leaveChild">去付款</view>
+          </view>
+        </view>
+      </repeat>
+    </view>
+  </loadmore>
+</view>
+</template>
+<script>
+    import wepy from 'wepy';
+    import {getVolOrders} from '../../util/util'
+    import loadmore from '../../components/loadmore';
+    export default class Order extends wepy.page {
+        config = {
+          backgroundTextStyle:'light',
+          navigationBarBackgroundColor: '#fff',
+          navigationBarTitleText: '我的订单',
+          navigationBarTextStyle: 'black',
+          enablePullDownRefresh: true,
+          onReachBottomDistance: '500'
+        };
+        data = {
+          haveMore:true,
+          orders:[],
+          params:{
+            'per-page':10,
+            page:1,
+            status:''
+          }
+        };
+      components = {
+        loadmore:loadmore
+      };
+        methods = {
+          shopDetail(id){
+            wx.navigateTo({
+              url: '../../pages/shopDetail/store?id='+id
+            })
+          },
+          // 去付款
+          leaveChild(item){
+            if(item.status === 1){
+              wx.navigateTo({
+                url: '../../pages/payment/onlinePayment?vcd='+ item.id
+              })
+            }
+          },
+          writer(id, event){
+            wx.navigateTo({
+              url: '../../pages/order/Pend?id='+id
+            })
+          },
+          swichNav(e){
+            e ? this.params.status = e : this.params.status = '';
+            this.params.page =1;
+            this.getVolOrders(true);
+          }
+        };
+      getVolOrders(clear){
+        getVolOrders({data:this.params}).then(res =>{
+          const data = res.data;
+          // console.log(res.data);
+          if(data.length ===this.params['per-page']){
+            this.haveMore = true;
+            this.params.page += 1
+          }else{
+            this.haveMore = false
+          }
+          if (clear) {
+            this.orders = data
+          } else {
+            this.orders = this.orders.concat(data)
+          }
+          this.$apply()
+        })
+      }
+      /*下拉刷新*/
+      onPullDownRefresh () {
+        wepy.showNavigationBarLoading();
+        setTimeout(() => {
+          this.params.page = 1;
+          this.getVolOrders(true);
+          wepy.hideNavigationBarLoading(); // 完成停止加载
+          wepy.stopPullDownRefresh() // 停止下拉刷新
+        }, 1000)
+      }
+      // 加载更多
+      onReachBottom (e) {
+        setTimeout(() => {
+          if (this.haveMore) {
+            this.getVolOrders()
+          }
+          this.$apply()
+        }, 1000)
+      }
+      onShow() {
+        this.getVolOrders(true)
+      }
+      events = {
+      };
+      onLoad() {
+      }
+    }
+</script>
+
+
+

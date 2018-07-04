@@ -1,0 +1,1022 @@
+<style lang="less">
+  Page{
+    background:#fafafa;
+  }
+.kaxi {
+  width:160rpx;
+  height:160rpx;
+}
+.square{
+  border-top:1px solid #f2f2f2;
+  background:#fff;
+  padding:30rpx 30rpx 0;
+  margin-bottom:20rpx;
+}
+/*.Lady {*/
+  /*color: #333;*/
+  /*font-size: 13px;*/
+  /*flex:1;*/
+/*}*/
+.topSquare{
+  display:flex;
+  border-bottom:1px solid #f2f2f2;
+  padding-bottom: 25rpx;
+}
+.beauty-1 {
+  font-size:20rpx;
+  color:#666;
+}
+.minte-1{
+  font-size:20rpx;
+  color: #666;
+  flex:1;
+  height:90rpx;
+}
+  .Location{
+   display: flex;
+   padding:20rpx 0;
+  }
+  .rightShop{
+    padding-left:30rpx;
+    font-size:0;
+    display:table-cell;
+    vertical-align:middle;
+    flex:1;
+  }
+  .room{
+    color:#333333;
+    font-size: 24rpx;
+    width:517rpx;
+    padding-right:56rpx;
+  }
+  .foo{
+    font-size:22rpx;
+    color:#999999;
+  }
+  .icon-dianhua {
+    width: 38 rpx;
+    height: 38 rpx;
+    color: #33a1ff;
+  }
+  .shopmon{
+    width:32rpx;
+    height:39rpx;
+    padding-right:20rpx;
+  }
+.lucky-bag{
+ background:#fff;
+}
+.lucky-top{
+  display:flex;
+  padding:30rpx 30rpx 0;
+  color:#333333;
+  font-size:26rpx;
+  font-weight:bold;
+}
+  .melon{
+    padding-left:40rpx;
+    padding-right:30rpx;
+    background: #fff;
+  }
+  .all{
+    flex:1;
+    padding:25rpx 0;
+  }
+  .other{
+    display: flex;
+  }
+  .total{
+    flex:1;
+    padding:25rpx 0;
+  }
+  .tit{
+    color:#ff4552;
+    font-size:28rpx;
+  }
+  .kind{
+    color:#333333;
+    font-size:26rpx;
+  }
+  .already{
+   color:#999999;
+   font-size: 20rpx;
+   padding-left:26rpx;
+  }
+  .branch{
+    border-radius:10rpx;
+    border:1px solid #ff4552;
+    color:#ff4552;
+    font-size:24rpx;
+    width:133rpx;
+    height: 53rpx;
+    line-height:53rpx;
+    text-align: center;
+    align-self:center;
+    background-color:#ffffff;
+  }
+  .graych{
+    border-radius:10rpx;
+    border:1px solid #e5e5e5;
+    color:#999;
+    font-size:24rpx;
+    width:133rpx;
+    height: 53rpx;
+    line-height:53rpx;
+    text-align:center;
+    align-self:center;
+    background:#e5e5e5;
+  }
+  .buys{
+    border-radius:10rpx;
+    border:1px solid #feae0f;
+    color:#fff;
+    background:#feae0f;
+    font-size:24rpx;
+    width:133rpx;
+    height: 53rpx;
+    line-height:53rpx;
+    text-align: center;
+    align-self:center;
+    margin-bottom:12px;
+  }
+  .message{
+    margin:20rpx 0;
+    background:#fff;
+    padding:0 30rpx;
+    font-size:0;
+  }
+  .full{
+    color:#333333;
+    font-size:26rpx;
+    font-weight:bold;
+    padding-bottom:34rpx;
+  }
+  .business{
+    display: flex;
+  }
+  .time{
+    padding-left:30rpx;
+    font-size:24rpx;
+    color:#333333;
+  }
+  .icon-wrapper{
+    clear:both;
+  }
+  .provide-set{
+    color:#999999;
+    float:left;
+    width:230rpx;
+    padding-bottom:38rpx;
+  }
+.provide-full{
+  padding:40rpx 0 30rpx;
+  color:#333333;
+  font-size:26rpx;
+  font-weight:bold;
+}
+  .may{
+    padding-left:20rpx;
+    color:#333333;
+    font-size:24rpx;
+    vertical-align:middle;
+    align-self: center;
+  }
+  .shopping{
+    margin-bottom:20rpx;
+    background:#fff;
+    padding:30rpx 30rpx 26rpx;
+    clear: both;
+  }
+  .base{
+    color:#666666;
+    font-size:24rpx;
+  }
+  .sey{
+    padding-bottom:20rpx;
+    word-wrap:break-word;
+    word-break:break-all;
+    white-space: pre-line;
+  }
+    .footprints{
+      display: flex;
+      padding:20rpx 0;
+      border-bottom:1px solid #f2f2f2;
+      background:#fff;
+    }
+    .wrapper{
+      padding:0 30rpx;
+      background: #fff;
+    }
+    .Lady{
+      color: #333;
+      font-size:13px;
+      flex:1;
+    }
+    .minte{
+      font-size:20rpx;
+      color:#666;
+      background-color:rgba(255, 165, 0, 0.05);
+      padding:0 10rpx 0;
+      align-self:center;
+    }
+    .minFather{
+      display: flex;
+    }
+    .min{
+      text-align: right;
+      font-size:20rpx;
+      color: #666;
+      flex: 1;
+      float: right;
+    }
+    .active{
+      width:120rpx;
+      height:120rpx;
+    }
+    .distance{
+      padding-left:20rpx;
+      flex:1;
+      color:#666;
+      font-size: 0;
+    }
+    .shops{
+      width: 20rpx;
+      height: 18rpx;
+      vertical-align: middle;
+      align-self: center;
+      padding-right:6rpx;
+    }
+    .deep{
+      color:#ff4552;
+      font-size:26rpx;
+      padding:23rpx 0;
+      text-align: center;
+      background:#fff;
+      margin-bottom:20rpx;
+    }
+    .allonter{
+      padding:25rpx 0 25rpx 10rpx;
+      flex:1;
+      font-size:0;
+    }
+    .crust{
+      color:#ff4552;
+      font-size:28rpx;
+    }
+  .near{
+    margin-bottom:20rpx;
+  }
+  .recomed{
+    background-color:#fff;
+    font-size:26rpx;
+    color:#333;
+    font-weight:bold;
+    padding:25rpx 30rpx;
+  }
+  .line{
+    border-left:1px solid #ddd;
+  }
+  .phone{
+    align-self:center;
+    flex:1;
+    text-align:center;
+  }
+  .get{
+    background:#fff;
+    padding:30rpx 30rpx 20rpx;
+    display:flex;
+    border-bottom:1px solid #fafafa;
+  }
+  .full-bus{
+    flex: 1;
+  }
+  .bus{
+    color:#999999;
+    font-size:22rpx;
+  }
+  .bus-item{
+    align-self: center;
+    text-align: center;
+    font-size:0;
+  }
+  .shopBag{
+    width:32rpx;
+    height:39rpx;
+    vertical-align:middle;
+  }
+  .icos{
+    width:31rpx;
+    height:21rpx;
+    vertical-align: middle;
+  }
+  .LeadBag{
+    background:#fff;
+    display:flex;
+    padding:32rpx 30rpx 34rpx;
+    margin-bottom:20rpx;
+  }
+  .leadChild{
+    flex:1;
+    font-size:26rpx;
+    font-weight:bold;
+    color: #333333;
+  }
+  .arrow {
+    width:16rpx;
+    height:16rpx;
+    padding-left:16rpx;
+    float:right;
+    align-self: center;
+    vertical-align: middle;
+  }
+  .leftArrow{
+    width:16rpx;
+    height:16rpx;
+    padding-left:16rpx;
+    float:left;
+    align-self: center;
+    vertical-align: middle;
+  }
+  /*弹框*/
+  .commodity_screen{
+    width:100%;
+    height:100%;
+    position:fixed;
+    top:0;
+    left:0;
+    background:#000;
+    opacity:.2;
+    z-index:1000;
+    overflow: hidden;
+  }
+  .commodity_attr_box{
+    position: fixed;
+    left:0;
+    right:0;
+    bottom:120rpx;
+    z-index:2000;
+    overflow:hidden;
+    width:690rpx;
+    height:80rpx;
+    margin:0 auto;
+  }
+  .commodity_box{
+    position: fixed;
+    left:0;
+    right:0;
+    bottom:25rpx;
+    z-index:2000;
+    overflow:hidden;
+    width:690rpx;
+    height:80rpx;
+    margin:0 auto;
+  }
+  .number{
+     height:80rpx;
+     line-height:80rpx;
+     background: #fff;
+     text-align:center;
+     color:#333;
+     font-size:28rpx;
+     border-radius:10rpx;
+   }
+ .show{
+    display:block;
+  }
+  .hide{
+    display:none;
+  }
+  .font1{
+    font-size:28rpx;
+    color:#999;
+  }
+  /*已领红包弹框*/
+  .triangle{
+    position:absolute;
+    left:0;
+    width:8rpx;
+    height:200rpx;
+  }
+  .triangle1{
+    position:absolute;
+    right:0;
+    width:8rpx;
+    height:200rpx;
+    transform:rotate(180deg);
+    top:0;
+  }
+  /*优惠券样式*/
+  .moneyuser{
+    font-size:48rpx;
+    font-weight: normal;
+    color: #ffffff;
+  }
+  .timeuser{
+    font-size:22rpx;
+    font-weight:normal;
+    color: #ffffff;
+    padding-bottom: 10rpx;
+  }
+  .immeduser{
+    font-size:24rpx;
+    color:#ffffff;
+    vertical-align:middle;
+    align-self:center;
+    text-align:center;
+    flex:1;
+  }
+  .muchuser{
+    width:466rpx;
+  }
+  .juan{
+    display:flex;
+    padding:0 30rpx;
+    height:200rpx;
+  }
+  .coin{
+    padding:30rpx 0 20rpx;
+    font-size:24rpx;
+    color:#fff;
+  }
+  .linear{
+    background-image:linear-gradient(-30deg, #ff4552 0%, #ff4a6f 100%);
+    width:100%;
+    height:201rpx;
+    background-size:100% 100%;
+    margin-bottom:20rpx;
+  }
+  .lineared{
+    background-image: linear-gradient(-30deg, rgba(255, 69, 82, 0.63) 0%, rgba(255, 74, 111, 0.63) 100%);
+    opacity: 0.63;
+    width:100%;
+    height:201rpx;
+    background-size:100% 100%;
+    margin-bottom:20rpx;
+  }
+  .triangle{
+    position:absolute;
+    left:0;
+    width:8rpx;
+    height:200rpx;
+  }
+  .triangle1{
+    position:absolute;
+    right:0;
+    width:8rpx;
+    height:200rpx;
+    transform:rotate(180deg);
+    top:0;
+  }
+  .even{
+    width: 1px;
+    height: 200px;
+    border-left:dashed 1px #ffffff;
+  }
+  .immed{
+    font-size:24rpx;
+    color:#ffffff;
+    vertical-align:middle;
+    align-self:center;
+    text-align:center;
+    flex:1;
+  }
+ .commodity-body{
+    width:100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 2000;
+    background: #fff;
+    height:940rpx;
+  }
+  .hen{
+    padding:30rpx;
+    display: flex;
+  }
+  .hense{
+    font-size:30rpx;
+    color:#333;
+    text-align:center;
+    flex:1;
+  }
+  button::after{
+    border:none;
+    border-radius:0;
+  }
+  .common{
+    width:90rpx;
+    height:40rpx;
+    line-height:40rpx;
+    text-align: center;
+    background-color:rgba(21, 13, 8, 0.5);
+    opacity:0.5;
+    font-size:22rpx;
+    color:#ffffff;
+    vertical-align:middle;
+    position:absolute;
+    bottom:20rpx;
+    right:10rpx;
+    z-index:100;
+  }
+  .allPicture{
+    position:relative;
+  }
+  .LadyGaga{
+    display: flex;
+    height:40rpx;
+  }
+  .shareBtn{
+    background-color: transparent;
+    border: none;
+    width:28rpx;
+    line-height:0;
+  }
+  .fenxiang{
+    width:28rpx;
+    height:28rpx;
+  }
+  /*打开红包*/
+  .rotate{
+    width:180rpx;
+    height:180rpx;
+    padding-top:55rpx;
+    animation: anim .6s infinite alternate;
+  }
+  @keyframes anim {
+    from { transform: rotateY(180deg); }
+    to { transform: rotateY(360deg); }
+  }
+  .open{
+    width:180rpx;
+    height:180rpx;
+    padding-top:55rpx;
+  }
+  /*抢红包弹框*/
+  .commodity{
+    position:absolute;
+    top:10%;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:1000;
+    overflow:hidden;
+    margin:0 auto;
+  }
+  .bodyWrapper{
+    color:#fff4c0;
+    text-align: center;
+    position:absolute;
+    top:17%;
+    left:0;
+    right:0;
+    font-size:0;
+  }
+  .bottChild{
+    width:90rpx;
+    height:90rpx;
+    background-color: #d8ae72;
+    border-radius:5rpx;
+    border:solid 1rpx #fff4c0;
+  }
+  .congrat{
+    font-size:38rpx;
+    padding:60rpx 0 10rpx;
+  }
+  .quick{
+    font-size:26rpx;
+  }
+  .random{
+    padding-top:16%;
+    font-size:24rpx;
+  }
+  .Lead{
+    font-size:32rpx;
+    padding-top:20rpx;
+    color: #fff4c0;
+  }
+  .kai{
+    position: absolute;
+    top:10%;
+    left:0;
+    right:0;
+    bottom:0;
+    overflow:hidden;
+    margin:0 auto;
+    width:610rpx;
+    height:786rpx;
+    z-index:-1;
+    text-align:center;
+  }
+  .close{
+    width:22rpx;
+    height:22rpx;
+    position:absolute;
+    top:13%;
+    left:84%;
+    right:0;
+    bottom:0;
+  }
+</style>
+<template>
+    <view>
+      <view class="square">
+        <view class="topSquare">
+          <view class="allPicture" @tap="getPicture({{stores.id}})">
+            <image class="kaxi" src="{{stores.avatarUrl}}"></image>
+            <text wx:if="{{stores.storeBannersNum>0}}" class="common">共{{stores.storeBannersNum}}张</text>
+          </view>
+          <view class="rightShop">
+            <view class="LadyGaga">
+              <view class="Lady">{{stores.name}}</view>
+              <button open-type="share" class="shareBtn" wx:if="{{storeWallet[0].draw_status === 1}}">
+                 <image class="fenxiang" src="../../assets/share-page.png"></image>
+              </button>
+              <!--<text class="iconfont icon-fenxiang"></text>-->
+            </view>
+            <view class="minte-1"><text wx:if="{{stores.description!=null}}">{{stores.description}}</text></view>
+            <view class="beauty-1">
+              <!--<text class="iconfont icon-dianpu" style="width:24rpx;height:22rpx;color:#666;vertical-align: middle"></text>-->
+              {{stores.categoryText}}
+            </view>
+          </view>
+        </view>
+        <view class="Location">
+          <text  @tap="Gohere" class="iconfont icon-dingwei1" style="width:38rpx;height:38rpx;color:#33a1ff;"></text>
+          <view class="room">{{stores.addressFull}}<text class="foo">(距你步行{{stores.distance}})</text> </view>
+          <text class="line"></text>
+          <text @tap="onChangeShowState" class="phone iconfont icon-dianhua"></text>
+          <!--电话弹框-->
+          <view wx:if="{{showView}}" catchtouchmove="move" @tap="closePopup">
+            <view class="commodity_screen"></view>
+            <view class="commodity_attr_box">
+              <view @tap="makePhone" class="number">{{stores.phone}}</view>
+            </view>
+            <view class="commodity_box">
+              <view @tap="onChangeShowState" class="number">取消</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <!--买单-->
+      <view class="get" wx:if="{{chaper.count>0}}">
+        <image class="shopmon" src="../../assets/order-buy.png"></image>
+        <view class="full-bus">
+          <view class="full">红包买单</view>
+          <text class="bus">营业时间（每天{{stores.workAt}}~{{stores.workendAt}}）</text>
+        </view>
+        <view class="bus-item">
+          <view class="buys" @tap="fullBuy({{stores.id}})">买单</view>
+          <text class="bus">已买{{stores.ordersCount}}</text>
+        </view>
+      </view>
+      <view class="LeadBag" @tap="redvelope" wx:if="{{chaper.count>0}}">
+        <image class="shopmon" src="../../assets/shopBag.png"></image>
+        <text class="leadChild">已领红包</text>
+        <text class="font1">({{chaper.count}})</text>
+        <image mode="widthFix" class="arrow" src="../../assets/arrow.png"></image>
+      </view>
+      <!--已领红包弹框-->
+      <view class="hide{{unRedView ? 'show' : ''}}">
+        <view class="commodity_screen" ></view>
+        <view  class="commodity-body">
+          <view class="hen">
+            <text @tap="onState" class="iconfont icon-guanbi"></text>
+            <!--<image @tap="onState" mode="widthFix" class="leftArrow" src="../../assets/leftArrow.png"></image>-->
+            <text class="hense">已领红包</text>
+          </view>
+            <view style="margin:0 30rpx;" @tap="quicklyUser({{UserWallet[0].id}})">
+              <repeat for="{{UserWallet}}" item="item">
+                <view class="{{currentTab == index ? 'linear' :'lineared'}}" style="position:relative;" @tap="immedly({{index}})">
+                  <image class="triangle" src="../../assets/triangle.png"></image>
+                  <view class="juan">
+                    <view class="muchuser">
+                      <view class="coin">￥<text class="moneyuser">{{item.amount}}</text></view>
+                      <view class="timeuser">订单满{{item.attainAmount}}元可用</view>
+                      <view class="timeuser">使用时间{{item.effectiveAt}}-{{item.effectiveEndAt}}</view>
+                    </view>
+                    <view class="even"></view>
+                    <view class="{{showImd? 'immeduser': 'hide'}}">立即使用</view>
+                  </view>
+                  <image class="triangle1" src="../../assets/triangle.png"></image>
+                </view>
+              </repeat>
+            </view>
+        </view>
+      </view>
+      <!--店铺福袋-->
+      <view class="lucky-bag" wx:if="{{storeWallet.length>=1}}">
+        <view class="lucky-top">
+          <image class="shopmon" src="../../assets/shopmon.png"></image>
+          <text>店铺福袋</text>
+        </view>
+        <repeat for="{{storeWallet}}" item="item">
+          <view class="melon">
+            <view class="other">
+              <view class="allonter">
+                <text class="crust">￥{{item.remainingAmount}}</text>
+                <view class="already">剩余金额</view>
+              </view>
+              <!--<view class="total">-->
+                <!--<text class="kind">{{item.minValue}}-{{item.maxValue}}元红包</text>-->
+                <!--<view class="already">已抢{{item.getNumber}}人</view>-->
+              <!--</view>-->
+
+                <button hover-class="none" class="{{item.draw_status===1? 'branch':'graych'}}" @tap="progress({{item}})">
+                  {{item.drawStatusText}}
+                </button>
+            </view>
+          </view>
+        </repeat>
+        <!--抢红包弹框-->
+        <view class="hide{{showWrapper ? 'show': ''}}" catchtouchmove="move">
+          <view class="commodity_screen"></view>
+          <view class="commodity">
+            <view class="bodyWrapper">
+              <image class="bottChild" src="{{carous.store.avatarUrl}}"></image>
+              <view class="Lead">{{carous.store.name}}</view>
+              <view class="congrat">恭喜你抢到福袋</view>
+              <view class="quick">快点打开吧</view>
+              <image @tap="serviceSelection"  class="{{isChecked ? 'rotate': 'open'}}"  src="../../assets/kai.png"></image>
+              <view class="random">红包金额随机 满{{carous.attainAmount}}可用</view>
+            </view>
+            <image class="kai" src="../../assets/la.jpg"></image>
+            <image @tap="openBagelen" class="close" src="../../assets/close.png"></image>
+          </view>
+        </view>
+        <!--<view class="melon">-->
+       <!--<view class="other">-->
+         <!--<view class="allonter">-->
+          <!--<text class="crust">￥{{syncTitle.wallet[index].attainAmount}}</text>-->
+          <!--<view class="already">福袋总金额</view>-->
+         <!--</view>-->
+        <!--<view class="total">-->
+          <!--<text class="kind">50-100元红包</text>-->
+          <!--<view class="already">已抢{{syncTitle.getNumber}}人</view>-->
+        <!--</view>-->
+        <!--<navigator class="buys" url="./shopDetail/progress" hover-class="none">-->
+          <!--<view>去买单</view>-->
+        <!--</navigator>-->
+       <!--</view>-->
+    <!--</view>-->
+      </view>
+      <!--更多信息-->
+      <view class="message">
+        <view class="provide-full">更多信息</view>
+        <view class="business">
+          <text class="iconfont icon-shijian" style="color:#999999;"></text>
+          <view class="time">
+           营业时间:
+            <repeat for="{{stores.weeks}}">
+            {{item.value}}
+            </repeat>
+            <view>{{stores.workAt}}-{{stores.workendAt}}</view>
+          </view>
+        </view>
+        <view class="provide-full">提供服务</view>
+        <view class="icon-wrapper clearfix">
+          <repeat for="{{stores.services}}" item="item">
+            <view class="provide-set">
+              <image class="icos" mode="widthFix" src="{{item.ico}}"></image>
+              <text class="may">{{item.name}}</text>
+            </view>
+          </repeat>
+        </view>
+
+      </view>
+      <!--消费须知-->
+      <view class="shopping" wx:if="{{stores.consumeNotes.length}}">
+        <view class="full">消费须知</view>
+        <view class="base">
+          <view class="sey">{{stores.consumeNotes}}</view>
+        </view>
+      </view>
+      <!--附近推荐-->
+      <!--<view class="near">-->
+        <!--<view class="recomed">附近推荐</view>-->
+        <!--<repeat for="{{FindWallet}}"  item="item">-->
+          <!--<Delicious :syncTitle.sync="item" wx:if="{{FindWallet.length}}"></Delicious>-->
+        <!--</repeat>-->
+      <!--</view>-->
+    </view>
+</template>
+<script>
+    import wepy from 'wepy';
+    import {connect, getStore} from 'wepy-redux'
+    const stores = getStore();
+    import Delicious from '../../components/Delicious'
+    import { getStoreShows, getStoreWallet, getStoreWalletCount, getDraw, getCarousel } from '../../util/util';
+    export default class store extends wepy.page {
+      config = {
+        backgroundTextStyle: 'light',
+        navigationBarBackgroundColor: '#fff',
+        navigationBarTextStyle: 'black',
+        navigationBarTitleText: '店铺详情'
+      };
+      data = {
+        unRedView:false,
+        showView:false,
+        showWrapper:false,
+        stores:{},
+        index:0,
+        storeWallet: [],
+        showImd: true,
+        currentTab: 0,
+        UserWallet: [],
+        chaper:{},
+        storeId: {},
+        carous: {},
+        isChecked: false,
+        draws: {}
+      };
+        methods = {
+          move(e) {
+            // console.log(e)
+          },
+          closePopup() {
+            this.showView = false
+          },
+          serviceSelection() {
+            this.isChecked = true
+            let id = this.carous.id
+            this.showWrapper = false
+            getDraw({method:'POST',id:id}).then(res =>{
+              this.draws = res.data
+              wx.navigateTo({
+                url:'../../pages/shopDetail/openBag?val='+JSON.stringify(this.draws)
+              })
+              this.$apply();
+            }).catch(err =>{
+              if(err.status === 422){
+                wx.redirectTo({
+                  url:'../../pages/shopDetail/openBag'
+                })
+                const {message} = err;
+                this.$parent.globalData.message = message
+              }
+            })
+          },
+          openBagelen(){
+            let that= this;
+            that.showWrapper = (!that.data.showWrapper)
+          },
+          // 路线规划
+          Gohere(){
+            wepy.navigateTo({
+              url:'../../pages/search/Plan?store='+JSON.stringify(this.stores)
+            })
+          },
+          getPicture(id){
+            if(this.stores.storeBannersNum>0){
+              wx.navigateTo({
+                url:'picture?id='+id
+              })
+            }
+          },
+          quicklyUser(id){
+            wx.redirectTo({
+              url:'../payment/bagBuy?id='+id
+            })
+          },
+          onState(){
+            this.unRedView = false
+          },
+          // 立即使用//
+          immedly(index){
+            if(this.currentTab = index){
+              this.showImd = false;
+              this.pairs = true
+            }
+          },
+          redvelope(){
+            this.unRedView =!(this.unRedView)
+          },
+          // 联系电话
+          makePhone(){
+            wx.makePhoneCall({
+              phoneNumber:this.stores.phone
+            })
+          },
+          onChangeShowState(){
+            let that= this;
+            that.showView = (!that.data.showView)
+          },
+          fullBuy(id){
+            wx.navigateTo({
+              url: '../../pages/payment/immediately?id='+id
+            })
+          },
+          progress(item){
+            const token = wepy.getStorageSync('token')
+            if (!token) {
+              wepy.redirectTo({
+                url: '../bindCell'
+              })
+            } else {
+              if (item.draw_status === 1) {
+                this.getCarousel(item)
+                this.showWrapper = true
+              } else {
+                this.showWrapper = false
+              }
+            }
+          }
+        };
+
+      // 抢红包详情
+      async getCarousel(item){
+        const {latitude, longitude} = this.$parent.globalData.locationMap
+        if (latitude && longitude) {
+          this.params = {
+            lat: latitude,
+            lon: longitude
+          }
+          let res = await getCarousel({id: item.id, data: this.params})
+          this.carous = res.data
+          stores.dispatch({type: 'SET_PORTRIANT', headName: this.carous.store})
+          this.$apply()
+        }
+      }
+
+      // 分享页面小程序
+      onShareAppMessage (res) {
+        const tmpTitle = this.stores
+        if (res.from ==='button') {
+          // 来自button转发按钮
+        }
+        return {
+          title:tmpTitle.name+'| 邀请你瓜分￥'+ this.storeWallet[0].totalAmount+'元现金红包！点击立即领取',
+          // desc:'这是一段感人的描述',
+          imageUrl:"../../assets/shareTu.png",
+          path:'/pages/sharePage/Invite?id='+this.storeWallet[0].id,
+          success: function(res) {
+            console.log(res);
+            wx.showShareMenu({
+              // 要求小程序返回分享目标信息
+              withShareTicket: true
+            });
+          },
+          fail: function(res) {
+            console.log(res)
+          }
+        }
+      }
+      getStoreAlls(){
+        const {latitude, longitude} = this.$parent.globalData.locationMap
+        if (latitude && longitude) {
+          this.params = {
+            lat: latitude,
+            lon: longitude
+          };
+          this.getStoreShows(this.params)
+          this.getStoreWallet(this.params)
+        }else {
+          setTimeout(() => {
+            this.getStoreAlls()
+          }, 1000)
+        }
+      }
+      // 店铺详情
+      getStoreShows(){
+        getStoreShows({id:this.storeId, data:this.params}).then(res=>{
+          this.stores = res.data
+          this.$apply()
+        });
+      }
+      // 店铺福袋
+      getStoreWallet() {
+        getStoreWallet({id: this.storeId, data: this.params}).then(res=>{
+          this.storeWallet = res.data
+          console.log(this.storeWallet)
+          this.$apply()
+        });
+      }
+
+      // 店铺已领福袋
+      getStoreWalletCount() {
+        getStoreWalletCount({id: this.storeId}).then(res => {
+          this.chaper = res.data;
+          const {userWallet} = res.data;
+          this.UserWallet = userWallet.map((item, index) => {
+            const {effectiveAt, effectiveEndAt, ...items} = item;
+            let time = {
+              effectiveAt: effectiveAt.split(' ')[0].replace(/-/g, '.'),
+              effectiveEndAt: effectiveEndAt.split(' ')[0].replace(/-/g, '.')
+            }
+            return {...time, ...items}
+         })
+          this.$apply()
+      })
+   }
+     onShow(){
+       this.getStoreAlls()
+       this.getStoreWalletCount()
+     }
+      onLoad(opts) {
+        const {id} = opts
+        this.storeId = id
+      }
+    }
+</script>
+
+
+

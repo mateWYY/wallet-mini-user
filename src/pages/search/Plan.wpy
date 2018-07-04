@@ -1,0 +1,340 @@
+<style lang="less">
+  /*高德规划路线*/
+  .tui-map-search{
+    width: 100%;
+    height: 80rpx;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000000;
+    box-sizing: border-box;
+    padding: 5rpx 10px;
+    background-color: #fff;
+    line-height: 70rpx;
+  }
+  .tui-map-input{
+    height: 70rpx;
+    line-height: 70rpx;
+    font-size: 30rpx;
+    margin-left: 25px;
+  }
+  .tui-map-search-icon{
+    position: absolute;
+    top: calc(50% - 10px);
+    left: 10px;
+  }
+  .tui-map-direction{
+    width: 32px;
+    height: 32px;
+    position: fixed;
+    right: 10px;
+    bottom: 80px;
+    z-index: 100000;
+  }
+  .map{
+    width: 100%;
+    height: 80vh;
+  }
+  .page-group{
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    background-color: #fff;
+  }
+  .page-nav-list{
+    padding:20rpx 0 ;
+    font-size: 30rpx;
+    display: table-cell;
+    text-align: center;
+    width: 100%;
+    color: #222;
+  }
+  .page-nav-list.active{color:blue;}
+  .tui-warn{
+    height: 50px;
+    line-height: 50px;
+    padding-left: 10px;
+    color: lightseagreen;
+    font-size: 30rpx;
+  }
+  .tui-search-bottom{
+    height: 150px;
+    background: #fff;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+  }
+  .flex-style{
+    display: flex;
+    padding: 20rpx 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+  }
+  .flex-style .flex-item{
+    flex: 1;
+    text-align: center;
+    font-size: 28rpx;
+  }
+  .flex-style .flex-item.active{
+    color: #1aad16;
+  }
+  .text_box{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30rpx;
+  }
+  .text_box .title{
+    flex: 1;
+    font-size: 30rpx;
+  }
+  .text_box .detail_button{
+    background-color: #1AAD16;
+    color: #ffffff;
+    border: none;
+  }
+  .bus-box{
+    padding: 30rpx;
+  }
+  .bus-box .bus-item{
+    font-size: 28rpx;
+    margin: 30rpx 0;
+  }
+</style>
+
+<template>
+  <view>
+    <view class="tui-map">
+      <view class="flex-style">
+        <view class="flex-item {{selectTab == 0 ? 'active' : ''}}" @touchstart="goToCar(0)">驾车</view>
+        <view class="flex-item {{selectTab == 1 ? 'active' : ''}}" @touchstart="goToWalk(1)">步行</view>
+        <view class="flex-item {{selectTab == 2 ? 'active' : ''}}" @touchstart="goToBus(2)">公交</view>
+        <view class="flex-item {{selectTab == 3 ? 'active' : ''}}" @touchstart="goToRide(3)">骑行</view>
+      </view>
+      <map id="map" show-location class="map" longitude="{{location.longitude}}" latitude="{{location.latitude}}"
+           markers="{{markers}}" polyline="{{polyline}}"
+           scale="15" hidden="{{selectTab == 2}}"></map>
+      <view hidden="{{selectTab != 2}}"  class="bus-box">
+        <view  wx:if="{{busArr.length}}">
+          <repeat for="{{busArr}}" item="item">
+            <view class="bus-item">
+              {{item.transport}}
+            </view>
+          </repeat>
+        </view>
+        <view wx:if="{{!busArr.length}}">
+          暂无公交路线规划，距离太近或其他原因
+        </view>
+      </view>
+      <view class="text_box" hidden="{{selectTab == 2}}">
+        <view class="title">
+          <text class="text">距离约{{distance}}米</text>
+          <view class="text" hidden="{{!cost}}">打车约{{cost}}元</view>
+        </view>
+        <button class="detail_button" @touchstart="goDetail" plain size="mini" wx:if="{{distance}}">详情</button>
+      </view>
+    </view>
+  </view>
+</template>
+<script >
+  import wepy from 'wepy'
+  let amapFile = require('../../libs/amap-wx.js');
+  export default class plan extends wepy.page {
+    config = {};
+    data = {
+      location: {},
+      endLocation: {},
+      selectTab: 0,
+      key: 'f36b92d5af8a23965483c2b3d80fa233',
+      markers: [{
+        iconPath: '../../assets/mapicon_navi_s.png',
+        id: 0,
+        latitude: '',
+        longitude: '',
+        width: 23,
+        height: 33
+      },
+        {
+          iconPath: '../../assets/mapicon_navi_e.png',
+          id: 1,
+          latitude: '',
+          longitude: '',
+          width: 24,
+          height: 34
+        }
+      ],
+      city: '',
+      distance: '',
+      busArr: [],
+      routeSteps: [],
+      cost: '',
+      polyline: []
+    };
+    methods = {
+      goToCar(val) {
+        this.selectTab = val
+        this.DrivingRoute().then(res => {
+          this.saveData(res)
+        })
+      },
+      goToWalk(val) {
+        this.selectTab = val
+        this.DrivingRoute(1).then(res => {
+          this.saveData(res)
+        })
+      },
+      goToBus(val) {
+        this.selectTab = val
+        const self = this
+        this.DrivingRoute(2).then(res => {
+          console.log(res)
+          this.cost = res.taxi_cost
+          const {transits} = res
+          if (transits) {
+            transits.forEach((item, index) => {
+              const segments = item.segments
+              item.transport = []
+              for (let j = 0; j < segments.length; j++) {
+                if (segments[j].bus && segments[j].bus.buslines && segments[j].bus.buslines[0] && segments[j].bus.buslines[0].name) {
+                  var name = segments[j].bus.buslines[0].name
+                  if (j !== 0) {
+                    name = '======>' + name
+                  }
+                  item.transport.push(name)
+                }
+              }
+            })
+            self.busArr = transits
+            console.log(transits)
+          }
+          this.$apply()
+        })
+      },
+      goToRide(val) {
+        this.selectTab = val
+        this.DrivingRoute(3).then(res => {
+          this.saveData(res)
+        })
+      },
+      goDetail() {
+        const steps = JSON.stringify(this.routeSteps)
+        wepy.navigateTo({
+          url: `./planDetail?detail=${steps}`
+        })
+      }
+    };
+    onLoad(opt) {
+      this.store = JSON.parse(opt.store)
+      this.markers[1].latitude = this.store.lat
+      this.markers[1].longitude = this.store.lon
+      const self = this
+      this.DrivingRoute(4).then(res => {
+        const {regeocodeData, latitude, longitude} = res[0]
+        this.location = res[0]
+        this.markers[0].latitude = latitude
+        this.markers[0].longitude = longitude
+        self.city = regeocodeData.addressComponent.city
+        this.DrivingRoute().then(res => {
+          self.saveData(res)
+          this.$apply()
+        })
+        this.$apply()
+      })
+    }
+    saveData (res) {
+      const {paths, taxi_cost} = res
+      const points = []
+      if (paths && paths[0] && paths[0].steps) {
+        paths[0].steps.forEach((item, index) => {
+          const poLen = item.polyline.split(';')
+          for (let j = 0; j < poLen.length; j++) {
+            points.push({
+              longitude: parseFloat(poLen[j].split(',')[0]),
+              latitude: parseFloat(poLen[j].split(',')[1])
+            })
+          }
+        })
+        this.routeSteps = paths[0].steps
+        this.distance = paths[0].distance
+        this.cost = parseInt(taxi_cost)
+        this.polyline[0] = {
+          points: points,
+          color: '#0091ff',
+          width: 6
+        }
+      }
+      this.$apply()
+    }
+    DrivingRoute(val) {
+      const self = this
+      const myAmapFun = new amapFile.AMapWX({key: self.key})
+      return new Promise((resolve, reject) => {
+        switch (val) {
+          case 1:
+            myAmapFun.getWalkingRoute({
+              origin: `${this.location.longitude},${this.location.latitude}`,
+//                destination: '117.36161,31.8512',
+              destination: `${this.store.lon},${this.store.lat}`,
+              success: function(data) {
+                resolve(data)
+              },
+              fail: function(info) {
+                reject(info)
+              }
+            })
+            break
+          case 2:
+            myAmapFun.getTransitRoute({
+              origin: `${this.location.longitude},${this.location.latitude}`,
+              destination: `${this.store.lon},${this.store.lat}`,
+              city: this.city,
+              success: function(data) {
+                resolve(data)
+              },
+              fail: function(info) {
+                reject(info)
+              }
+            })
+            break
+          case 3:
+            myAmapFun.getRidingRoute({
+              origin: `${this.location.longitude},${this.location.latitude}`,
+              destination: `${this.store.lon},${this.store.lat}`,
+              success: function(data) {
+                resolve(data)
+              },
+              fail: function(info) {
+                reject(info)
+              }
+            })
+            break
+          case 4:
+            myAmapFun.getRegeo({
+              success: function(data) {
+                resolve(data)
+              },
+              fail: function(info) {
+                reject(info)
+              }
+            })
+            break
+          default:
+            myAmapFun.getDrivingRoute({
+              origin: `${this.location.longitude},${this.location.latitude}`,
+              destination: `${this.store.lon},${this.store.lat}`,
+              success: function(data) {
+                resolve(data)
+              },
+              fail: function(info) {
+                reject(info)
+              }
+            })
+            break
+        }
+      })
+    }
+    // Other properties
+  }
+</script>

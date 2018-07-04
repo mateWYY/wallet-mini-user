@@ -1,0 +1,487 @@
+<style lang="less">
+  /** 分类美食频道 **/
+  Page{
+    background:#fff;
+  }
+  /*.logo-red {*/
+    /*width: 40 rpx;*/
+    /*height: 40 rpx;*/
+    /*vertical-align: middle;*/
+  /*}*/
+  /*.smallX {*/
+    /*font-size: 22 rpx;*/
+    /*color: #333;*/
+    /*background: #fff;*/
+    /*padding: 30 rpx 30 rpx 26 rpx;*/
+    /*border-bottom: 1px solid #f2f2f2;*/
+  /*}*/
+  /*.five {*/
+    /*color: #ff4552;*/
+  /*}*/
+  .kindle {
+    display: flex;
+    text-align: center;
+    background: #fff;
+    color: #333333;
+    font-size: 26rpx;
+    padding: 30rpx 0;
+  }
+
+  .Self-help {
+    flex: 1;
+    align-self: center;
+  }
+
+  .cha {
+    width: 50rpx;
+    height: 60rpx;
+    padding-bottom: 25rpx;
+  }
+
+  .wrap {
+    margin: 20rpx 0;
+    background: #fafafa;
+  }
+  .wise {
+    height: 100px;
+  }
+  .scroll_box {
+    overflow: hidden;
+    padding:20rpx 30rpx;
+    white-space: nowrap;
+    background:#f3f3f3;
+  }
+  .item_list {
+    width: 80%;
+    margin-right: 20rpx;
+    display: inline-block;
+  }
+  .item_move {
+    display: flex;
+    padding: 30rpx;
+    border-bottom: 1px solid #f2f2f2;
+    background:#fff;
+  }
+  .slideImage{
+    width:100%;
+    height:100%;
+  }
+  .delicacy{
+    background:#fff;
+  }
+  .distant{
+    font-size:20rpx;
+    color:#333;
+    padding-left:20rpx;
+    font-weight: normal;
+  }
+  .swiper-sty{
+    width:100%;
+    height:300rpx;
+  }
+  .swiper-sty1{
+    width:100%;
+    height:200rpx;
+  }
+  .font-Title{
+    flex:1;
+    display:flex;
+    border-bottom:1px solid #f2f2f2;
+    padding-bottom:20rpx;
+  }
+  .minFather-1{
+    display: flex;
+    font-size:0;
+  }
+  .distanting{
+    font-size:0;
+    color:#666;
+    float: right;
+    flex:1;
+  }
+</style>
+
+<template>
+  <view class="delicacy">
+    <swiper indicator-dots="true" indicator-active-color="#fff" class="{{category == 0 ? 'swiper-sty': 'swiper-sty1'}}" wx:if="{{imags.length}}">
+      <repeat for="{{imags}}" item="item">
+        <swiper-item>
+          <image src="{{item.imageUrl}}" class="slideImage"/>
+        </swiper-item>
+      </repeat>
+    </swiper>
+
+    <view wx:if="{{category == 0}}">
+      <!-- 今日瓜分福袋-->
+      <view class="today" @tap="presentPage">
+        <view class="guafen">
+          <text class="tit">今日福袋</text>
+          <view class="bords">
+            <text class="Insance">疯狂瓜分中</text>
+          </view>
+        </view>
+        <view class="centre">
+          <text wx:if="{{cityId.commentAmount.amount>0}}" class="num">{{cityId.commentAmount.amount}}</text>
+          <text wx:if="{{cityId.commentAmount.amount==null}}" class="num">0.00</text>
+          <text class="divide">元瓜分中</text>
+        </view>
+        <image mode="widthFix" class="arrow" src="../assets/arrow.png"></image>
+      </view>
+      <!--领取足迹-->
+      <view wx:if="{{Draw.length}}">
+          <navigator url="../pages/mine/footprints" hover-class="none" class="Receive">
+            <text class="footZ">领取足迹</text>
+            <view class="more">更多</view>
+            <image mode="widthFix" class="arrow" src="../assets/arrow.png"></image>
+          </navigator>
+           <repeat for="{{Draw}}" item="item">
+            <view class="wrapper">
+              <view class="footprints" @tap.stop="footprint({{item.id}})">
+              <image class="active" src="{{item.avatarUrl}}"></image>
+              <image wx:if="{{item.isNew}}" class="newCoupon" src="../assets/newCoupon.png"></image>
+               <view class="font-Title">
+                <view class="distanting">
+                <view class="Lady">{{item.name}}</view>
+                <view class="beauty-1">
+                  <!--<image class="shops" src="../assets/shops-1.png"></image>-->
+                  {{item.categoryText}}
+                </view>
+                <view class="minFather-1" wx:if="{{item.userWallets.length>0}}">
+                  <view class="minte-1">
+                    <image class="shopBag" src="../assets/shopBag.png"></image>
+                    <repeat for="{{item.userWallets}}" item="item">
+                      已领￥{{item.amount}}元红包(满{{item.attainAmount}}可用)
+                    </repeat>
+                  </view>
+                </view>
+                <view class="minFather-1" wx:if="{{!item.userWallets.length}}">
+                  <view class="minte-1">
+                    <image class="shopBag" src="../assets/shopBag.png"></image>
+                    暂无可用红包
+                  </view>
+                  <!--<text class="minte">当前人气{{item.ordersCount}}</text>-->
+                </view>
+              </view>
+                <view class="goBuy">
+                  <view class="buys" @tap.stop="buysImmedly({{item.id}})" wx:if="{{item.isWallet}}">
+                    <view>去买单</view>
+                  </view>
+                  <text class="min">距离{{item.distance}}</text>
+                </view>
+                </view>
+              </view>
+            </view>
+          </repeat>
+      </view>
+      <!-- 吃货狂欢够 -->
+      <view class="count"  wx:if="{{ActiveImags.length}}">
+        <!--<repeat for="{{ActiveImags}}" item="item" wx:if="{{ActiveImags.length}}">-->
+         <image mode='widthFix' class="discount" src="{{ActiveImags[0].imageUrl}}"></image>
+        <!--</repeat>-->
+      </view>
+    </view>
+    <!--<view class="smallX">-->
+    <!--<image class="logo-red" mode="widthFix" src="../assets/logo-red.png"></image>-->
+    <!--i***苏刚刚瓜分了店铺红包获得金额<text class="five">￥5.00</text>-->
+    <!--</view>-->
+    <view hidden="{{category == 0}}">
+      <scroll-view  scroll-x="true" scroll-left="{{scrollLeft}}" wx:if="{{childFours.length}}">
+        <view class="kindle">
+          <repeat for="{{childFours}}" item="item">
+            <view class="Self-help" @tap="Restaurant({{item.id}})">
+              <image class="cha" src="{{item.icoUrl}}"></image>
+              <view>{{item.name}}</view>
+            </view>
+          </repeat>
+        </view>
+      </scroll-view>
+
+      <!--领取红包记录-->
+      <view class="scroll_box" wx:if="{{Draw.length}}">
+        <scroll-view class="scroll-view_x" scroll-x style="width:auto;overflow:hidden;">
+          <repeat for="{{Draw}}" item="item">
+            <view class="item_list" @tap="downDetail({{item.id}})">
+              <view class="item_move">
+                <image class="active" src="{{item.avatarUrl}}"></image>
+                <view class="distanting">
+                  <view class="Lady"><text>{{item.name}}</text> <text class="distant">{{item.distance}}</text></view>
+                  <view class="beauty-1">
+                    <image class="shops" mode='widthFix' src="../assets/shops-1.png"></image>
+                    {{item.categoryText}}
+                  </view>
+                  <view class="minFather-1" wx:if="{{item.userWallets.length>0}}">
+                    <view class="minte-1">
+                      <image class="shopBag" src="../assets/shopBag.png"></image>
+                      <repeat for="{{item.userWallets}}" item="item">
+                        已领￥{{item.amount}}元红包(满{{item.attainAmount}}可用)
+                      </repeat>
+                    </view>
+                  </view>
+                  <view class="minFather-1" wx:if="{{!item.userWallets.length}}">
+                    <view class="minte-1">
+                      <image class="shopBag" src="../assets/shopBag.png"></image>
+                      暂无可用红包
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </repeat>
+        </scroll-view>
+      </view>
+    </view>
+
+    <view class="allOther" wx:if="{{category != 0 && FindWallet.length>0}}">
+      <text class="found">发现福袋</text>
+    </view>
+    <view class="allOther" wx:if="{{category == 0 && FindWallet.length>0}}">
+      <text class="found">附近商家</text>
+    </view>
+
+    <loadmore :pullUpStatus.sync="haveMore" :loading.sync="loading">
+      <repeat for="{{FindWallet}}" item="item">
+        <Delicious :syncTitle.sync="item" wx:if="{{FindWallet.length}}"></Delicious>
+      </repeat>
+      <slot name="other">
+
+      </slot>
+    </loadmore>
+  </view>
+
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import {getCommonChildFour, getCommonBanner, getFindWallet, getVolDraw ,getVolRemaining} from '../util/util'
+  import Delicious from '../components/Delicious';
+  import loadmore from '../components/loadmore';
+  export default class delicacy extends wepy.component {
+    data = {
+      scrollLeft: 0, // tab标题的滚动条位置
+      walletPerage: {
+        'per-page': 10,
+        page: 1
+      },
+      cityId: {},
+      FindWallet: [],
+      imags: [],
+      ActiveImags: [],
+      childFours: [],
+      haveMore: true,
+      loading: true,
+      indicatorDots: false,
+      autoplay: false,
+      interval: 5000,
+      duration: 1000,
+      childFour: {},
+      centeryId: '',
+      Draw: [],
+    };
+    components = {
+      Delicious: Delicious,
+      loadmore
+    };
+    getCommonChildFour() {
+      const id = this.category;
+      getCommonChildFour({id:id, data:{type:1}}).then(res => {
+        this.childFours = res.data;
+        this.$apply()
+      });
+    }
+
+    // 今日福袋数据
+    getVolRemaining(...params){
+      getVolRemaining({cityId:this.$parent.$parent.globalData.cityId.id ,data:{...params[0]}}).then(res => {
+        this.cityId = res.data;
+        this.$apply()
+      })
+    }
+    //领取记录
+    getVolDraw(...params){
+      const id = this.category;
+      getVolDraw({data:{categoryId: id,'per-page': 3, page: 1,login: 1, ...params[0]}}).then(res => {
+        this.Draw = res.data;
+        this.$apply()
+      })
+    }
+    getCommonAlls() {
+      const id = this.category;
+      const {latitude, longitude} = this.$parent.$parent.globalData.locationMap
+      if (latitude && longitude) {
+        const data = {};
+        if (parseInt(id) !== 0){
+          data.categoryId = id
+        }
+        const params = {
+          lat: latitude,
+          lon: longitude,
+          ...data
+        };
+        this.getBanners(params);
+        this.getActiveBanner(params);
+        this.getVolRemaining(params);
+        this.getVolDraw(params);
+        this.getFindWallet(true)
+      } else {
+        setTimeout(() => {
+          this.getCommonAlls()
+        }, 1000)
+      }
+    }
+    pullBottom () {
+      setTimeout(() => {
+        if (this.haveMore) {
+          this.getFindWallet();
+        }
+        this.$apply()
+      }, 1000)
+    }
+    // 获取banner
+    getBanners(...params) {
+     const cityId = this.$parent.$parent.globalData.cityId.id || ''
+      getCommonBanner({
+        data: {
+          cityId: cityId,
+          type: 1,
+          ...params[0]
+        }
+      }).then(res => {
+        this.imags = res.data;
+        this.$apply()
+      })
+    }
+    getActiveBanner(...params){
+      const cityId = this.$parent.$parent.globalData.cityId.id || ''
+      getCommonBanner({
+        data: {
+          cityId: cityId,
+          type: 3,
+          ...params[0]
+        }
+      }).then(res => {
+        this.ActiveImags = res.data;
+        this.$apply()
+      })
+    }
+    // 发现福袋
+    getFindWallet(clear) {
+      const id = this.category;
+      const {latitude, longitude} = this.$parent.$parent.globalData.locationMap
+      const cityId = this.$parent.$parent.globalData.cityId.id || ''
+      if (latitude && longitude) {
+        const data = {
+          lat: latitude,
+          lon: longitude
+        };
+        if (parseInt(id) !== 0) {
+          data.categoryId = id
+        }
+        getFindWallet({
+          cityId: cityId,
+          data: {
+            ...this.walletPerage,
+            ...data
+          }
+        }).then(res => {
+          const data = res.data;
+          if (!data.length) {
+            this.loading = false
+          } else {
+            this.loading = true
+          }
+          if (data.length === this.walletPerage['per-page']) {
+            this.haveMore = true;
+            this.walletPerage.page += 1
+          } else {
+            this.haveMore = false
+          }
+          if (clear) {
+            this.FindWallet = data
+          } else {
+            this.FindWallet = this.FindWallet.concat(data)
+          }
+          this.$apply()
+        })
+      }
+    }
+
+    methods = {
+      // 去买单
+      buysImmedly(id){
+        wx.navigateTo({
+          url: './payment/immediately?id='+id
+        })
+      },
+      //事件处理//
+      presentPage(){
+        wx.navigateTo({
+          url: '../pages/present'
+        })
+      },
+      //进入店铺详情
+      footprint(id){
+        wx.navigateTo({
+          url: './shopDetail/store?id='+id
+        });
+      },
+      getSelect (id) {
+        if (parseInt(id) !== 0) {
+          this.category = id
+        } else {
+          this.category = '0'
+        }
+        this.walletPerage.page = 1;
+        this.getCommonAlls();
+        this.getCommonChildFour();
+        // this.getVolDraw()
+      },
+      downDetail(id){
+        wx.navigateTo({
+          url: './shopDetail/store?id='+id
+        })
+      },
+      // 餐饮美食
+      Restaurant(id) {
+        const categoArr = this.$parent.Catego || []
+        let parentCategory = {}
+        categoArr.forEach((item, index) => {
+          if (item.id === this.category) {
+            parentCategory = item
+          }
+        });
+        const parentCategorys = JSON.stringify(parentCategory)
+        wepy.navigateTo({
+          url: `./mine/streetFood?vcd=${parentCategorys}&id=${id}`
+        })
+      },
+      // 四个分类
+      // getId(id) {
+        //分类banner图
+        // getCommonBanner({data:{type: 1, categoryId: id, lat: 31.7792, lon: 117.1607029}}).then(res => {
+        //   this.imags = res.data;
+        //   console.log(this.imags);
+        //   this.$apply()
+        // });
+        // 发现福袋
+        // getFindWallet({data: {'per-page': 10, page: 1, lat: 31.7792, lon: 117.1607029, categoryId: id}}).then(res => {
+        //   this.FindWallet = res.data;
+        //   this.$apply()
+        // })
+      // }
+    };
+    props = {
+      category: {
+        type: Number,
+        twoAway: true,
+        default: 0
+      }
+    };
+    onShow(){
+      this.getCommonAlls();
+    }
+    onLoad(){
+      this.getCommonChildFour();
+    }
+    // Other properties
+  }
+</script>
