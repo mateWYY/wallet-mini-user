@@ -177,13 +177,14 @@
          }
        };
       // 用户信息
-       async getVolById(){
+       async getVolById() {
         let res = await getVolById()
         this.users = res.data
-         this.getuserPhone()
+        console.log(this.users)
+        this.getuserPhone()
         this.$apply()
       }
-       onShow(){
+       onShow() {
          this.getVolById()
        }
       onLoad() {}

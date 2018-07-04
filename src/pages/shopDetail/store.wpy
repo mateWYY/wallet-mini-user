@@ -59,19 +59,29 @@
     color: #33a1ff;
   }
   .shopmon{
-    width:32rpx;
-    height:39rpx;
+    width: 36rpx;
+    height: 36rpx;
+    border-radius:2rpx;
     padding-right:20rpx;
+    align-self: center;
+    vertical-align:middle;
   }
 .lucky-bag{
  background:#fff;
 }
 .lucky-top{
   display:flex;
-  padding:30rpx 30rpx 0;
+  padding:8rpx 0 16rpx;
+  margin:0 30rpx 0;
+  font-size:0;
+  border-bottom:1px solid #f2f2f2;
+}
+.Fourtune{
   color:#333333;
   font-size:26rpx;
   font-weight:bold;
+  align-self: center;
+  vertical-align:middle;
 }
   .melon{
     padding-left:40rpx;
@@ -112,7 +122,7 @@
     line-height:53rpx;
     text-align: center;
     align-self:center;
-    background-color:#ffffff;
+    background-color:#fff;
   }
   .graych{
     border-radius:10rpx;
@@ -528,12 +538,13 @@
   .shareBtn{
     background-color: transparent;
     border: none;
-    width:28rpx;
+    /*width:28rpx;*/
+    padding:0;
     line-height:0;
   }
   .fenxiang{
-    width:28rpx;
-    height:28rpx;
+    width:160rpx;
+    height:78rpx;
   }
   /*打开红包*/
   .rotate{
@@ -616,6 +627,10 @@
     right:0;
     bottom:0;
   }
+  .shopsTitle{
+    flex:1;
+    align-self: center;
+  }
 </style>
 <template>
     <view>
@@ -628,9 +643,6 @@
           <view class="rightShop">
             <view class="LadyGaga">
               <view class="Lady">{{stores.name}}</view>
-              <button open-type="share" class="shareBtn" wx:if="{{storeWallet[0].draw_status === 1}}">
-                 <image class="fenxiang" src="../../assets/share-page.png"></image>
-              </button>
               <!--<text class="iconfont icon-fenxiang"></text>-->
             </view>
             <view class="minte-1"><text wx:if="{{stores.description!=null}}">{{stores.description}}</text></view>
@@ -706,8 +718,13 @@
       <!--店铺福袋-->
       <view class="lucky-bag" wx:if="{{storeWallet.length>=1}}">
         <view class="lucky-top">
-          <image class="shopmon" src="../../assets/shopmon.png"></image>
-          <text>店铺福袋</text>
+          <view class="shopsTitle">
+            <image class="shopmon" src="../../assets/shopmon.png"></image>
+            <text class="Fourtune">店铺福袋</text>
+          </view>
+          <button open-type="share" class="shareBtn" wx:if="{{storeWallet[0].draw_status === 1}}">
+            <image class="fenxiang" src="../../assets/share-page.png"></image>
+          </button>
         </view>
         <repeat for="{{storeWallet}}" item="item">
           <view class="melon">

@@ -91,7 +91,7 @@
       <view class='city_locate' data-types='locate'>
         <text class='city_locate_title'>当前地理位置:{{address.city}}</text>
         <view class="addre">
-          <text class="locat">{{location.desc}}</text>
+          <text class="locat" @tap="locationTo">{{location.desc}}</text>
           <view @tap="getLocate" class='city_locate_text'>
             <image class="ding" src="../../assets/ding.png"></image>重新定位
           </view>
@@ -164,7 +164,12 @@
       },
       selectCity(item) {
         this.$parent.globalData.cityId = item
-        wx.switchTab({
+        wepy.switchTab({
+          url: '../first'
+        })
+      },
+      locationTo() {
+        wepy.switchTab({
           url: '../first'
         })
       }

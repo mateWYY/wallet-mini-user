@@ -99,7 +99,7 @@
 </template>
 
 <script>
-    import wepy from 'wepy';
+    import wepy from 'wepy'
     export default class setUp extends wepy.page {
       config = {
           backgroundTextStyle: 'light',
@@ -111,15 +111,15 @@
         storeInfo: ''
       };
       methods = {
-        setUp(){
-          wx.redirectTo({
-            url:'/setUp/personal'
+        setUp() {
+          wepy.navigateTo({
+            url: '/setUp/personal'
           })
         }
       };
       events = {};
       onLoad() {
-        this.storeInfo = this.$parent.globalData.storeInfo;
+        this.storeInfo = this.$parent.globalData.storeInfo
       }
     }
 </script>
