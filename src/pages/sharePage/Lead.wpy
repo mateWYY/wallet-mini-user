@@ -286,7 +286,7 @@
     config = {
       backgroundTextStyle:'light',
       navigationBarBackgroundColor:'#fe2964',
-      navigationBarTitleText: '分享',
+      // navigationBarTitleText: '分享',
       navigationBarTextStyle: 'white'
     };
     data = {
@@ -294,7 +294,7 @@
       cardList:4,
       showView:true,
       telephone:'',
-      plane:{},
+      plane: {},
       drawlogs:{},
       isCheck:true,
       ishidden:false,

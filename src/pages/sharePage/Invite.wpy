@@ -312,7 +312,7 @@
     config = {
       backgroundTextStyle:'light',
       navigationBarBackgroundColor: '#fd4d3e',
-      navigationBarTitleText: '分享',
+      // navigationBarTitleText: '分享',
       navigationBarTextStyle: 'white'
     };
     mixins = [getCode]
