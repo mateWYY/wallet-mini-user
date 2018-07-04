@@ -131,11 +131,9 @@
         let Code = this.inputValue;
         let modify = this.$parent.globalData.modify;
         getCommonBinging({method: 'POST', data: {phone: loginPhone, code: Code, modify: modify}}).then(res => {
-          const {token, ...data} = res.data;
-          wepy.setStorageSync('token', token);
-          wepy.setStorageSync('phone', data);
+          wx.removeStorageSync('token')
           wepy.switchTab({
-            url: '/pages/my'
+            url: '/pages/first'
           });
           this.$apply()
         }).catch(err => {
