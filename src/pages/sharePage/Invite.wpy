@@ -255,7 +255,7 @@
       <image src="../../assets/shareBag.png" class="shareBag"></image>
       <image class="mine-bott" src="{{carous.store.avatarUrl}}"></image>
       <text class="Lady">{{carous.store.name}}</text>
-      <view class="title">邀您瓜分￥{{carous.attainAmount}}现金红包</view>
+      <view class="title">邀您瓜分￥{{carous.totalAmount}}现金红包</view>
       <image class="guan" src="../../assets/guan.png"></image>
       <view class="immed" @tap="getFast">
         <view>立即</view>
