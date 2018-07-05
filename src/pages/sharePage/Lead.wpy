@@ -130,10 +130,10 @@
     overflow: hidden;
   }
   .commodity_attr_box{
-    position: fixed;
+    position: absolute;
     left:0;
     right:0;
-    bottom: 160rpx;
+    /*bottom: 140rpx;*/
     z-index:2000;
     overflow:hidden;
     margin:0 auto;
@@ -205,11 +205,11 @@
   .choss{
     display:block;
   }
-  .mess{
-    text-align: center;
-    font-size:30rpx;
-    color:#cc3638;
-  }
+  /*.mess{*/
+    /*text-align: center;*/
+    /*font-size:30rpx;*/
+    /*color:#cc3638;*/
+  /*}*/
   .lookMore{
     text-align: center;
     width: 100%;
@@ -233,10 +233,9 @@
       <image class="sharebeg" src="../../assets/sharebeg.png"></image>
       <image class="mine-bott" src="{{plane.store.avatarUrl}}"></image>
       <view class="Lady">{{plane.store.name}}</view>
-      <view class="{{configs? 'congrat': 'hide'}}">恭喜你抢得红包!</view>
-      <view class="{{configs? 'ten': 'hide'}}">{{plane.amount}}<text class="yuan">元</text></view>
-      <view class="{{configs? 'endTime': 'hide'}}">红包{{plane.effectiveEndAt}}到期(满{{plane.attainAmount}}可用)</view>
-      <view class="mess">{{message.message}}</view>
+      <view class="congrat">恭喜你抢得红包!</view>
+      <view class="ten">{{plane.amount}}<text class="yuan">元</text></view>
+      <view class="endTime">红包{{plane.effectiveEndAt}}到期(满{{plane.attainAmount}}可用)</view>
       <view @tap="shareClose" class="need">消费须知<image mode="widthFix" class="arrow" src="../../assets/arrow.png"></image></view>
       <view class="button-wrapper">
         <button class="buttonable" @tap="levelBuy({{plane.id}})">立即使用</button>
@@ -295,14 +294,12 @@
       navigationBarTextStyle: 'white'
     };
     data = {
-      configs:true,
       showView:true,
       telephone:'',
       plane: {},
       userWallets: [],
       isCheck:true,
       ishidden:false,
-      message:'',
       showAll: false
     };
     computed = {
@@ -356,14 +353,7 @@
       })
     }
     onLoad(opt) {
-      this.message = this.$parent.globalData.message;
-      if(this.message!==''){
-        this.configs = false;
-      }else{
-        this.configs = true;
-      }
-      let info = opt.val;
-      console.log(info);
+      let info = opt.val
       info ? this.plane = JSON.parse(info) : this.plane = '';
       // const plc=JSON.parse(opt.val);
       // this.plane = plc
