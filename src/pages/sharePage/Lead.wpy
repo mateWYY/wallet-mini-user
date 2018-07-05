@@ -2,9 +2,6 @@
   Page{
     background:#fafafa;
   }
-  .Lead{
-    font-size:0;
-  }
   .LeadWrapper{
     background-color: #ffffff;
   }
@@ -76,6 +73,7 @@
     font-size:28rpx;
   }
   .look{
+    padding-bottom: 30rpx;
   }
   .hands{
     font-size:28rpx;
@@ -212,6 +210,21 @@
     font-size:30rpx;
     color:#cc3638;
   }
+  .lookMore{
+    text-align: center;
+    width: 100%;
+    height: 80rpx;
+    line-height: 80rpx;
+    color: #333333;
+  }
+  .lookMore .more{
+    font-size: 24rpx;
+    color: #888888;
+  }
+  .bottom-arrow{
+    position: relative;
+    top: 15rpx;
+  }
 </style>
 
 <template>
@@ -231,19 +244,8 @@
     </view>
     <view class="look">
       <view class="hands">看朋友们手气如何</view>
-      <!--<repeat for="{{drawlogs.userWallets}}" item="item">-->
-      <!--<view class="friend" wx:if="{{drawlogs.userWallets.length<=3}}">-->
-      <!--<image class="bear" src="{{item.userAvatar}}"></image>-->
-      <!--<view style="flex:1;padding-left:21rpx;">-->
-      <!--<view class="buLady">{{item.userName}}</view>-->
-      <!--<view class="Time">{{item.createdAt}}</view>-->
-      <!--</view>-->
-      <!--<view class="prc">{{item.amount}}元</view>-->
-      <!--</view>-->
-      <!--</repeat>-->
-      <view class="{{isCheck? 'check': 'hide'}}" @tap="showCheck">查看更多<text class="bottom-arrow"></text></view>
-      <view class="{{ishidden? 'check': 'hide'}}">
-        <repeat for="{{drawlogs.userWallets}}" item="item">
+      <view class="userWalletList">
+        <repeat for="{{userWallet}}" item="item">
           <view class="friend">
             <image class="bear" src="{{item.userAvatar}}"></image>
             <view style="flex:1;padding-left:21rpx;">
@@ -253,6 +255,10 @@
             <view class="prc">{{item.amount}}元</view>
           </view>
         </repeat>
+      </view>
+      <view  @tap="showCheck" class="lookMore" hidden="{{showAll || userWallets.length < 5}}" @tap="toggleLook">
+        <text class="more">查看更多</text>
+        <text class="bottom-arrow"></text>
       </view>
     </view>
     <!--弹框/消费须知-->
@@ -290,16 +296,32 @@
     };
     data = {
       configs:true,
-      cardList:4,
       showView:true,
       telephone:'',
       plane: {},
-      drawlogs:{},
+      userWallets: [],
       isCheck:true,
       ishidden:false,
-      message:''
+      message:'',
+      showAll: false
     };
+    computed = {
+      userWallet () {
+        if (this.userWallets.length > 0) {
+          if (this.showAll) {
+            return this.userWallets
+          } else {
+            return this.userWallets.filter((item, index) => {
+              return index < 5
+            })
+          }
+        }
+      }
+    }
     methods = {
+      toggleLook() {
+         this.showAll = true
+      },
       showCheck(){
         this.isCheck = false;
         this.ishidden = true
@@ -326,14 +348,13 @@
         that.PhoneView=(!that.data.PhoneView)
       }
     };
-    async getDrawlogs(){
-      const id= this.plane.walletId;
-      let res = await getDrawlogs({data:{walletId:id}});
-      this.drawlogs= res.data;
-      console.log(this.drawlogs);
-      this.$apply()
+    getDrawlogs() {
+      const id = this.plane.walletId
+      getDrawlogs({data:{walletId:id}}).then(res => {
+        this.userWallets = res.data.userWallets
+        this.$apply()
+      })
     }
-    events = {};
     onLoad(opt) {
       this.message = this.$parent.globalData.message;
       if(this.message!==''){
@@ -343,7 +364,7 @@
       }
       let info = opt.val;
       console.log(info);
-      info ? this.plane =JSON.parse(info) : this.plane = '';
+      info ? this.plane = JSON.parse(info) : this.plane = '';
       // const plc=JSON.parse(opt.val);
       // this.plane = plc
       this.getDrawlogs()
