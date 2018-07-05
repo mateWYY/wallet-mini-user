@@ -128,9 +128,9 @@
         <text class="spot">•</text><text style="padding-right:29rpx;">到店购买指定商品使用</text>
         <text class="spot">•</text><text>订单满{{wallet.attainAmount}}元可用</text>
       </view>
-      <view class="used">
-        <text class="spot">•</text>单品满{{wallet.attainAmount}}元可用
-      </view>
+      <!--<view class="used">-->
+        <!--<text class="spot">•</text>单品满{{wallet.attainAmount}}元可用-->
+      <!--</view>-->
     </view>
 
     <view class="Notice" @tap="Notice">
