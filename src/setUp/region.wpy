@@ -165,8 +165,10 @@
       }
         events = {}
         onLoad(opt) {
-          if(opt.vcd !== null) {
+          if (this.regionly.provinceText || this.regionly.cityText || this.regionly.regionText !== null) {
            this.regionly = JSON.parse(opt.vcd)
+          } else {
+            this.regionly = '请选择'
           }
           this.firstRegion()
         }
