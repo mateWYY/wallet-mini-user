@@ -31,6 +31,10 @@
   color: #666;
   flex:1;
   height:90rpx;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
 }
   .Location{
    display: flex;
@@ -63,7 +67,7 @@
     height: 36rpx;
     border-radius:2rpx;
     padding-right:20rpx;
-    align-self: center;
+    /*align-self: center;*/
     vertical-align:middle;
   }
 .lucky-bag{
@@ -117,7 +121,7 @@
     border:1px solid #ff4552;
     color:#ff4552;
     font-size:24rpx;
-    width:133rpx;
+    /*width:133rpx;*/
     height: 53rpx;
     line-height:53rpx;
     text-align: center;
@@ -597,7 +601,7 @@
     font-size:26rpx;
   }
   .random{
-    padding-top:16%;
+    padding-top:14%;
     font-size:24rpx;
   }
   .Lead{
@@ -684,7 +688,7 @@
       <view class="LeadBag" @tap="redvelope" wx:if="{{chaper.count>0}}">
         <image class="shopmon" src="../../assets/shopBag.png"></image>
         <text class="leadChild">已领红包</text>
-        <text class="font1">({{chaper.count}})</text>
+        <text class="font1">( {{chaper.count}} )</text>
         <image mode="widthFix" class="arrow" src="../../assets/arrow.png"></image>
       </view>
       <!--已领红包弹框-->

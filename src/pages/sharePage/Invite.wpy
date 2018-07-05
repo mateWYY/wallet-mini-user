@@ -409,10 +409,10 @@
           let id = this.carous.id;
           getDraw({method: 'POST', id: id}).then(res => {
             this.draws = res.data;
-            console.log(this.draws);
+            console.log(this.draws)
             wx.navigateTo({
               url: '/pages/sharePage/Lead?val=' + JSON.stringify(this.draws)
-            });
+            })
           }).catch(err => {
             wepy.showToast({
               title: `${err.message}`,
@@ -504,8 +504,8 @@
             lon: longitude
           }
           getCarousel({id: this.walletId, data: params}).then(res => {
-            console.log(res)
             this.carous = res.data
+            console.log(this.carous)
             this.$apply()
           }).catch(err => {
             return wepy.showToast({

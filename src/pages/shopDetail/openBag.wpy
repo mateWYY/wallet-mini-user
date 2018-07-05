@@ -93,8 +93,8 @@ button{
       <view wx:if="{{message.length}}" class="mess">{{message}}</view>
       <view class="applyWrapp">
           <button @tap="buys" disabled="{{disabled}}">去买单</button>
-      </view>  <!--({{minge.store.id}})-->
-      <view  class="easy">不着急，先去逛逛></view>
+      </view>
+      <view  @tap="Wandering" class="easy">不着急，先去逛逛></view>
     </view>
   </view>
 </template>
@@ -125,6 +125,11 @@ button{
           buys(){
             wx.navigateTo({
               url:'../../pages/payment/immediately?id='+this.headName.id
+            })
+          },
+          Wandering () {
+            wepy.switchTab({
+              url: '/pages/first'
             })
           }
         };

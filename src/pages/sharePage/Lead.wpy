@@ -133,7 +133,7 @@
     position: absolute;
     left:0;
     right:0;
-    /*bottom: 140rpx;*/
+    bottom: 140rpx;
     z-index:2000;
     overflow:hidden;
     margin:0 auto;
@@ -205,11 +205,6 @@
   .choss{
     display:block;
   }
-  /*.mess{*/
-    /*text-align: center;*/
-    /*font-size:30rpx;*/
-    /*color:#cc3638;*/
-  /*}*/
   .lookMore{
     text-align: center;
     width: 100%;
@@ -267,12 +262,13 @@
         <image class="needChild" src="../../assets/lead-tips@2x.png"></image>
         <view class="commodity_box">
           <view class="shopNeed">
-            <view>1、使用方法:点击“我的—券包”找到券后，点击“立即使用”出示券码给店员核销即可。</view>
-            <view>2、预约要求:无需预约,如遇消费高峰时段您可能需要排队等待。</view>
-            <view>3、优惠叠加:不可叠加优惠使用,不兑现、不找零。</view>
-            <view>4、商家服务:提供免费WF服务。</view>
-            <view>5、发票说明:如需开具发票,请您在消费时向商户咨询。</view>
-            <view>6、退款提示:有效期内,在核销使用前可随时发起退款,核销后不可退不可与其他促销叠加最终归属权归门店所有。</view>
+            <view>{{plane.store.consumeNotes}}</view>
+            <!--<view>1使用方法:点击“我的—券包”找到券后，点击“立即使用”出示券码给店员核销即可。</view>-->
+            <!--<view>2、预约要求:无需预约,如遇消费高峰时段您可能需要排队等待。</view>-->
+            <!--<view>3、优惠叠加:不可叠加优惠使用,不兑现、不找零。</view>-->
+            <!--<view>4、商家服务:提供免费WF服务。</view>-->
+            <!--<view>5、发票说明:如需开具发票,请您在消费时向商户咨询。</view>-->
+            <!--<view>6、退款提示:有效期内,在核销使用前可随时发起退款,核销后不可退不可与其他促销叠加最终归属权归门店所有。</view>-->
           </view>
         </view>
       </view>
@@ -354,9 +350,8 @@
     }
     onLoad(opt) {
       let info = opt.val
-      info ? this.plane = JSON.parse(info) : this.plane = '';
-      // const plc=JSON.parse(opt.val);
-      // this.plane = plc
+      info ? this.plane = JSON.parse(info) : this.plane = ''
+      console.log(this.plane)
       this.getDrawlogs()
     };
   }
