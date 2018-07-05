@@ -66,15 +66,23 @@
     top:296rpx;
     margin:0 auto;
   }
-  .immed{
+  .immed[plain]{
     font-size:40rpx;
     font-weight:bold;
     color: #ffffff;
     position:absolute;
+    background-color: transparent;
+    padding: 0;
+    border: none;
     left:0;
     right:0;
     top:443rpx;
     margin:0 auto;
+    line-height: 1.3;
+  }
+  .immed[plain][disabled] {
+    background-color: transparent;
+    border: none;
   }
   .jon{
     font-size:24rpx;
@@ -264,10 +272,10 @@
       <text class="Lady">{{carous.store.name}}</text>
       <view class="title">邀您瓜分￥{{carous.totalAmount}}现金红包</view>
       <image class="guan" src="../../assets/guan.png"></image>
-      <view class="immed" @tap="getFast">
+      <button class="immed" @tap="getFast" plain disabled="{{!immedVisible}}">
         <view>立即</view>
         <view>领取</view>
-      </view>
+      </button>
       <view class="jon">已参与人数{{carous.getNumber}}人</view>
     </view>
     <view class="well">
@@ -332,6 +340,7 @@
       },
       walletId: '',
       isShow:false,
+      immedVisible: false,
       time: '',
       telephone:'',
       inputValue:'',
@@ -473,7 +482,7 @@
     getCarousel() {
       if (this.walletId) {
         const {latitude, longitude} = this.$parent.globalData.locationMap
-        console.log(latitude)
+        if (this.$parent.globalData.locationMap) this.immedVisible = true
         if (latitude && longitude) {
           const params = {
             lat: latitude,
