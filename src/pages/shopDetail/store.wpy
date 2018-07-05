@@ -317,6 +317,7 @@
     width:32rpx;
     height:39rpx;
     vertical-align:middle;
+    padding-right:20rpx;
   }
   .icos{
     width:31rpx;
@@ -686,7 +687,7 @@
         </view>
       </view>
       <view class="LeadBag" @tap="redvelope" wx:if="{{chaper.count>0}}">
-        <image class="shopmon" src="../../assets/shopBag.png"></image>
+        <image class="shopBag" src="../../assets/shopBag.png"></image>
         <text class="leadChild">已领红包</text>
         <text class="font1">( {{chaper.count}} )</text>
         <image mode="widthFix" class="arrow" src="../../assets/arrow.png"></image>
