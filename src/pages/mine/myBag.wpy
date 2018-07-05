@@ -9,7 +9,7 @@
     .shops {
       width: 20rpx;
       height: 18rpx;
-      vertical-align: middle;
+      /*vertical-align: middle;*/
       align-self: center;
       padding-right: 8rpx;
     }
@@ -117,10 +117,11 @@
   }
   .fath{
     flex:1;
+    font-size:0;
+    padding-bottom:20rpx;
   }
   .newLeft{
     flex:1;
-    padding-bottom:20rpx;
   }
 </style>
 <template>

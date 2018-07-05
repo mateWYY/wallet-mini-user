@@ -268,7 +268,7 @@ export default class extends wepy.app {
 // //        url:'../pages/search/Plan'
 //       // url:"pages/bindCell"
 //       // url:"../pages/search/plan"
-//       url: "../pages/sharePage/Lead"
+//       url: "../pages/sharePage/Invite"
 //       // url: "components/Delicious"
 //       //   url:"pages/mine/myBag"
 //       // url: "../pages/shopDetail/progress"

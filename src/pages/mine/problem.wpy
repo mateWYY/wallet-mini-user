@@ -109,7 +109,11 @@
   .htmlContent{
     padding: 30rpx;
   }
-
+  ::-webkit-scrollbar{
+    width: 0;
+    height: 0;
+    color: transparent;
+  }
   .right-icon
     nagavition-icon-sm(#CCC)
     &.bottom-icon

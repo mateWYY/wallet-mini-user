@@ -101,7 +101,8 @@
     color:#f6463a;
     text-align:center;
     padding-bottom:50rpx;
-    background:#fa9410;
+    /*background:#fa9410;*/
+    background:transparent;
     width:20%;
     position:absolute;
     top:18%;
@@ -237,19 +238,24 @@
   .show{
     display:block;
   }
+  .break{
+    word-wrap:break-word;
+    word-break:break-all;
+    white-space: pre-line;
+  }
 </style>
 
 <template>
   <view class="pages">
     <view style="position:relative;text-align:center;">
       <image class="invite" src="../../assets/shares1.png"></image>
-      <swiper class="swipe"  vertical="true" autoplay="true" circular="true" interval="1000">
-        <repeat for="{{msgList}}" item="item">
-          <swiper-item>
-            <view class="smallX">i***苏 刚刚瓜分红包获得金额<text class="mon">￥5.00</text></view>
-          </swiper-item>
-        </repeat>
-      </swiper>
+      <!--<swiper class="swipe"  vertical="true" autoplay="true" circular="true" interval="1000">-->
+        <!--<repeat for="{{msgList}}" item="item">-->
+          <!--<swiper-item>-->
+            <!--<view class="smallX">i***苏 刚刚瓜分红包获得金额<text class="mon">￥5.00</text></view>-->
+          <!--</swiper-item>-->
+        <!--</repeat>-->
+      <!--</swiper>-->
     </view>
     <view style="position:relative;text-align:center;">
       <image src="../../assets/shareBag.png" class="shareBag"></image>
@@ -265,14 +271,13 @@
     </view>
     <view class="well">
       <view class="take">红包领取将放至账户{{userInfo.phone}}</view>
-      <text class="need">消费须知</text>
-      <view class="line"></view>
-      <view class="book">
-        <view style="text-align:left;">
-          <view>1、购买本券后可凭购买二维码到店兑换,可叠加,无门槛,限堂食,数量有限,图片仅供参考,先购先得</view>
-          <view>2、使用有效期:自领取之日起3日内有效</view>
-          <view>3、使用时间:10:00-21:30</view>
-          <view>4、产品以实物为准</view>
+      <view wx:if="{{carous.store.consumeNotes}}">
+        <text class="need">消费须知</text>
+        <view class="line"></view>
+        <view class="book">
+          <view style="text-align:left;">
+            <view class="break">{{carous.store.consumeNotes}}</view>
+          </view>
         </view>
       </view>
     </view>
@@ -324,7 +329,6 @@
         code: ''
       },
       walletId: '',
-      // ===== //
       isShow:false,
       time: '',
       telephone:'',
@@ -410,7 +414,7 @@
           getDraw({method: 'POST', id: id}).then(res => {
             this.draws = res.data;
             console.log(this.draws)
-            wx.navigateTo({
+            wepy.navigateTo({
               url: '/pages/sharePage/Lead?val=' + JSON.stringify(this.draws)
             })
           }).catch(err => {
@@ -421,39 +425,9 @@
             })
             return wepy.switchTab({
               url: '../first'
-            });
-            // if(err.status === 422){
-            //   wx.navigateTo({
-            //     url: '/pages/sharePage/Lead'
-            //   });
-            //   let info ={};
-            //   info.message = err.data;
-            //   this.$parent.globalData.message = info.message
-            // }
+            })
           })
         }
-//              let id =this.carous.id;
-//              getDraw({method:'POST',id:id}).then(res =>{
-//                this.draws = res.data;
-//                console.log(this.draws);
-//                wx.navigateTo({
-//                  url:'/pages/sharePage/Lead?val='+JSON.stringify(this.draws)
-//                });
-//              }).catch(err =>{
-//                return wepy.showToast({
-//                  title:`${err.message}`,
-//                  icon: 'none',
-//                  duration:1000
-//                })
-//                // if(err.status === 422){
-//                //   wx.navigateTo({
-//                //     url: '/pages/sharePage/Lead'
-//                //   });
-//                //   let info ={};
-//                //   info.message = err.data;
-//                //   this.$parent.globalData.message = info.message
-//                // }
-//              });
       }
     }
 //    请求定位权限
