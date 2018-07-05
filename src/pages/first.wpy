@@ -865,10 +865,15 @@
 
   .newCoupon {
     position: absolute;
-    top: 21rpx;
+    top:10rpx;
     left: 54rpx;
     /*z-index:100;*/
     width: 67rpx;
     height: 67rpx;
+  }
+  ::-webkit-scrollbar{
+    width: 0;
+    height: 0;
+    color: transparent;
   }
 </style>

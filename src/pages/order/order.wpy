@@ -265,12 +265,12 @@
         }, 1000)
       }
       onShow() {
+        this.params.page = 1
         this.getVolOrders(true)
       }
       events = {
       };
-      onLoad() {
-      }
+      onLoad() {}
     }
 </script>
 

@@ -220,6 +220,10 @@
     position: relative;
     top: 15rpx;
   }
+  .break{
+    word-break:break-all;
+    word-wrap:break-word;
+  }
 </style>
 
 <template>
@@ -262,13 +266,7 @@
         <image class="needChild" src="../../assets/lead-tips@2x.png"></image>
         <view class="commodity_box">
           <view class="shopNeed">
-            <view>{{plane.store.consumeNotes}}</view>
-            <!--<view>1使用方法:点击“我的—券包”找到券后，点击“立即使用”出示券码给店员核销即可。</view>-->
-            <!--<view>2、预约要求:无需预约,如遇消费高峰时段您可能需要排队等待。</view>-->
-            <!--<view>3、优惠叠加:不可叠加优惠使用,不兑现、不找零。</view>-->
-            <!--<view>4、商家服务:提供免费WF服务。</view>-->
-            <!--<view>5、发票说明:如需开具发票,请您在消费时向商户咨询。</view>-->
-            <!--<view>6、退款提示:有效期内,在核销使用前可随时发起退款,核销后不可退不可与其他促销叠加最终归属权归门店所有。</view>-->
+            <view class="break">{{plane.store.consumeNotes}}</view>
           </view>
         </view>
       </view>
