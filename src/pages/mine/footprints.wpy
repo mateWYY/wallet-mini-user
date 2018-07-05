@@ -96,7 +96,7 @@
     <view class="wrapper">
       <view class="footprints"  @tap.stop="footprint({{item.id}})">
           <image class="active" src="{{item.avatarUrl}}"></image>
-          <image wx:if="{{item.isNew}}" class="newCoupon" src="../../assets/newCoupon.png"></image>
+          <image wx:if="{{item.isNew===true}}" class="newCoupon" src="../../assets/newCoupon.png"></image>
         <view class="font-Title">
           <view class="distance">
             <view class="Lady">{{item.name}}</view>

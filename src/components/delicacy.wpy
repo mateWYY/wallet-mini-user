@@ -138,7 +138,7 @@
             <view class="wrapper">
               <view class="footprints" @tap.stop="footprint({{item.id}})">
               <image class="active" src="{{item.avatarUrl}}"></image>
-              <image wx:if="{{item.isNew}}" class="newCoupon" src="../assets/newCoupon.png"></image>
+              <image wx:if="{{item.isNew===true}}" class="newCoupon" src="../assets/newCoupon.png"></image>
                <view class="font-Title">
                 <view class="distanting">
                 <view class="Lady">{{item.name}}</view>
@@ -203,6 +203,7 @@
             <view class="item_list" @tap="downDetail({{item.id}})">
               <view class="item_move">
                 <image class="active" src="{{item.avatarUrl}}"></image>
+                <image wx:if="{{item.isNew === true}}" class="newCoupon" src="../assets/newCoupon.png"></image>
                 <view class="distanting">
                   <view class="Lady"><text>{{item.name}}</text> <text class="distant">{{item.distance}}</text></view>
                   <view class="beauty-1">
@@ -299,7 +300,7 @@
     //领取记录
     getVolDraw(...params){
       const id = this.category;
-      getVolDraw({data:{categoryId: id,'per-page': 3, page: 1,login: 1, ...params[0]}}).then(res => {
+      getVolDraw({data:{categoryId: id, 'per-page': 3, page: 1,login: 1, ...params[0]}}).then(res => {
         this.Draw = res.data;
         this.$apply()
       })
