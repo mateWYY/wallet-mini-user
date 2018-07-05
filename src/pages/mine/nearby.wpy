@@ -162,7 +162,7 @@
         }
       };
         methods = {
-          redNew(id){
+          redNew(id) {
               wx.navigateTo({
                 url: `../../pages/order/envelDetail?id=${id}`
               })

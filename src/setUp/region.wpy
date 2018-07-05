@@ -43,7 +43,10 @@
     <picker mode="multiSelector" class="pickWrapp" range-key="name" value="{{multiIndex}}" range="{{region}}"
             @change="bindMultiPickerChange" @columnchange="columnChangeRegion">
      <view class="picker">
-       <text wx:if="{{!params.province.name}}">{{regionly.provinceText}} {{regionly.cityText}} {{regionly.regionText}}</text>
+       <view wx:if="{{!params.province.name}}">
+         <text wx:if="{{regionly.provinceText}}">{{regionly.provinceText}} {{regionly.cityText}} {{regionly.regionText}}</text>
+         <text wx:if="{{!regionly.provinceText}}">请选择</text>
+       </view>
        <text>{{params.province.name}} {{params.city.name}} {{params.region.name}}</text>
       </view>
     </picker>
@@ -71,7 +74,9 @@
           provinced:[],
           multiIndex:[0,0,0],
           params:{},
-          regionly:{}
+          regionly:{
+            provinceText: ''
+          }
         };
         methods = {
           // 触发获取省市区
@@ -165,11 +170,7 @@
       }
         events = {}
         onLoad(opt) {
-          if (this.regionly.provinceText || this.regionly.cityText || this.regionly.regionText !== null) {
-           this.regionly = JSON.parse(opt.vcd)
-          } else {
-            this.regionly = '请选择'
-          }
+          this.regionly = JSON.parse(opt.vcd)
           this.firstRegion()
         }
     }

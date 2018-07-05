@@ -76,16 +76,16 @@
               })
               const {birthdays} = res.data;
               this.$parent.globalData.nickname = birthdays;
-            });
+            })
             this.$apply()
           }
         }
         events = {}
         onLoad(opt) {
-          if(!!opt.vcd){
-            this.date = opt.vcd
+          if (opt.vcd === 'null') {
+            this.date = '2016-09-01'
           } else {
-            this.date = '2018-09-01'
+            this.date = opt.vcd
           }
         }
         // Other properties
