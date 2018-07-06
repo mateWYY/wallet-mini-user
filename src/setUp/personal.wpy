@@ -93,7 +93,7 @@
           navigationBarTextStyle: 'black'
         };
         data = {
-          telnum:'',
+          telnum: '',
           clipParams:{
             src: '',
             mode:"rectangle",
@@ -139,10 +139,10 @@
             wepy.chooseImage({count:1}).then(res=>{
               this.clipParams.visable = true;
               this.clipParams.src = res.tempFilePaths[0];
-              this.$apply();
-            });
+              this.$apply()
+            })
           }
-      };
+      }
       async getCommonFiles(path){
       let res = await getCommonFiles({data:{file:path},method:'POST'});
       this.$apply()
@@ -158,7 +158,7 @@
          wepyCropperFinsh(path) {
            console.log(path);
            wepy.uploadFile({
-             url: 'https://coupon.test.mihutime.com/common/v1/files',
+             url: 'https://itimego.com/common/v1/files',
              filePath: path,
              name: 'file',
              header:{

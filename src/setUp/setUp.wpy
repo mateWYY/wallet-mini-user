@@ -74,17 +74,18 @@
           <view class="small">{{storeInfo.nickname}}</view>
           <view class="phoneChild">
             <image class="phone" mode='widthFix' src="../assets/phone-1.png"></image>
-            {{storeInfo.phone}}
+            {{telnum}}
+            <!--{{storeInfo.phone}}-->
           </view>
         </view>
         <image class="arrow" mode='widthFix' src="../assets/arrow.png"></image>
       </view>
     </view>
      <view class="person">
-    <navigator  url="/setUp/about" class="point" hover-class="none">
-      <view class="About">关于纸象</view>
-      <image class="arrow" mode='widthFix' src="../assets/arrow.png"></image>
-    </navigator>
+      <navigator  url="/setUp/about" class="point" hover-class="none">
+        <view class="About">关于纸象</view>
+        <image class="arrow" mode='widthFix' src="../assets/arrow.png"></image>
+      </navigator>
     <!--<navigator  url="/setUp/upDate" class="point-1" hover-class="none">-->
       <!--<view class="About">检查更新</view>-->
       <!--<image class="arrow" mode='widthFix' src="../assets/arrow.png"></image>-->
@@ -108,6 +109,7 @@
           navigationBarTextStyle: 'black'
       };
       data = {
+        telnum: '',
         storeInfo: ''
       };
       methods = {
@@ -119,6 +121,9 @@
       };
       onShow() {
         this.storeInfo = this.$parent.globalData.storeInfo
+        if (this.storeInfo) {
+          this.telnum = this.storeInfo.phone.substr(0, 3) + "****" + this.storeInfo.phone.substr(7)
+        }
       }
       events = {};
       onLoad() {}

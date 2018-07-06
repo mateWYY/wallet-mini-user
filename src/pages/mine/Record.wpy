@@ -135,7 +135,7 @@
 </template>
 
 <script>
-    import wepy from 'wepy';
+    import wepy from 'wepy'
     import {getVolIdList, getVolIdClear} from '../../util/util'
     export default class Record extends wepy.page {
         config = {
@@ -168,13 +168,13 @@
         };
         events = {};
 
-      getListAlls(){
+      getListAlls() {
         const {latitude, longitude} = this.$parent.globalData.locationMap
         if (latitude && longitude) {
           this.params = {
             lat: latitude,
             lon: longitude
-          };
+          }
           this.getVolIdList(this.params)
         }else {
           setTimeout(() => {
@@ -185,16 +185,15 @@
 
        getVolIdList() {
         getVolIdList({data: this.params}).then(res => {
-           this.quant = res.data;
+           this.quant = res.data
            console.log(this.quant)
            this.$apply()
          })
       }
-      onShow(){
+      onShow () {
         this.getListAlls()
       }
-        onLoad() {
-        }
+       onLoad() {}
     }
 </script>
 

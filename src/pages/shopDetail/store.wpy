@@ -30,7 +30,7 @@
   font-size:20rpx;
   color: #666;
   flex:1;
-  height:90rpx;
+  height:101rpx;
 }
   .Location{
    display: flex;
@@ -539,7 +539,6 @@
   .shareBtn{
     background-color: transparent;
     border: none;
-    /*width:28rpx;*/
     padding:0;
     line-height:0;
   }

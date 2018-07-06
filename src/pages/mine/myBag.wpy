@@ -160,7 +160,7 @@
           <image class="alred" wx:if="{{item.status===2}}" src="../../assets/alred2.png"></image>
           <image class="alred" wx:if="{{item.status===3}}" src="../../assets/alred1.png"></image>
         </view>
-        <image class="newparket" wx:if="{{item.isNew===1}}" src="../../assets/newparket.png"></image>
+        <image class="newparket" wx:if="{{item.isNew}}" src="../../assets/newparket.png"></image>
       </view>
     </repeat>
     </view>

@@ -41,7 +41,7 @@
   }
   .distance {
     font-size: 0;
-    padding-left: 20rpx;
+    /*padding-left:20rpx;*/
     flex: 1;
     color: #666;
   }
@@ -313,7 +313,7 @@
         <text wx:if="{{params.keyword}}" @tap="closeInputVal" class="iconfont icon-guanbi1"></text>
       </view>
       <!--店铺福袋列表-->
-      <view class="AllType">
+      <view class="AllType" wx:if="{{FindWallet.length>0}}">
         <view @tap="clickPerson(1)" class="{{selectPerson == 1 && selectPersonShow ? 'active_all' :''}}">
           <text class="basc">全部类型</text>
           <view class="dot-bottom"></view>

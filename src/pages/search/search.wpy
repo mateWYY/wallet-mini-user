@@ -36,9 +36,7 @@
   }
   .roast{
     background:#f2f2f2;
-    width:100rpx;
-    height: 60rpx;
-    line-height:60rpx;
+    padding:20rpx 30rpx;
     font-size:22rpx;
     color:#666666;
     display: inline-block;
@@ -46,6 +44,7 @@
     margin:22rpx 22rpx 0 0;
     white-space:nowrap;
     overflow:hidden;
+    border-radius: 2rpx;
   }
   .icon-shanchu{
     align-self: center;
@@ -144,9 +143,9 @@
    <view>
     <view class="search">
       <input value="{{inputVal}}" maxlength="30" @input="inputTyping" @confirm="toSearch" class="inputPage" confirm-type="搜索" placeholder="搜索" autofocus/>
-      <text  value="{{inputVal}}" @tap="souValue" class="see iconfont icon-sousuo"></text>
+      <text @tap="souValue" class="see iconfont icon-sousuo"></text>
       <text wx:if="{{inputVal}}" @tap="closeInputVal" class="iconfont icon-guanbi1"></text>
-      <text  @tap="clearInput" class="sear">取消</text>
+      <text @tap="souValue" class="sear">搜索</text>
     </view>
      <!--删除搜索记录-->
     <view class="history">
@@ -196,7 +195,7 @@
           navigationBarTextStyle: 'black'
         };
         data = {
-          inputVal:'',
+          inputVal: '',
           commodities: false,
           searchhots: [],
           searchLogs: []
@@ -217,20 +216,13 @@
               url: `foodsList?vcn=${vcn}`
             })
           },
-          inputTyping(event){
-            this.inputVal = event.detail.value
+          inputTyping (e) {
+            this.inputVal = e.detail.value
         },
           //开始搜索关键词、福袋列表
-          souValue(e){
-            this.inputVal = e.detail.value
-            wx.navigateTo({
-              url:`foodsList?vcn=${this.inputVal}`
-            });
-          },
-          // 返回搜索首页
-          clearInput(){
-            wx.navigateBack({
-              delta:1
+          souValue(e) {
+            wepy.navigateTo({
+              url: `foodsList?vcn=${this.inputVal}`
             })
           },
           //清除缓存历史并关闭历史搜索

@@ -72,15 +72,20 @@
     font-weight: bold;
   }
   .sharely{
-    height:100rpx;
-    line-height:100rpx;
+    position: fixed;
+    bottom:0;
+    left:0;
+    right:0;
     display:flex;
     text-align:center;
     font-size:28rpx;
     vertical-align:middle;
+    padding:24rpx 0 12rpx;
+    background-color:#ffd38e;
+    box-shadow: 0 -11rpx 10rpx 0 rgba(46, 49, 55, 0.05);
   }
   .leftShare{
-    background: #fff;
+    background:transparent;
     flex:1;
     border-radius:0;
     color:#333333;
@@ -88,11 +93,11 @@
     line-height:100rpx;
     border:0;
     padding:0;
+    align-self: center;
   }
   .rightShare{
-    background: #ff4552;
     flex:1;
-    color:#ffffff;
+    z-index:10;
   }
   .adopt{
     color:#333;
@@ -172,9 +177,24 @@
     border:0;
     border-radius:0;
   }
+  .openMini{
+    width:330rpx;
+    height:110rpx;
+    align-self: center;
+    vertical-align: middle;
+  }
+  .hide{
+    display:none;
+  }
+  ::-webkit-scrollbar{
+    width: 0;
+    height: 0;
+    color: transparent;
+  }
 </style>
 <template>
     <view>
+      <scroll-view scroll-y="true" style="height:100vh;position:absolute;" @scroll="scroll" scroll-top="{{scrollTop}}">
       <image mode="widthFix" class="immed" src="../assets/immed.png"></image>
       <!--<view class="guaFen">-->
         <!--<swiper class="swiper_container" vertical="true" autoplay="true" circular="true" interval="1000">-->
@@ -250,10 +270,15 @@
           </view>
         </view>
       </view>
-      <view class="sharely">
-        <button  open-type="share" class="leftShare">立即分享</button>
-        <view @tap="myBag" class="rightShare">我的红包</view>
+      <view class="sharely {{scrollTop>=600 ? 'hide': ''}}" >
+        <button  open-type="share" class="leftShare">
+          <image class="openMini" src="../assets/shareFriend.png"></image>
+        </button>
+        <view @tap="myBag" class="rightShare">
+          <image class="openMini" src="../assets/openMini.png"></image>
+        </view>
       </view>
+      </scroll-view>
     </view>
 </template>
 
@@ -268,9 +293,13 @@
           navigationBarTextStyle: ''
         };
         data = {
-          cityId:{}
+          cityId: {},
+          scrollTop: 0
         };
         methods = {
+          scroll(e) {
+            this.scrollTop = e.detail.scrollTop
+          },
             onShareAppMessage (res) {
               if (res.from === 'button') {
                 // 来自页面内转发按钮
@@ -281,23 +310,23 @@
                 path: 'pages/present'
               }
             },
-          myBag(){
-            wx.navigateTo({
-              url:'mine/myBag'
+          myBag() {
+            wepy.switchTab({
+              url: '/pages/first'
             })
           }
         };
-      getVolRemaining(){
+      getVolRemaining() {
         const {latitude, longitude} = this.$parent.globalData.locationMap
         if (latitude && longitude) {
           this.params = {
             lat: latitude,
             lon: longitude
-          };
+          }
           getVolRemaining({data:this.params, cityId:this.$parent.globalData.cityId.id}).then(res =>{
             this.cityId = res.data;
             this.$apply()
-          });
+          })
         }
       }
       onLoad(){
