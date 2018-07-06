@@ -99,6 +99,13 @@
     float: right;
     flex:1;
   }
+  .newsCoup{
+    position: absolute;
+    top:30rpx;
+    left:82rpx;
+    width: 67rpx;
+    height: 67rpx;
+  }
 </style>
 
 <template>
@@ -138,7 +145,7 @@
             <view class="wrapper">
               <view class="footprints" @tap.stop="footprint({{item.id}})">
               <image class="active" src="{{item.avatarUrl}}"></image>
-              <image wx:if="{{item.isNew===true}}" class="newCoupon" src="../assets/newCoupon.png"></image>
+              <image wx:if="{{item.isNew}}" class="newCoupon" src="../assets/newCoupon.png"></image>
                <view class="font-Title">
                 <view class="distanting">
                 <view class="Lady">{{item.name}}</view>
@@ -203,7 +210,7 @@
             <view class="item_list" @tap="downDetail({{item.id}})">
               <view class="item_move">
                 <image class="active" src="{{item.avatarUrl}}"></image>
-                <image wx:if="{{item.isNew === true}}" class="newCoupon" src="../assets/newCoupon.png"></image>
+                <image wx:if="{{item.isNew}}" class="newsCoup" src="../assets/newCoupon.png"></image>
                 <view class="distanting">
                   <view class="Lady"><text>{{item.name}}</text> <text class="distant">{{item.distance}}</text></view>
                   <view class="beauty-1">
