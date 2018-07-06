@@ -283,7 +283,7 @@
     font-weight:bold;
     caret-color:#1eafff;
     font-size:104rpx;
-    min-height:144rpx;
+    min-height:140rpx;
     align-self: center;
   }
 </style>
@@ -298,7 +298,7 @@
       <view class="amount">
         <text class="money">￥</text>
         <input value="{{searchinput}}" class="InputMoney" placeholder-class="inputShopp" placeholder="输入消费金额" type="digit" maxlength="9" @input="bindKeyInput"  auto-focus/>
-        <image @tap="setValue" class="Eliminate" src="../../assets/Eliminate.png"></image>
+        <image wx:if="{{searchinput}}" @tap="setValue" class="Eliminate" src="../../assets/Eliminate.png"></image>
       </view>
       <view class="payAmount">请向收银员询问支付金额</view>
     </view>
