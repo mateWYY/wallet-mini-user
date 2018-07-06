@@ -135,7 +135,7 @@
         </view>
         <view class="rent">
           <text class="shopping">不可优惠金额:</text>
-          <input class="useInput" value="{{valueInput}}" type="digit" maxlength="9"  @input="bindInput" placeholder="询问服务员后输入" auto-focus/>
+          <input class="useInput" value="{{valueInput}}" type="digit" maxlength="9"  @input="bindInput" placeholder="询问服务员后输入"/>
         </view>
       </view>
       <view class="hongWrapper">

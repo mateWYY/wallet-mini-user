@@ -213,23 +213,6 @@
     font-size:24rpx;
     color:#fff;
   }
-  /*.openL{*/
-    /*position: relative;*/
-    /*top:16rpx;*/
-    /*height:1px;*/
-    /*border-bottom:dashed 1px #e6e6e6;*/
-  /*}*/
-  /*.shang{*/
-    /*width: 85px;*/
-    /*height: 21px;*/
-    /*font-size:22rpx;*/
-    /*color: #999999;*/
-    /*text-align:center;*/
-    /*background:#fff;*/
-    /*position:absolute;*/
-    /*left:40%;*/
-    /*right:0;*/
-  /*}*/
   .linear{
     background-image:linear-gradient(-30deg, #ff4552 0%, #ff4a6f 100%);
     width:100%;
@@ -376,8 +359,6 @@
               </view>
             </repeat>
           </view>
-          <!--<view class="openL"></view>-->
-          <!--<view class="shang">尚未开始</view>-->
         </scroll-view>
       </view>
     </view>
@@ -478,12 +459,12 @@
         this.showView = false
       },
       bindKeyInput(e){
-        this.searchinput = e.detail.value;
-        this.$parent.globalData.value = e.detail.value;
-        if(this.searchinput!==''){
+        this.searchinput = e.detail.value
+        this.$parent.globalData.value = e.detail.value
+        if(this.searchinput > 0) {
           this.telephone = true
         }else{
-          this.telephone = false;
+          this.telephone = false
         }
       },
       onState(){
