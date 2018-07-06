@@ -152,7 +152,7 @@
         </view>
         <view class="honb clear">
           <text class="ball">实付金额</text>
-          <text class="early">{{payNum}}</text>
+          <text  class="early">{{payNum}}</text>
         </view>
       </view>
       <view class="applyWrapp">
@@ -181,19 +181,29 @@
           value: ''
         }
       computed = {
-        flagcount(){
-          return (this.value *100)>=(this.redsList.attainAmount)*100
+        flagcount() {
+          return (this.value * 100) >= (this.redsList.attainAmount) * 100
         },
-        payNum(){
-          if(this.flagcount){
+        payNum() {
+          if (this.flagcount) {
             let numprs = Number(this.valueInput) + Number(this.value) - this.redsList.amount
-            console.log(numprs)
-            return this.toDecimal2(numprs)
-          }else{
-            return this.toDecimal2(Number(this.value) + Number(this.valueInput))
+            // return this.toDecimal2(numprs)
+            if (isNaN(numprs)) {
+              return '0.00'
+            } else {
+              return this.toDecimal2(numprs)
+            }
+          } else {
+            let numprs11 = this.toDecimal2(Number(this.value) + Number(this.valueInput))
+            if (isNaN(numprs11)) {
+              return '0.00'
+            } else {
+              return this.toDecimal2(Number(this.value) + Number(this.valueInput))
+            }
+            // return this.toDecimal2(Number(this.value) + Number(this.valueInput))
           }
         },
-        payNum2(){
+        payNum2() {
           return this.toDecimal2(Number(this.valueInput) + Number(this.value))
         }
       };
@@ -211,12 +221,12 @@
         return s
       }
         methods = {
-          bindKeyInput(e){
-            this.value = e.detail.value;
-            this.$parent.globalData.value = e.detail.value;
+          bindKeyInput(e) {
+              this.value = e.detail.value
+              this.$parent.globalData.value = e.detail.value;
           },
-          bindInput(e){
-            this.valueInput = e.detail.value;
+          bindInput(e) {
+              this.valueInput = e.detail.value
           },
           // 去支付
           onPay(){
