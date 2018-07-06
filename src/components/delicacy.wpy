@@ -148,7 +148,7 @@
                 </view>
                 <view class="minFather-1" wx:if="{{item.userWallets.length>0}}">
                   <view class="minte-1">
-                    <image class="shopBag" src="../assets/shopBag.png"></image>
+                    <image class="shopBag" src="../assets/yellowBag.png"></image>
                     <repeat for="{{item.userWallets}}" item="item">
                       已领￥{{item.amount}}元红包(满{{item.attainAmount}}可用)
                     </repeat>
@@ -156,7 +156,7 @@
                 </view>
                 <view class="minFather-1" wx:if="{{!item.userWallets.length}}">
                   <view class="minte-1">
-                    <image class="shopBag" src="../assets/shopBag.png"></image>
+                    <image class="shopBag" src="../assets/yellowBag.png"></image>
                     暂无可用红包
                   </view>
                   <!--<text class="minte">当前人气{{item.ordersCount}}</text>-->
@@ -212,7 +212,7 @@
                   </view>
                   <view class="minFather-1" wx:if="{{item.userWallets.length>0}}">
                     <view class="minte-1">
-                      <image class="shopBag" src="../assets/shopBag.png"></image>
+                      <image class="shopBag" src="../assets/yellowBag.png"></image>
                       <repeat for="{{item.userWallets}}" item="item">
                         已领￥{{item.amount}}元红包(满{{item.attainAmount}}可用)
                       </repeat>
@@ -220,7 +220,7 @@
                   </view>
                   <view class="minFather-1" wx:if="{{!item.userWallets.length}}">
                     <view class="minte-1">
-                      <image class="shopBag" src="../assets/shopBag.png"></image>
+                      <image class="shopBag" src="../assets/yellowBag.png"></image>
                       暂无可用红包
                     </view>
                   </view>

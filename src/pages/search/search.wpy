@@ -131,16 +131,25 @@
    .basc{
      padding-right:14rpx;
    }
+  .icon-guanbi1{
+    color:#666;
+    position: absolute;
+    top: 14rpx;
+    right:137rpx;
+    bottom:0;
+    z-index:100;
+  }
 </style>
 <template>
    <view>
     <view class="search">
       <input value="{{inputVal}}" maxlength="30" @input="inputTyping" @confirm="toSearch" class="inputPage" confirm-type="搜索" placeholder="搜索" autofocus/>
       <text  value="{{inputVal}}" @tap="souValue" class="see iconfont icon-sousuo"></text>
-      <text @tap="clearInput" class="sear">取消</text>
+      <text wx:if="{{inputVal}}" @tap="closeInputVal" class="iconfont icon-guanbi1"></text>
+      <text  @tap="clearInput" class="sear">取消</text>
     </view>
      <!--删除搜索记录-->
-    <view  class="history">
+    <view class="history">
        <view class="histWrapper" wx:if="{{searchLogs.length}}">
          <text class="hist">历史搜索</text>
          <text @tap="clearSearchStorage" class="iconfont icon-shanchu"></text>
@@ -193,11 +202,14 @@
           searchLogs: []
         };
         methods = {
-          //监听input输入框//
-          toSearch(e){
+          // 监听input输入框//
+          closeInputVal () {
+            this.inputVal = ''
+          },
+          toSearch(e) {
             this.inputVal = e.detail.value
             wepy.navigateTo({
-              url:`foodsList?vcn=${this.inputVal}`
+              url: `foodsList?vcn=${this.inputVal}`
             })
           },
           roast(vcn){
