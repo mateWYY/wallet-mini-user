@@ -31,10 +31,6 @@
   color: #666;
   flex:1;
   height:90rpx;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
 }
   .Location{
    display: flex;

@@ -1,7 +1,7 @@
 // noinspection JSAnnotator
 import wepy from 'wepy';
-const host = 'https://coupon.test.mihutime.com';
-// const host = 'http://itimego.com'
+// const host = 'https://coupon.test.mihutime.com';
+const host = 'https://itimego.com'
 let token = wx.getStorageSync('token');
 const wxRequest = (params = {}, url) => {
   let token = wepy.getStorageSync('token');

@@ -208,11 +208,11 @@
         }
       };
       toDecimal2(x){
-        let f=Math.round(x*100)/100;
-        let s=f.toString();
-        let rs=s.indexOf('.');
+        let f=Math.round(x*100)/100
+        let s=f.toString()
+        let rs=s.indexOf('.')
         if(rs<0){
-          rs = s.length;
+          rs = s.length
           s += '.'
         }
         while(s.length<=rs+2){
@@ -222,11 +222,13 @@
       }
         methods = {
           bindKeyInput(e) {
-              this.value = e.detail.value
-              this.$parent.globalData.value = e.detail.value;
+              const amount = e.detail.value.replace(/^\./g, '0.')
+              this.value = amount
+              this.$parent.globalData.value = this.value = amount
           },
           bindInput(e) {
-              this.valueInput = e.detail.value
+              const amount = e.detail.value.replace(/^\./g, '0.')
+              this.valueInput = amount
           },
           // 去支付
           onPay(){

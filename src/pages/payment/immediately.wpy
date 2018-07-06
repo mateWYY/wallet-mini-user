@@ -455,13 +455,14 @@
         })
       },
       redPacket(){
-        this.unRedView = true;
+        this.unRedView = true
         this.showView = false
       },
-      bindKeyInput(e){
-        this.searchinput = e.detail.value
-        this.$parent.globalData.value = e.detail.value
-        if(this.searchinput > 0) {
+      bindKeyInput(e) {
+        const amount = e.detail.value.replace(/^\./g, '0.')
+        this.searchinput = amount
+        this.$parent.globalData.value = this.searchinput
+        if (this.searchinput > 0) {
           this.telephone = true
         }else{
           this.telephone = false

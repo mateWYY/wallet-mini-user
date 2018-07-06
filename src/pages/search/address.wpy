@@ -18,17 +18,17 @@
     text-align: center;
   }
   .national{
-    height: 80rpx;
-    line-height: 80rpx;
+    font-size: 24rpx;
+    font-weight: normal;
+    font-stretch: normal;
+    color: #666666;
+    padding:30rpx 0 30rpx 25rpx;
     border-bottom: 1px solid #efefef;
-    font-size: 28rpx;
-    color: #333;
-    padding-left: 25rpx;
     background:#f9f9f9;
   }
   .city_locate_title{
     color: #999;
-    padding:28rpx 25rpx;
+    padding:28rpx 25rpx 0;
     font-size:24rpx;
     display:inline-block;
   }
@@ -90,12 +90,12 @@
     <view class='city_left'>
       <view class='city_locate' data-types='locate'>
         <text class='city_locate_title'>当前地理位置:{{address.city}}</text>
-        <view class="addre">
-          <text class="locat" @tap="locationTo">{{location.desc}}</text>
-          <view @tap="getLocate" class='city_locate_text'>
-            <image class="ding" src="../../assets/ding.png"></image>重新定位
-          </view>
-        </view>
+        <!--<view class="addre">-->
+          <!--<text class="locat" @tap="locationTo">{{location.desc}}</text>-->
+          <!--<view @tap="getLocate" class='city_locate_text'>-->
+            <!--<image class="ding" src="../../assets/ding.png"></image>重新定位-->
+          <!--</view>-->
+        <!--</view>-->
       </view>
       <view class='national' data-types='national'>已开通服务城市</view>
       <view class="cityWrapper">
