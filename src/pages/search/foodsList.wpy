@@ -293,15 +293,24 @@
   .distanceSelect{
     color: #ff4552;
   }
+  .icon-guanbi1{
+    color:#666;
+    position: absolute;
+    top: 14rpx;
+    right:90rpx;
+    bottom:0;
+    z-index:100;
+  }
 </style>
 
 <template>
   <view class="foodList {{selectPersonShow ? 'foodList_hidden' : ''}}">
     <view class="foodList-top">
       <view class="search">
-        <input  maxlength="30" @confirm='toSearch'  class="inputPage"
+        <input  maxlength="30" @confirm='toSearch' @input="inputTyping"  class="inputPage"
                confirm-type="搜索" placeholder="搜索"  value="{{params.keyword}}"/>
         <text class="see iconfont icon-sousuo"></text>
+        <text wx:if="{{params.keyword}}" @tap="closeInputVal" class="iconfont icon-guanbi1"></text>
       </view>
       <!--店铺福袋列表-->
       <view class="AllType">
@@ -434,12 +443,16 @@
       }
     }
     methods = {
+      inputTyping(e) {
+        this.params.keyword = e.detail.value
+      },
+      closeInputVal (e) {
+        this.params.keyword = ''
+      },
       //监听input输入框//
       toSearch(e){
-        console.log(this.params.keyword)
         this.params.keyword = e.detail.value
         if(this.params.keyword){
-          console.log(this.params.keyword)
           this.getAllStores(true)
         }
       },
