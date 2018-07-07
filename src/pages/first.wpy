@@ -198,6 +198,7 @@
         wepy.pageScrollTo({
           scrollTop: 0
         })
+        this.checkCor()
         wepy.hideLoading()
       },
       userCity(){
@@ -229,24 +230,23 @@
       },
       bindPickerChange (e) {
         this.index = e.detail.value
-      },
-//      /***点击tab切换**/
-//      swichNav(index) {
-//        this.currentTab = index
-//        this.$apply()
-//      },
-//       scroll (e) {
-//         this.scrollTop = e.detail.scrollTop
-//       }
+      }
+      // /*** 滑动切换tab*/
+      // bindChange(e) {
+      //   let that = this;
+      //   that.currentTab = e.detail.current;
+      //   this.checkCor();
+      //   this.$apply()
+      // }
     };
-    // // 判断当前滚动超过一屏时,设置tab标题滚动条
-    // checkCor() {
-    //   if (this.currentTab > 4) {
-    //     this.scrollLeft = 300
-    //   } else {
-    //     this.scrollLeft = 0
-    //   }
-    // }
+    // 判断当前滚动超过一屏时,设置tab标题滚动条
+    checkCor() {
+      if (this.selectTab >= 3) {
+        this.scrollLeft = 300
+      } else {
+        this.scrollLeft = 0
+      }
+    }
   };
 </script>
 

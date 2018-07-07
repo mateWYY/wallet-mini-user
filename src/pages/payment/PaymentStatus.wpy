@@ -174,15 +174,15 @@
     <view class="PaymentStatus">
      <view class="Operation">
         <view class="operatFather">
-             <image wx:if="{{orderSuccess.status===2}}" class="operat" src="../../assets/operation.png"></image>
-             <image wx:if="{{orderSuccess.status!==2}}" class="operat" src="../../assets/paymentFail.png"></image>
+             <image wx:if="{{orderSuccess.status===3}}" class="operat" src="../../assets/operation.png"></image>
+             <image wx:if="{{orderSuccess.status!==3}}" class="operat" src="../../assets/paymentFail.png"></image>
         </view>
          <view class="eight">
              <view class="suc">{{orderSuccess.statusText}}</view>
             <view><text class="coin">￥</text><text class="cess">{{orderSuccess.totalAmount}}</text></view>
          </view>
         <view class="Style">
-            <view class="Member" wx:if="{{orderSuccess.status===2}}">
+            <view class="Member" wx:if="{{orderSuccess.orderWalletAmount}}">
                 <text class="titStyle">红包优惠金额</text>
                 <text class="val">-￥{{orderSuccess.orderWalletAmount}}</text>
             </view>
@@ -197,7 +197,7 @@
         </view>
      </view>
          <view class="lever">
-             <view style="text-align: center;margin:30rpx auto;">
+             <view style="text-align:center;margin:30rpx auto;">
                <text class="consum">本次消费获得</text>
                <view class="line"></view>
              </view>
@@ -249,7 +249,8 @@
         events = {};
       getOrderSuccess(id){
         getOrderSuccess({id:id}).then(res=>{
-          this.orderSuccess = res.data;
+          this.orderSuccess = res.data
+          console.log(this.orderSuccess)
           this.$apply()
         });
       }

@@ -91,7 +91,7 @@
                 <text class="three">{{syncTitle.wallet[index].attainAmount}}</text>
                 <text class="up"></text>
               </view>
-              <text wx:if="{{syncTitle.wallet[0].getNumber>=0}}" class="already">已抢{{syncTitle.wallet[0].getNumber}}人
+              <text wx:if="{{syncTitle.wallet[0].getNumber>0}}" class="already">已抢{{syncTitle.wallet[0].getNumber}}人
               </text>
             </view>
           </view>
