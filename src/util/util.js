@@ -19,6 +19,8 @@ const wxRequest = (params = {}, url) => {
         if (res.statusCode === 422) {
           // return resolve(res)
           return reject(res.data)
+        } if (res.statusCode === 401) {
+           wx.removeStorageSync('token')
         } else {
           return resolve(res)
         }
