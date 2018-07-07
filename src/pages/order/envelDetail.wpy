@@ -21,7 +21,7 @@
     font-size:13px;
     color:#666;
     text-align: center;
-    padding:0 0 20rpx;
+    padding:0 0 16rpx;
   }
   .sum{
     font-size:30rpx;
@@ -31,8 +31,8 @@
   .element{
     color:#333333;
     font-size:60rpx;
-    text-align: center;
-    padding:46rpx 0 0;
+    text-align:center;
+    padding:46rpx 0 36rpx;
   }
   .level{
     border:1px solid #ff274a;

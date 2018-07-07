@@ -12,11 +12,7 @@
   padding:30rpx 30rpx 0;
   margin-bottom:20rpx;
 }
-/*.Lady {*/
-  /*color: #333;*/
-  /*font-size: 13px;*/
-  /*flex:1;*/
-/*}*/
+
 .topSquare{
   display:flex;
   border-bottom:1px solid #f2f2f2;
@@ -219,7 +215,7 @@
     }
     .Lady{
       color: #333;
-      font-size:13px;
+      font-size:30rpx;
       flex:1;
     }
     .minte{

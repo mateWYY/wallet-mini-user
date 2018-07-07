@@ -316,6 +316,7 @@
     color: #333;
     font-size: 13px;
     flex:1;
+    font-weight: bold;
   }
   .beauty-1 {
     font-size:20rpx;
@@ -366,6 +367,9 @@
   .mine-red{
     width:100%;
     height:214rpx;
+  }
+  .iconfont{
+    color:#666;
   }
 </style>
 <template>
