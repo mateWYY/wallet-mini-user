@@ -88,6 +88,9 @@
     border-bottom:1px solid #f2f2f2;
     padding-bottom:20rpx;
   }
+  .leftTilte{
+    display: flex;
+  }
 </style>
 
 <template>
@@ -99,10 +102,16 @@
           <image wx:if="{{item.isNew}}" class="newCoupon" src="../../assets/newCoupon.png"></image>
         <view class="font-Title">
           <view class="distance">
-            <view class="Lady">{{item.name}}</view>
-            <view class="beauty-1">
-              <!--<image class="shops" mode='widthFix' src="../../assets/shops-1.png"></image>-->
-              {{item.categoryText}}
+            <view class="leftTilte">
+            <view style="flex:1;">
+              <view class="Lady">{{item.name}}</view>
+              <view class="beauty-1">{{item.categoryText}}</view>
+            </view>
+            <view class="goBuy">
+              <view class="buys" wx:if="{{item.isWallet}}" @tap.stop="buysImmedly({{item.id}})">
+                <view>去买单</view>
+              </view>
+            </view>
             </view>
             <view class="minFather" wx:if="{{item.userWallets.length>0}}">
               <view class="minte">
@@ -111,21 +120,16 @@
                   已领￥{{item.amount}}元红包(满{{item.attainAmount}}可用)
                 </repeat>
               </view>
+              <text class="min">距离{{item.distance}}</text>
             </view>
             <view class="minFather" wx:if="{{!item.userWallets.length}}">
               <view class="minte">
                 <image class="shopBag" src="../../assets/yellowBag.png"></image>
                 暂无可用红包
               </view>
-              <!--<text class="minte">当前人气{{item.ordersCount}}</text>-->
+              <text class="min">距离{{item.distance}}</text>
             </view>
           </view>
-          <view class="goBuy">
-          <view class="buys" wx:if="{{item.isWallet}}" @tap.stop="buysImmedly({{item.id}})">
-            <view>去买单</view>
-          </view>
-          <text class="min">距离{{item.distance}}</text>
-        </view>
         </view>
       </view>
     </view>

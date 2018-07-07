@@ -52,7 +52,7 @@
     color:#666666;
     padding:20rpx 30rpx;
     text-align: center;
-    border-bottom:1px dashed #fafafa;
+    border-bottom:1px dashed #f2f2f2;
   }
   .useWrapper{
     font-size:22rpx;

@@ -10,6 +10,7 @@
   .Lady{
     color: #333;
     font-size:13px;
+    font-weight: bold;
   }
   .beauty-1 {
     font-size:10px;
@@ -43,6 +44,8 @@
     font-size:0;
     flex: 1;
     color:#666;
+    border-bottom:1px solid #f2f2f2;
+    padding-bottom:10rpx;
   }
   .shops{
     width: 20rpx;
@@ -58,8 +61,7 @@
   }
   .footprints{
     display: flex;
-    padding:20rpx 0;
-    border-bottom:1px solid #f2f2f2;
+    padding:12rpx 0;
     background:#fff;
   }
   .shopBag{

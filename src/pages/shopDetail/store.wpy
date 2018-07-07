@@ -19,14 +19,14 @@
   padding-bottom: 25rpx;
 }
 .beauty-1 {
-  font-size:20rpx;
+  font-size:24rpx;
   color:#666;
 }
 .minte-1{
-  font-size:20rpx;
+  font-size:24rpx;
   color: #666;
   flex:1;
-  height:101rpx;
+  height:56rpx;
 }
   .Location{
    display: flex;
@@ -530,7 +530,8 @@
   }
   .LadyGaga{
     display: flex;
-    height:40rpx;
+    height:50rpx;
+    padding-top:16rpx;
   }
   .shareBtn{
     background-color: transparent;
@@ -641,7 +642,7 @@
               <view class="Lady">{{stores.name}}</view>
               <!--<text class="iconfont icon-fenxiang"></text>-->
             </view>
-            <view class="minte-1"><text wx:if="{{stores.description!=null}}">{{stores.description}}</text></view>
+            <view class="minte-1"><text wx:if="{{stores.description!=null}}">{{sliceDown}}</text></view>
             <view class="beauty-1">
               <!--<text class="iconfont icon-dianpu" style="width:24rpx;height:22rpx;color:#666;vertical-align: middle"></text>-->
               {{stores.categoryText}}
@@ -842,6 +843,11 @@
         isChecked: false,
         draws: {}
       };
+      computed = {
+        sliceDown () {
+          return this.stores.description ? this.stores.description.slice(0, 20) : ''
+        }
+      }
         methods = {
           move(e) {
             // console.log(e)

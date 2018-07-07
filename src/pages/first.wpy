@@ -268,7 +268,7 @@
 
   .footprints {
     display: flex;
-    padding: 10rpx 0;
+    padding: 12rpx 0;
     background: #fff;
     position: relative;
   }
@@ -617,15 +617,15 @@
     height: 80rpx;
     line-height:70rpx;
     background:#fff;
-    padding: 0 30rpx;
+    padding:0 30rpx;
   }
   .swiper-tab-list {
     font-size: 26rpx;
     display: inline-block;
     flex: 1;
     color: #333;
-    margin-right: 46rpx;
-    position: relative;
+    margin-right:46rpx;
+    /*position: relative;*/
   }
   .on {
     color: #ff4552;
@@ -695,8 +695,7 @@
     line-height: 53rpx;
     text-align: center;
     align-self: center;
-    flex: 1;
-    margin-bottom: 19rpx;
+    flex:1;
   }
 
   /*弹框*/
@@ -840,8 +839,8 @@
 
   .goBuy {
     text-align: right;
-    align-self: center;
-    vertical-align: middle;
+    /*align-self: center;*/
+    /*vertical-align: middle;*/
     font-size: 0;
   }
 
@@ -850,7 +849,7 @@
     top:0;
     left: 0;
     z-index: 100;
-    width: 100%;
+    width:700rpx;
     white-space: nowrap;
     display: flex;
     align-items:center;
