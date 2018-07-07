@@ -55,11 +55,10 @@
     color: #33a1ff;
   }
   .shopmon{
-    width: 36rpx;
+    width: 31rpx;
     height: 36rpx;
     border-radius:2rpx;
     padding-right:20rpx;
-    /*align-self: center;*/
     vertical-align:middle;
   }
 .lucky-bag{
@@ -217,6 +216,7 @@
       color: #333;
       font-size:30rpx;
       flex:1;
+      font-weight:bold;
     }
     .minte{
       font-size:20rpx;

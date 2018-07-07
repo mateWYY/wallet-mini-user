@@ -167,15 +167,6 @@
   .yes{
     flex:1;
   }
-  .beautyfily{
-    background:#fafafa;
-    align-self:center;
-    font-size:10px;
-    color:#666;
-    display:inline-block;
-    padding-right:15rpx;
-  }
-
   /*全部类型*/
   .AllType {
     display: flex;

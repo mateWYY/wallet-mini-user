@@ -7,11 +7,8 @@
     padding:0 20rpx;
   }
   .Apply{
-    color:#fff;
-    background: #ff4552;
     margin:100rpx 30rpx 0;
     font-size:28rpx;
-    box-shadow: 0 0 4px #ff4552;
   }
   .radio-group{
     font-size: 26rpx;
@@ -51,6 +48,29 @@
     padding:0 30rpx 22rpx 0;
     text-align: right;
   }
+  .buttonable {
+    border-radius: 5px;
+    background-image: -moz-linear-gradient(120deg, rgb(225, 19, 34) 0%, rgb(255, 69, 82) 100%);
+    background-image: -webkit-linear-gradient(120deg, rgb(225, 19, 34) 0%, rgb(255, 69, 82) 100%);
+    background-image: -ms-linear-gradient(120deg, rgb(225, 19, 34) 0%, rgb(255, 69, 82) 100%);
+    box-shadow: 0 0 10px 0 rgba(255, 69, 82, 0.57);
+    height: 80rpx;
+    line-height: 80rpx;
+    background: #ff4552;
+    color: #fff;
+    margin: 0 30rpx;
+    font-size: 28rpx;
+  }
+
+  .buttondisable {
+    border-radius: 5px;
+    height: 80rpx;
+    line-height: 80rpx;
+    background: #e6e6e6;
+    color: #999;
+    font-size: 28rpx;
+    margin: 0 30rpx;
+  }
 </style>
 
 <template>
@@ -67,12 +87,14 @@
 
       <view class="need">请补充详细问题和意见</view>
       <view class="section">
-        <textarea name="area"  @input="bindWordLimit"  placeholder=""/>
+        <textarea name="area" maxlength="140" value="{{Limitvalue}}" @input="bindWordLimit"  placeholder=""/>
         <view class="wordLimit">{{currentNoteLen|0}}/{{noteMaxLen}}</view>
       </view>
       <view class="need">输入你的联系方式</view>
       <input value="{{phoneTel}}" @change="phones" class="loginput" type="number" placeholder="输入你的联系电话"/>
-      <button class="Apply" @tap="submit">提交</button>
+      <view class="Apply">
+        <button  class="{{Limitvalue ? 'buttonable': 'buttondisable'}}" @tap="submit">提交</button>
+      </view>
   </view>
 </template>
 
@@ -102,14 +124,10 @@
       },
       //  字数限制
       bindWordLimit(e){
-        let value = e.detail.value;
-        this.Limitvalue = value;
-        let len = parseInt(value.length);
+        this.Limitvalue = e.detail.value;
+        let len = parseInt(this.Limitvalue.length);
         if(len>this.data.noteMaxLen) return;
-        this.setData({
-          currentNoteLen:len
-          //当前字数
-        })
+        this.currentNoteLen = len //当前字数
       },
       submit(e) {
         let phone = this.phoneTel;
