@@ -17,13 +17,13 @@
         <view class="swiper-tab">
           <view class="swiper-tab-list {{selectTab == 0? 'on' : ''}}" @tap="swichNav(0)">推荐</view>
           <repeat for="{{Catego}}" item="item">
-            <view class="swiper-tab-list {{selectTab == item.id ? 'on' : ''}}" @tap="swichNav({{item.id}})">
-              {{item.name}}
-            </view>
+            <view class="swiper-tab-list {{selectTab == item.id ? 'on' : ''}}" @tap="swichNav({{item.id}})">{{item.name}}</view>
           </repeat>
+          <view class="swiperList"></view>
           <text @tap="targetTopPopup" class='fication iconfont icon-fenlei'></text>
         </view>
       </scroll-view>
+
       <!--全部分类弹框-->
       <view wx:if="{{showapp}}"  @tap="closePopup">
         <view class="commodity_screen"></view>
@@ -594,13 +594,13 @@
   .fication {
     position: fixed;
     right: 0;
-    height: 0;
+    height:0;
     border: 15px solid #fff;
     color: #666;
     line-height: 0;
     text-align: center;
     z-index: 1000;
-    opacity: .8;
+    /*opacity: .8;*/
     padding-top:10rpx;
   }
   .see {
@@ -625,7 +625,14 @@
     flex: 1;
     color: #333;
     margin-right:46rpx;
-    /*position: relative;*/
+  }
+  .swiperList{
+    font-size: 26rpx;
+    display: inline-block;
+    flex: 1;
+    color: #333;
+    margin-right:46rpx;
+    /*padding-right:30rpx;*/
   }
   .on {
     color: #ff4552;
@@ -849,12 +856,12 @@
     top:0;
     left: 0;
     z-index: 100;
-    width:700rpx;
+    width:100%;
     white-space: nowrap;
     display: flex;
     align-items:center;
     background: #fff;
-    margin-top:80rpx;
+    margin:80rpx 0 0;
   }
   .place {
     padding-left: 50rpx;

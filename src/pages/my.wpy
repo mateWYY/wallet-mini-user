@@ -197,8 +197,8 @@
     color: #ff4552;
   }
   .footprint {
-    width:40rpx;
-    height:40rpx;
+    width:50rpx;
+    height:50rpx;
   }
   /*.setUp {*/
     /*display:flex;*/
@@ -452,7 +452,7 @@
       </view>
       <view class="Receive">
         <navigator class="ReceiveChild" url="../pages/mine/cooperation" hover-class="none">
-          <image class="footprint" src="../assets/Record.png"></image>
+          <image class="footprint" src="../assets/cooperation.png"></image>
           <view>加盟合作</view>
         </navigator>
         <navigator class="ReceiveChild" url="../pages/mine/feedback" hover-class="none">
