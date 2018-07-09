@@ -608,7 +608,7 @@
   .fication {
     position: fixed;
     right: 0;
-    height:0;
+    height:10rpx;
     background:#fff;
     border:15px solid #fff;
     color: #666;

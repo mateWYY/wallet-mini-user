@@ -19,8 +19,14 @@
   padding-bottom: 25rpx;
 }
 .beauty-1 {
+  padding:6rpx 9rpx;
   font-size:24rpx;
   color:#666;
+  height:30rpx;
+  line-height:30rpx;
+  background-color:#f2f2f2;
+  border-radius:5rpx;
+  text-align: center;
 }
 .minte-1{
   font-size:24rpx;
@@ -62,14 +68,13 @@
     vertical-align:middle;
   }
 .lucky-bag{
- background:#fff;
+  background:#fbf4e5;
+  padding:30rpx 30rpx 36rpx;
 }
 .lucky-top{
   display:flex;
-  padding:8rpx 0 16rpx;
-  margin:0 30rpx 0;
   font-size:0;
-  border-bottom:1px solid #f2f2f2;
+  padding-bottom:22rpx;
 }
 .Fourtune{
   color:#333333;
@@ -81,7 +86,7 @@
   .melon{
     padding-left:40rpx;
     padding-right:30rpx;
-    background: #fff;
+    background: #fbf4e5;
   }
   .all{
     flex:1;
@@ -91,8 +96,7 @@
     display: flex;
   }
   .total{
-    flex:1;
-    padding:25rpx 0;
+    /*padding:25rpx 0;*/
   }
   .tit{
     color:#ff4552;
@@ -105,19 +109,19 @@
   .already{
    color:#999999;
    font-size: 20rpx;
-   padding-left:26rpx;
+   padding-left:10rpx;
   }
   .branch{
     border-radius:10rpx;
     border:1px solid #ff4552;
-    color:#ff4552;
+    color:#fff;
     font-size:24rpx;
     /*width:133rpx;*/
     height: 53rpx;
     line-height:53rpx;
     text-align: center;
     align-self:center;
-    background-color:#fff;
+    background-color:#ff274a;
   }
   .graych{
     border-radius:10rpx;
@@ -261,13 +265,8 @@
       margin-bottom:20rpx;
     }
     .allonter{
-      padding:25rpx 0 25rpx 10rpx;
       flex:1;
       font-size:0;
-    }
-    .crust{
-      color:#ff4552;
-      font-size:28rpx;
     }
   .near{
     margin-bottom:20rpx;
@@ -533,12 +532,12 @@
     height:50rpx;
     padding-top:16rpx;
   }
-  .shareBtn{
-    background-color: transparent;
-    border: none;
-    padding:0;
-    line-height:0;
-  }
+  /*.shareBtn{*/
+    /*background-color: transparent;*/
+    /*border: none;*/
+    /*padding:0;*/
+    /*line-height:0;*/
+  /*}*/
   .fenxiang{
     width:160rpx;
     height:78rpx;
@@ -628,9 +627,59 @@
     flex:1;
     align-self: center;
   }
+  .rush{
+    width:66rpx;
+    height:26rpx;
+    vertical-align:middle;
+    align-self:center;
+    padding-left:9rpx;
+  }
+  .requestGif{
+    position: fixed;
+    right:50rpx;
+    bottom:200rpx;
+    background-color: transparent;
+    border: none;
+    padding:0;
+    line-height:0;
+  }
+ .requestGif .request{
+    width:140rpx;
+    height:140rpx;
+  }
+ .rightShop .ordersCount{
+   text-align: center;
+   height: 30rpx;
+   line-height:30rpx;
+   background-color: rgba(255, 165, 0, 0.05);
+   border-radius: 5rpx;
+   font-size: 20rpx;
+   color: #ffa500;
+  }
+ .files{
+   padding:6rpx 9rpx;
+   margin-left:16rpx;
+ }
+  .file{
+    width:16rpx;
+    height:17rpx;
+  }
+  .butt{
+    display: flex;
+  }
+  .indent{
+    position: fixed;
+    right:0;
+    bottom:200rpx;
+    background-color: transparent;
+    border: none;
+    padding:0;
+    line-height:0;
+  }
 </style>
 <template>
     <view>
+      <!--<scroll-view scroll-y="true" style="height:100vh;position:relative;">-->
       <view class="square">
         <view class="topSquare">
           <view class="allPicture" @tap="getPicture({{stores.id}})">
@@ -643,9 +692,12 @@
               <!--<text class="iconfont icon-fenxiang"></text>-->
             </view>
             <view class="minte-1"><text wx:if="{{stores.description!=null}}">{{sliceDown}}</text></view>
-            <view class="beauty-1">
-              <!--<text class="iconfont icon-dianpu" style="width:24rpx;height:22rpx;color:#666;vertical-align: middle"></text>-->
-              {{stores.categoryText}}
+            <view class="butt">
+              <text class="beauty-1">{{stores.categoryText}}</text>
+              <view class="files">
+                <image class="file" src="../../assets/file.png"></image>
+                <text class="ordersCount">当前人气{{stores.ordersCount}}</text>
+              </view>
             </view>
           </view>
         </view>
@@ -717,31 +769,23 @@
         <view class="lucky-top">
           <view class="shopsTitle">
             <image class="shopmon" src="../../assets/shopmon.png"></image>
-            <text class="Fourtune">店铺福袋</text>
+            <text class="Fourtune">福袋大派送</text>
+            <image class="rush" src="../../assets/rush.png"></image>
           </view>
-          <button open-type="share" class="shareBtn">
-            <!--wx:if="{{storeWallet[0].draw_status === 1}}"-->
-            <image class="fenxiang" src="../../assets/share-page.png"></image>
-          </button>
+            <button hover-class="none" class="{{storeWallet[0].draw_status===1? 'branch':'graych'}}" @tap="progress({{storeWallet[0]}})">
+              {{storeWallet[0].drawStatusText}}
+            </button>
         </view>
-        <repeat for="{{storeWallet}}" item="item">
           <view class="melon">
             <view class="other">
               <view class="allonter">
-                <text class="crust">￥{{item.remainingAmount}}</text>
-                <view class="already">剩余金额</view>
+                <view class="already">最大红包￥{{storeWallet[0].maxValue}} | 每天限领{{storeWallet[0].limitNum}}次</view>
               </view>
-              <!--<view class="total">-->
-                <!--<text class="kind">{{item.minValue}}-{{item.maxValue}}元红包</text>-->
-                <!--<view class="already">已抢{{item.getNumber}}人</view>-->
-              <!--</view>-->
-
-                <button hover-class="none" class="{{item.draw_status===1? 'branch':'graych'}}" @tap="progress({{item}})">
-                  {{item.drawStatusText}}
-                </button>
+              <view class="total">
+                <view class="already">{{storeWallet[0].getNumber}}人已领</view>
+              </view>
             </view>
           </view>
-        </repeat>
         <!--抢红包弹框-->
         <view class="hide{{showWrapper ? 'show': ''}}" catchtouchmove="move">
           <view class="commodity_screen"></view>
@@ -796,8 +840,12 @@
             </view>
           </repeat>
         </view>
-
       </view>
+
+      <button open-type="share" class="requestGif {{scrollTop >= 50? 'indent': ''}}" >
+        <!--wx:if="{{storeWallet[0].draw_status === 1}}"-->
+        <image class="request" src="../../assets/request.gif"></image>
+      </button>
       <!--消费须知-->
       <view class="shopping" wx:if="{{stores.consumeNotes.length}}">
         <view class="full">消费须知</view>
@@ -812,12 +860,13 @@
           <!--<Delicious :syncTitle.sync="item" wx:if="{{FindWallet.length}}"></Delicious>-->
         <!--</repeat>-->
       <!--</view>-->
+      <!--</scroll-view>-->
     </view>
 </template>
 <script>
     import wepy from 'wepy';
     import {connect, getStore} from 'wepy-redux'
-    const stores = getStore();
+    const stores = getStore()
     import Delicious from '../../components/Delicious'
     import { getStoreShows, getStoreWallet, getStoreWalletCount, getDraw, getCarousel } from '../../util/util';
     export default class store extends wepy.page {
@@ -841,7 +890,8 @@
         storeId: {},
         carous: {},
         isChecked: false,
-        draws: {}
+        draws: {},
+        scrollTop: 0
       };
       computed = {
         sliceDown () {
@@ -859,8 +909,9 @@
             this.isChecked = true
             let id = this.carous.id
             this.showWrapper = false
-            getDraw({method:'POST',id:id}).then(res =>{
+            getDraw({method: 'POST', id:id}).then(res =>{
               this.draws = res.data
+              console.log(this.draws)
               wx.navigateTo({
                 url:'../../pages/shopDetail/openBag?val='+JSON.stringify(this.draws)
               })
@@ -882,22 +933,22 @@
           // 路线规划
           Gohere(){
             wepy.navigateTo({
-              url:'../../pages/search/Plan?store='+JSON.stringify(this.stores)
+              url: '../../pages/search/Plan?store='+JSON.stringify(this.stores)
             })
           },
-          getPicture(id){
-            if(this.stores.storeBannersNum>0){
-              wx.navigateTo({
-                url:'picture?id='+id
+          getPicture(id) {
+            if (this.stores.storeBannersNum>0){
+              wepy.navigateTo({
+                url: 'picture?id=' + id
               })
             }
           },
-          quicklyUser(id){
-            wx.redirectTo({
-              url:'../payment/bagBuy?id='+id
+          quicklyUser(id) {
+            wepy.redirectTo({
+              url: '../payment/bagBuy?id=' + id
             })
           },
-          onState(){
+          onState() {
             this.unRedView = false
           },
           // 立即使用//
@@ -943,7 +994,7 @@
         };
 
       // 抢红包详情
-      async getCarousel(item){
+      async getCarousel(item) {
         const {latitude, longitude} = this.$parent.globalData.locationMap
         if (latitude && longitude) {
           this.params = {
@@ -960,27 +1011,26 @@
       // 分享页面小程序
       onShareAppMessage (res) {
         const tmpTitle = this.stores
-        if (res.from ==='button') {
+        if (res.from === 'button') {
           // 来自button转发按钮
         }
         return {
           title:tmpTitle.name+'| 邀请你瓜分￥'+ this.storeWallet[0].totalAmount+'元现金红包！点击立即领取',
-          // desc:'这是一段感人的描述',
           imageUrl:"../../assets/shareTu.png",
           path:'/pages/sharePage/Invite?id='+this.storeWallet[0].id,
           success: function(res) {
-            console.log(res);
+            console.log(res)
             wx.showShareMenu({
               // 要求小程序返回分享目标信息
               withShareTicket: true
-            });
+            })
           },
           fail: function(res) {
             console.log(res)
           }
         }
       }
-      getStoreAlls(){
+      getStoreAlls() {
         const {latitude, longitude} = this.$parent.globalData.locationMap
         if (latitude && longitude) {
           this.params = {
@@ -999,8 +1049,9 @@
       getStoreShows(){
         getStoreShows({id:this.storeId, data:this.params}).then(res=>{
           this.stores = res.data
+          console.log(this.stores)
           this.$apply()
-        });
+        })
       }
       // 店铺福袋
       getStoreWallet() {
@@ -1008,7 +1059,7 @@
           this.storeWallet = res.data
           console.log(this.storeWallet)
           this.$apply()
-        });
+        })
       }
 
       // 店铺已领福袋
@@ -1027,10 +1078,14 @@
           this.$apply()
       })
    }
-     onShow(){
+     onShow() {
        this.getStoreAlls()
        this.getStoreWalletCount()
      }
+      onPageScroll (e) {
+        this.scrollTop = e.scrollTop
+        console.log(this.scrollTop)
+      }
       onLoad(opts) {
         const {id} = opts
         this.storeId = id

@@ -640,6 +640,7 @@
         }
       }
       onShow() {
+        this.walletPerage.page = 1
         this.getFindWallet(true)
         getVolById().then(res => {
           this.users = res.data

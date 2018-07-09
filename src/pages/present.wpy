@@ -323,16 +323,16 @@
             lat: latitude,
             lon: longitude
           }
-          getVolRemaining({data: this.params, cityId: this.$parent.globalData.cityId.id}).then(res =>{
-            this.cityId = res.data
+          getVolRemaining({data:this.params, cityId:this.$parent.globalData.cityId.id}).then(res =>{
+            this.cityId = res.data;
             this.$apply()
           })
         }
       }
-      onShow() {
+      onShow(){
         this.getVolRemaining()
       }
-      onLoad() {
+      onLoad(){
         // this.setData({
         //   msgList: [
         //     { url: "url", title: "i***苏刚刚瓜分了店铺红包获得金额￥5.00红包" },
