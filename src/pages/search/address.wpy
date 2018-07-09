@@ -118,9 +118,9 @@
 </template>
 
 <script>
-  import wepy from 'wepy';
+  import wepy from 'wepy'
   let amapFile = require('../../libs/amap-wx.js');
-  import { getCommonLocation, getCommonIs_open } from '../../util/util'
+  import { getCommonIs_open } from '../../util/util'
   export default class address extends wepy.page {
     config = {
       backgroundTextStyle: 'light',
@@ -175,7 +175,7 @@
         })
       }
     };
-    events = {};
+    events = {}
     onMap(res) {
       let myAmapFun = new amapFile.AMapWX({key:'f36b92d5af8a23965483c2b3d80fa233'})
       const self = this
@@ -195,14 +195,9 @@
     onLoad() {
       // 定位//
       this.getLocates()
-      getCommonLocation().then(res => {
-        this.address = res.data
-        this.$apply()
-      });
       // 省市区
       getCommonIs_open().then(res => {
         this.is_open = res.data
-        // console.log(this.is_open);
         this.$apply()
       })
     }
