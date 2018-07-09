@@ -312,9 +312,9 @@
     }
     //领取记录
     getVolDraw(...params){
-      const id = this.category;
+      const id = this.category
       getVolDraw({data:{categoryId: id, 'per-page': 3, page: 1,login: 1, ...params[0]}}).then(res => {
-        this.Draw = res.data;
+        this.Draw = res.data
         this.$apply()
       })
     }
@@ -322,7 +322,7 @@
       const id = this.category;
       const {latitude, longitude} = this.$parent.$parent.globalData.locationMap
       if (latitude && longitude) {
-        const data = {};
+        const data = {}
         if (parseInt(id) !== 0){
           data.categoryId = id
         }

@@ -594,7 +594,7 @@
     font-size:26rpx;
   }
   .random{
-    padding-top:14%;
+    padding-top:100rpx;
     font-size:24rpx;
   }
   .Lead{

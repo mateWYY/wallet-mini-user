@@ -168,7 +168,7 @@
     font-size: 13px;
     height: 30px;
     padding-left: 70rpx;
-    margin-right: 32rpx;
+    /*margin-right: 32rpx;*/
   }
 
   .icon-sousuo {
@@ -362,9 +362,9 @@
       <view class="person_box" @tap="close"></view>
     </view>
     <loadmore :pullUpStatus.sync="haveMore" :loading.sync="loading">
-      <repeat for="{{FindWallet}}" item="item">
-        <Delicious :syncTitle.sync="item" wx:if="{{FindWallet.length}}" :types="-1"></Delicious>
-      </repeat>
+        <repeat for="{{FindWallet}}" item="item">
+          <Delicious :syncTitle.sync="item" wx:if="{{FindWallet.length}}" :types="-1"></Delicious>
+        </repeat>
     </loadmore>
   </view>
 </template>
@@ -451,9 +451,9 @@
         this.params.keyword = ''
       },
       //监听input输入框//
-      toSearch(e){
+      toSearch(e) {
         this.params.keyword = e.detail.value
-        if(this.params.keyword){
+        if (this.params.keyword) {
           this.getAllStores(true)
         }
       },
@@ -492,7 +492,7 @@
         this.selectPersonShow = false
       },
       move(e) {
-//        console.log(e)
+//      console.log(e)
       },
       // 点击切换
       mySelect(e) {
@@ -502,14 +502,14 @@
       },
       close() {
         this.selectPersonShow = false
-      },
+      }
     };
     onPullDownRefresh () {
       wepy.showNavigationBarLoading()
       setTimeout(() => {
-        this.params.page = 1;
+        this.params.page = 1
         this.getAllStores(true)
-        wepy.hideNavigationBarLoading(); // 完成停止加载
+        wepy.hideNavigationBarLoading() // 完成停止加载
         wepy.stopPullDownRefresh() // 停止下拉刷新
       }, 1000)
     }
@@ -522,10 +522,12 @@
       }, 1000)
     }
     onLoad(opt) {
-      if (opt.vcn) this.params.keyword = opt.vcn;
-      this.getAllCategory();
+      if (opt.vcn) {
+        this.params.keyword = opt.vcn
+      }
+      this.getAllCategory()
       this.getAllStores(true)
-    };
+    }
     // Other properties
   }
 </script>
