@@ -298,7 +298,7 @@
     color:#666;
     position: absolute;
     top: 14rpx;
-    right:90rpx;
+    right:60rpx;
     bottom:0;
     z-index:100;
   }
@@ -370,10 +370,10 @@
 </template>
 
 <script>
-  import wepy from 'wepy';
+  import wepy from 'wepy'
   import {getSearchStore, getCommonCategories, getCommonChilds} from '../../util/util'
-  import Delicious from '../../components/Delicious';
-  import loadmore from '../../components/loadmore';
+  import Delicious from '../../components/Delicious'
+  import loadmore from '../../components/loadmore'
   export default class foodsList extends wepy.page {
     config = {
       enablePullDownRefresh: true
@@ -528,8 +528,8 @@
         this.haveMore = false
         this.loading = false
       }
-      this.getAllCategory()
       this.getAllStores(true)
+      this.getAllCategory()
     }
     // Other properties
   }
