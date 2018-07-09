@@ -443,6 +443,9 @@
         if(this.redsList.length) this.userWalletId =  this.redsList[0].id
         getSetOrder({method:'POST',data:{storeId:storeId,orderAmount:orderAmount,userWalletId:this.userWalletId}}).then(res =>{
           this.SetOrder = res.data;
+          this.showView = false
+          this.telephone = false
+          this.searchinput = ''
           wx.navigateTo({
             url: 'onlinePayment?vcd='+ this.SetOrder.id
           })
