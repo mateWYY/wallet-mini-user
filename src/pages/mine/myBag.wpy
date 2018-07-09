@@ -108,7 +108,7 @@
     position:absolute;
     left:0;
     right:0;
-    top:167rpx;
+    top:166rpx;
   }
   .alred{
     width:128rpx;
