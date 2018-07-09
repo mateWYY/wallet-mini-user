@@ -524,6 +524,9 @@
     onLoad(opt) {
       if (opt.vcn) {
         this.params.keyword = opt.vcn
+      } else {
+        this.haveMore = false
+        this.loading = false
       }
       this.getAllCategory()
       this.getAllStores(true)
