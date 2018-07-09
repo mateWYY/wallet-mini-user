@@ -245,7 +245,6 @@
       // 获取历史搜索,热门搜索///
       getVolSearch(){
         getVolSearch().then(res => {
-          console.log(res.data)
           this.searchLogs = res.data.searchLogs
           this.searchhots = res.data.searchHots
           this.$apply()

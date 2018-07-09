@@ -133,7 +133,7 @@
     position: absolute;
     left:0;
     right:0;
-    bottom: 140rpx;
+    bottom: -140rpx;
     z-index:2000;
     overflow:hidden;
     margin:0 auto;
@@ -179,7 +179,7 @@
 
   }
   .commodity-content{
-    height:590rpx;
+    min-height:590rpx;
     position:absolute;
     left:0;
     right:0;
@@ -225,10 +225,14 @@
     word-break:break-all;
     white-space: pre-line;
   }
+  .foodList_hidden{
+    height: 100vh;
+    overflow: hidden;
+  }
 </style>
 
 <template>
-  <view class="Lead">
+  <view class="Lead  {{showView ? '' : 'foodList_hidden'}}">
     <view class="LeadWrapper">
       <image class="sharebeg" src="../../assets/sharebeg.png"></image>
       <image class="mine-bott" src="{{plane.store.avatarUrl}}"></image>
@@ -261,7 +265,7 @@
       </view>
     </view>
     <!--弹框/消费须知-->
-    <view class="{{showView? 'hide': ''}}">
+    <view wx:if="{{!showView}}">
       <view class="commodity_screen"></view>
       <view class="commodity-content">
         <image class="needChild" src="../../assets/lead-tips@2x.png"></image>
@@ -270,9 +274,9 @@
             <view class="break">{{plane.store.consumeNotes}}</view>
           </view>
         </view>
-      </view>
-      <view class="commodity_attr_box" @tap="shareClose">
-        <image class="shareClose" src="../../assets/shareClose.png"></image>
+        <view class="commodity_attr_box" @tap="shareClose">
+          <image class="shareClose" src="../../assets/shareClose.png"></image>
+        </view>
       </view>
     </view>
   </view>
