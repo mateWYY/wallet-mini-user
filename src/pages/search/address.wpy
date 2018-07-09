@@ -89,7 +89,7 @@
   <view class='city_box'>
     <view class='city_left'>
       <view class='city_locate' data-types='locate'>
-        <text class='city_locate_title'>当前地理位置:{{address.city}}</text>
+        <text class='city_locate_title'>当前地理位置:{{addressCtiy.city}}</text>
         <!--<view class="addre">-->
           <!--<text class="locat" @tap="locationTo">{{location.desc}}</text>-->
           <!--<view @tap="getLocate" class='city_locate_text'>-->
@@ -129,10 +129,11 @@
       navigationBarTextStyle: 'black'
     };
     data = {
-      address:[],
+      address: [],
       //下面是城市列表信息这里只是模拟数据
       location:{},
-      is_open:[]
+      is_open:[],
+      addressCtiy: ''
     };
     //调用微信定位
     getLocates(){
@@ -140,9 +141,9 @@
       wx.getLocation({
         type:'gcj02',
         success(res){
-          let latitude = res.latitude;
-          let longitude = res.longitude;
-          self.onMap(res);
+          let latitude = res.latitude
+          let longitude = res.longitude
+          self.onMap(res)
         }
       })
     }
@@ -175,35 +176,32 @@
       }
     };
     events = {};
-    onMap(res){
-      let myAmapFun = new amapFile.AMapWX({key:'f36b92d5af8a23965483c2b3d80fa233'});
-      const self = this;
+    onMap(res) {
+      let myAmapFun = new amapFile.AMapWX({key:'f36b92d5af8a23965483c2b3d80fa233'})
+      const self = this
       myAmapFun.getRegeo({
-        success(data){
+        success(data) {
           //成功回调
-          self.location = data[0];
-          // const {location}= self.location;
-          // this.$parent.globalData.location =location;
-          // console.log(location);
+          self.location = data[0]
+          self.addressCtiy = self.location.regeocodeData.addressComponent
           self.$apply()
         },
-        fail(info){
-          //失败回调/
+        fail(info) {
+          //失败回调//
           console.log(info)
         }
-      });
+      })
     }
     onLoad() {
       // 定位//
-      this.getLocates();
-      getCommonLocation().then(res =>{
-        this.address = res.data;
-        // console.log(this.address);
+      this.getLocates()
+      getCommonLocation().then(res => {
+        this.address = res.data
         this.$apply()
       });
       // 省市区
-      getCommonIs_open().then(res =>{
-        this.is_open = res.data;
+      getCommonIs_open().then(res => {
+        this.is_open = res.data
         // console.log(this.is_open);
         this.$apply()
       })
