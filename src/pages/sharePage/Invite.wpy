@@ -472,7 +472,7 @@
                 if (!res.authSetting['scope.userLocation']) {
                   _this.getPression()
                 } else {
-                  _this.methods.CreateLocation(_this)
+                  _this.methods.createLocation(_this)
                 }
               })
             }
@@ -483,10 +483,14 @@
       })
     }
     // 定位当前位置
-    CreateLocation(_this) {
+    createLocation(_this) {
+      const self = this
       wepy.getLocation({type: 'wgs84'}).then(res => {
-        this.$parent.globalData.locationMap = res
-        this.getCarousel()
+        const {latitude, longitude} = res
+        self.$parent.globalData.locationMap.latitude = latitude
+        self.$parent.globalData.locationMap.longitude = longitude
+        self.$apply()
+        self.getCarousel()
       }).catch(err => {
         if (err) {
           this.getPression()
@@ -497,8 +501,8 @@
     getCarousel() {
       if (this.walletId) {
         const {latitude, longitude} = this.$parent.globalData.locationMap
-        if (this.$parent.globalData.locationMap) this.immedVisible = true
         if (latitude && longitude) {
+          this.immedVisible = true
           const params = {
             lat: latitude,
             lon: longitude
@@ -515,7 +519,7 @@
             })
           })
         } else {
-          this.CreateLocation(this)
+          this.createLocation(this)
         }
       } else {
         return false
@@ -524,6 +528,8 @@
     onShow() {
       if (this.userInfo.id) {
         this.getCarousel()
+      } else {
+        this.createLocation()
       }
     }
     onLoad (opts) {
