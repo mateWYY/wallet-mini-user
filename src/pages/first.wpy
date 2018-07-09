@@ -46,6 +46,7 @@
 </template>
 
 <script>
+  const key = 'f36b92d5af8a23965483c2b3d80fa233'
   import wepy from 'wepy';
   import {
     getCommonCategories,
@@ -54,6 +55,7 @@
     getFindWallet,
     getCommonLocation
   } from '../util/util'
+  import amapFile from '@/libs/amap-wx'
   import delicacy from '../components/delicacy'
   import Delicious from '../components/Delicious';
   export default class first extends wepy.page {
@@ -154,16 +156,12 @@
     }
     onShow() {
       const {name} = this.$parent.globalData.cityId
-      if (name) this.address.city = name
+      if (name) { this.address.city = name } else {
+        this.getLocations()
+      }
     }
 
     onLoad() {
-      this.getLocation();
-      // 定位城市
-      getCommonLocation().then(res => {
-        this.address = res.data;
-        this.$apply()
-      });
       this.getCommonCategories()
       // 高度自适应
     }
@@ -171,13 +169,29 @@
       delicacy: delicacy,
       Delicious: Delicious
     };
-    getLocation () {
-      wepy.getLocation({
-        type: 'wgs84'
-      }).then(res => {
-        this.$parent.globalData.locationMap = res /*(包含经纬度)*/
+    getLocations () {
+      const myAmapFun = new amapFile.AMapWX({key: key})
+      const self = this
+      myAmapFun.getRegeo({
+        success: function(data) {
+          const {latitude, longitude, regeocodeData} = data[0]
+          self.$parent.globalData.locationMap.latitude = latitude
+          self.$parent.globalData.locationMap.longitude = longitude
+          self.address.city = regeocodeData.addressComponent.city
+          self.$apply()
+        },
+        fail: function(info) {
+          console.log(info)
+        }
       })
     }
+//    getLocation () {
+//      wepy.getLocation({
+//        type: 'wgs84'
+//      }).then(res => {
+//        this.$parent.globalData.locationMap = res /*(包含经纬度)*/
+//      })
+//    }
 
     watch = {
       'address' (val) {
