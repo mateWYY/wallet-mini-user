@@ -521,12 +521,13 @@
         return false
       }
     }
-    onLoad (opts) {
-      this.walletId = opts.id
-      console.log(this.userInfo)
+    onShow() {
       if (this.userInfo.id) {
         this.getCarousel()
       }
+    }
+    onLoad (opts) {
+      this.walletId = opts.id
     };
     // Other properties
   }
