@@ -117,18 +117,18 @@
     color:#fff;
     font-size:24rpx;
     /*width:133rpx;*/
-    height: 53rpx;
+    height:53rpx;
     line-height:53rpx;
     text-align: center;
     align-self:center;
     background-color:#ff274a;
+    padding:0 24rpx;
   }
   .graych{
     border-radius:10rpx;
     border:1px solid #e5e5e5;
     color:#999;
     font-size:24rpx;
-    width:133rpx;
     height: 53rpx;
     line-height:53rpx;
     text-align:center;
@@ -636,7 +636,7 @@
   }
   .requestGif{
     position: fixed;
-    right:50rpx;
+    right:0;
     bottom:200rpx;
     background-color: transparent;
     border: none;
@@ -651,7 +651,6 @@
    text-align: center;
    height: 30rpx;
    line-height:30rpx;
-   background-color: rgba(255, 165, 0, 0.05);
    border-radius: 5rpx;
    font-size: 20rpx;
    color: #ffa500;
@@ -659,10 +658,12 @@
  .files{
    padding:6rpx 9rpx;
    margin-left:16rpx;
+   background-color: rgba(255, 165, 0, 0.05);
  }
   .file{
     width:16rpx;
     height:17rpx;
+    padding-right:10rpx;
   }
   .butt{
     display: flex;
@@ -676,10 +677,18 @@
     padding:0;
     line-height:0;
   }
+  .indents{
+    position:fixed;
+    right:100rpx;
+    bottom:200rpx;
+  }
+  .icon-right{
+    font-size:24rpx;
+  }
 </style>
 <template>
     <view>
-      <!--<scroll-view scroll-y="true" style="height:100vh;position:relative;">-->
+      <scroll-view scroll-y="true" style="height:100vh;position:relative;" @scroll="scroll" scroll-top="{{scrollTop}}">
       <view class="square">
         <view class="topSquare">
           <view class="allPicture" @tap="getPicture({{stores.id}})">
@@ -694,7 +703,7 @@
             <view class="minte-1"><text wx:if="{{stores.description!=null}}">{{sliceDown}}</text></view>
             <view class="butt">
               <text class="beauty-1">{{stores.categoryText}}</text>
-              <view class="files">
+              <view class="files"  wx:if="{{stores.ordersCount>0}}">
                 <image class="file" src="../../assets/file.png"></image>
                 <text class="ordersCount">当前人气{{stores.ordersCount}}</text>
               </view>
@@ -773,7 +782,7 @@
             <image class="rush" src="../../assets/rush.png"></image>
           </view>
             <button hover-class="none" class="{{storeWallet[0].draw_status===1? 'branch':'graych'}}" @tap="progress({{storeWallet[0]}})">
-              {{storeWallet[0].drawStatusText}}
+              {{storeWallet[0].drawStatusText}}<text class="iconfont icon-right"></text>
             </button>
         </view>
           <view class="melon">
@@ -841,8 +850,7 @@
           </repeat>
         </view>
       </view>
-
-      <button open-type="share" class="requestGif {{scrollTop >= 50? 'indent': ''}}" >
+      <button open-type="share" class="requestGif {{scrollTop>=50 ?  'indent': 'indents'}}" >
         <!--wx:if="{{storeWallet[0].draw_status === 1}}"-->
         <image class="request" src="../../assets/request.gif"></image>
       </button>
@@ -860,7 +868,7 @@
           <!--<Delicious :syncTitle.sync="item" wx:if="{{FindWallet.length}}"></Delicious>-->
         <!--</repeat>-->
       <!--</view>-->
-      <!--</scroll-view>-->
+      </scroll-view>
     </view>
 </template>
 <script>
@@ -877,11 +885,11 @@
         navigationBarTitleText: '店铺详情'
       };
       data = {
-        unRedView:false,
+        unRedView: false,
         showView:false,
         showWrapper:false,
-        stores:{},
-        index:0,
+        stores: {},
+        index: 0,
         storeWallet: [],
         showImd: true,
         currentTab: 0,
@@ -899,6 +907,11 @@
         }
       }
         methods = {
+          scroll(e) {
+            setTimeout(() => {
+              this.scrollTop = e.detail.scrollTop
+            }, 1000)
+          },
           move(e) {
             // console.log(e)
           },
@@ -926,12 +939,12 @@
               }
             })
           },
-          openBagelen(){
-            let that= this;
+          openBagelen () {
+            let that = this
             that.showWrapper = (!that.data.showWrapper)
           },
           // 路线规划
-          Gohere(){
+          Gohere() {
             wepy.navigateTo({
               url: '../../pages/search/Plan?store='+JSON.stringify(this.stores)
             })
@@ -952,14 +965,14 @@
             this.unRedView = false
           },
           // 立即使用//
-          immedly(index){
-            if(this.currentTab = index){
-              this.showImd = false;
+          immedly(index) {
+            if (this.currentTab = index) {
+              this.showImd = false
               this.pairs = true
             }
           },
           redvelope(){
-            this.unRedView =!(this.unRedView)
+            this.unRedView = !(this.unRedView)
           },
           // 联系电话
           makePhone(){
@@ -967,16 +980,16 @@
               phoneNumber:this.stores.phone
             })
           },
-          onChangeShowState(){
-            let that= this;
+          onChangeShowState() {
+            let that = this
             that.showView = (!that.data.showView)
           },
-          fullBuy(id){
-            wx.navigateTo({
+          fullBuy(id) {
+            wepy.navigateTo({
               url: '../../pages/payment/immediately?id='+id
             })
           },
-          progress(item){
+          progress(item) {
             const token = wepy.getStorageSync('token')
             if (!token) {
               wepy.redirectTo({
@@ -1036,10 +1049,10 @@
           this.params = {
             lat: latitude,
             lon: longitude
-          };
+          }
           this.getStoreShows(this.params)
           this.getStoreWallet(this.params)
-        }else {
+        } else {
           setTimeout(() => {
             this.getStoreAlls()
           }, 1000)
@@ -1049,7 +1062,6 @@
       getStoreShows(){
         getStoreShows({id:this.storeId, data:this.params}).then(res=>{
           this.stores = res.data
-          console.log(this.stores)
           this.$apply()
         })
       }
@@ -1057,7 +1069,6 @@
       getStoreWallet() {
         getStoreWallet({id: this.storeId, data: this.params}).then(res=>{
           this.storeWallet = res.data
-          console.log(this.storeWallet)
           this.$apply()
         })
       }
@@ -1082,10 +1093,14 @@
        this.getStoreAlls()
        this.getStoreWalletCount()
      }
-      onPageScroll (e) {
-        this.scrollTop = e.scrollTop
-        console.log(this.scrollTop)
-      }
+      // onPageScroll (e) {
+      //   this.scrollTop = e.scrollTop
+      //   if (this.scrollTop > 100) {
+      //     this.scrollTob = true
+      //   } else {
+      //     this.scrollTob = false
+      //   }
+      // }
       onLoad(opts) {
         const {id} = opts
         this.storeId = id

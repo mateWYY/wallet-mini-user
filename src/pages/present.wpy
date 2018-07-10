@@ -71,6 +71,7 @@
     color:#ff4552;
     font-weight: bold;
   }
+  /*分享*/
   .sharely{
     position: fixed;
     bottom:0;
@@ -298,7 +299,9 @@
         };
         methods = {
           scroll(e) {
-            this.scrollTop = e.detail.scrollTop
+            setTimeout(() => {
+              this.scrollTop = e.detail.scrollTop
+            }, 1000)
           },
             onShareAppMessage (res) {
               if (res.from === 'button') {

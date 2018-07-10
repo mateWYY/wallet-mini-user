@@ -1,7 +1,7 @@
 <style lang="less">
   .pages{
     width:100%;
-    height:100%;
+    /*height:100%;*/
     background:linear-gradient(to bottom,#f6463a, #fa9410);
   }
   .shareBag{
@@ -228,9 +228,6 @@
     border: none;
     color: #ffffff;
   }
-  .hide{
-    display:none;
-  }
   .well{
     position:relative;
   }
@@ -268,10 +265,53 @@
     word-break:break-all;
     white-space: pre-line;
   }
+  /*分享*/
+  .sharely{
+    position: fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    display:flex;
+    text-align:center;
+    font-size:28rpx;
+    vertical-align:middle;
+    padding:24rpx 0 12rpx;
+    background-color:#ffd38e;
+    box-shadow: 0 -11rpx 10rpx 0 rgba(46, 49, 55, 0.05);
+  }
+  .leftShare{
+    background:transparent;
+    flex:1;
+    border-radius:0;
+    color:#333333;
+    font-size:28rpx;
+    line-height:100rpx;
+    border:0;
+    padding:0;
+    align-self: center;
+  }
+  button::after{
+    border:0;
+    border-radius:0;
+  }
+  .openMini{
+    width:330rpx;
+    height:110rpx;
+    align-self: center;
+    vertical-align: middle;
+  }
+  .rightShare{
+    flex:1;
+    z-index:10;
+  }
+  .hide{
+    display:none;
+  }
 </style>
 
 <template>
-  <view class="pages">
+   <scroll-view scroll-y="true" style="height:100vh;position: absolute;" @scroll="scroll" scroll-top="{{scrollTop}}">
+    <view class="pages">
     <view style="position:relative;text-align:center;">
       <image class="invite" src="../../assets/shares1.png"></image>
       <!--<swiper class="swipe"  vertical="true" autoplay="true" circular="true" interval="1000">-->
@@ -330,8 +370,16 @@
         </view>
       </form>
     </view>
-  </view>
-
+      <view class="sharely {{scrollTop >=100 ? 'hide': ''}}" >
+        <button  open-type="share" class="leftShare">
+          <image class="openMini" src="../../assets/shareFriend.png"></image>
+        </button>
+        <view @tap="myBag" class="rightShare">
+          <image class="openMini" src="../../assets/openMini.png"></image>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
 </template>
 
 <script>
@@ -340,9 +388,8 @@
   import {getCarousel, getDraw, getlogin, getCommonloginCoding, getCommonLoginCodes} from '../../util/util'
   export default class Invite extends wepy.page {
     config = {
-      backgroundTextStyle:'light',
+      backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fd4d3e',
-      // navigationBarTitleText: '分享',
       navigationBarTextStyle: 'white'
     };
     mixins = [getCode]
@@ -354,16 +401,17 @@
         code: ''
       },
       walletId: '',
-      isShow:false,
+      isShow: false,
       immedVisible: false,
       time: '',
-      telephone:'',
-      inputValue:'',
-      inputing:'',
-      draws:{},
+      telephone: '',
+      inputValue: '',
+      inputing: '',
+      draws: {},
       PhoneView: false,
-      carous:{},
-      ID:[],
+      carous: {},
+      ID: [],
+      scrollTop: 0
     };
     computed ={
       togoable() {
@@ -374,6 +422,17 @@
       }
     };
     methods = {
+      myBag() {
+        wepy.switchTab({
+          url: '/pages/first'
+        })
+      },
+      scroll(e) {
+        setTimeout(() => {
+          this.scrollTop = e.detail.scrollTop
+          console.log(e.detail.scrollTop)
+        }, 1000)
+      },
       move(e) {
 //          console.log()
       },
