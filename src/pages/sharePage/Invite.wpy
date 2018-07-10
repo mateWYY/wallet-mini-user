@@ -331,7 +331,7 @@
       <text class="Lady">{{carous.store.name}}</text>
       <view class="title">邀您瓜分￥{{carous.totalAmount}}现金红包</view>
       <image class="guan" src="../../assets/guan.png"></image>
-      <button class="immed" @tap="getFast" plain disabled="{{!immedVisible}}">
+      <button class="immed" @tap="getTapWallet" plain disabled="{{!immedVisible}}">
         <view>立即</view>
         <view>领取</view>
       </button>
@@ -424,6 +424,30 @@
         return wepy.getStorageSync('store')
       }
     };
+    // 立即领取福袋
+    getFast () {
+      if (!this.userInfo.id) {
+        this.isbindPhone = true
+      } else {
+        let id = this.carous.id;
+        getDraw({method: 'POST', id: id}).then(res => {
+          this.draws = res.data;
+          console.log(this.draws)
+          wepy.navigateTo({
+            url: '/pages/sharePage/Lead?val=' + JSON.stringify(this.draws)
+          })
+        }).catch(err => {
+          wepy.showToast({
+            title: `${err.message}`,
+            icon: 'none',
+            duration: 1000
+          })
+          return wepy.switchTab({
+            url: '../first'
+          })
+        })
+      }
+    }
     methods = {
       myBag() {
         wepy.switchTab({
@@ -437,6 +461,9 @@
       },
       move(e) {
 //          console.log()
+      },
+      getTapWallet() {
+        this.getFast()
       },
 //        手机号
       iptPhone(e) {
@@ -463,8 +490,9 @@
             const {token, ...data} = res.data
             wepy.setStorageSync('token', token)
             wepy.setStorageSync('store', data)
+            self.isbindPhone = false
+            self.getFast()
             self.$apply()
-            self.getCarousel()
           }
         }).catch(err => {
           return wepy.showToast({
@@ -473,7 +501,6 @@
             duration: 1000
           })
         })
-        this.isbindPhone = false
       },
 //        获取验证码
       async reqCode() {
@@ -491,30 +518,6 @@
 //          关闭手机号弹窗
       closeBindphone() {
         this.isbindPhone = false
-      },
-      // 立即领取福袋
-      getFast () {
-        if (!this.userInfo.id) {
-          this.isbindPhone = true
-        } else {
-          let id = this.carous.id;
-          getDraw({method: 'POST', id: id}).then(res => {
-            this.draws = res.data;
-            console.log(this.draws)
-            wepy.navigateTo({
-              url: '/pages/sharePage/Lead?val=' + JSON.stringify(this.draws)
-            })
-          }).catch(err => {
-            wepy.showToast({
-              title: `${err.message}`,
-              icon: 'none',
-              duration: 1000
-            })
-            return wepy.switchTab({
-              url: '../first'
-            })
-          })
-        }
       }
     }
 //    请求定位权限
@@ -550,8 +553,9 @@
         const {latitude, longitude} = res
         self.$parent.globalData.locationMap.latitude = latitude
         self.$parent.globalData.locationMap.longitude = longitude
-        self.$apply()
+        self.immedVisible = true
         self.getCarousel()
+        self.$apply()
       }).catch(err => {
         if (err) {
           this.getPression()
@@ -587,11 +591,7 @@
       }
     }
     onShow() {
-      if (this.userInfo.id) {
-        this.getCarousel()
-      } else {
-        this.createLocation()
-      }
+      this.getCarousel()
     }
     onLoad (opts) {
       this.walletId = opts.id

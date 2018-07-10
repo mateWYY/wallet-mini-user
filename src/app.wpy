@@ -254,30 +254,27 @@ export default class extends wepy.app {
   }
   onLaunch() {
     wepy.checkSession().then(res => {
-//      console.log(res)
-//      let token = wx.getStorageSync('token');
-//      if (!token) {
-//        wx.reLaunch({
-//          url: 'bindCell'
-//        })
-//      }
-//      console.log(res)
+      let token = wepy.getStorageSync('token')
+      if (!token) {
+        wepy.reLaunch({
+          url: '../../bind-phone/bind-phone'
+        })
+      }
     }).catch(error => {
       console.log(error)
       if (error){
         this.login()
       }
     })
-//     wepy.reLaunch({
+//      wepy.reLaunch({
 // //        url:'../pages/search/Plan'
 //       // url:"pages/bindCell"
 //       // url:"../pages/search/plan"
-//       url: "../pages/sharePage/Invite"
+//        url: "../pages/sharePage/Lead"
 //       // url: "components/Delicious"
 //       //   url:"pages/mine/myBag"
 //       // url: "../pages/shopDetail/progress"
 //     })
-    this.testAsync()
   }
   async login() {
     let loginStatus = await wepy.login();
@@ -285,35 +282,10 @@ export default class extends wepy.app {
       const {user, weixinUserId} = res.data;
       this.globalData.weixinUserId = weixinUserId;
       stores.dispatch({type:'SET_WEIXINID',weixinUserId:{weixinUserId}});
-      if(!user){
-        wx.reLaunch({
-          url: 'bindCell'
-        })
-      }else{
-        wepy.setStorageSync('token', user.token)
-      }
-    })
-  }
-  sleep (s){
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve('promise resolved')
-      }, s * 1000)
-    })
-  }
-  async testAsync () {
-    const data = await this.sleep(3);
-    console.log(data)
-  }
-  getUserInfo(cb) {
-    const that = this;
-    if (this.globalData.userInfo) {
-      return this.globalData.userInfo
-    }
-    wepy.getUserInfo({
-      success (res) {
-        that.globalData.userInfo = res.userInfo;
-        cb && cb(res.userInfo)
+      if(user) {
+        const {token, ...data} = user
+        wepy.setStorageSync('token', token)
+        wepy.setStorageSync('store', data)
       }
     })
   }
