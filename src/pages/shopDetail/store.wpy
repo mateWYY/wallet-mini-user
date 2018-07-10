@@ -693,7 +693,6 @@
 </style>
 <template>
     <view>
-      <scroll-view scroll-y="true" style="height:100vh;position:relative;" @scroll="scroll" scroll-top="{{scrollTop}}">
       <view class="square">
         <view class="topSquare">
           <view class="allPicture" @tap="getPicture({{stores.id}})">
@@ -855,7 +854,7 @@
           </repeat>
         </view>
       </view>
-      <button open-type="share" class="requestGif {{scrollTop>=50 ?  'indent': 'indents'}}" >
+      <button open-type="share" class="requestGif {{scrollTop>=40 ?  'indent': 'indents'}}" >
         <!--wx:if="{{storeWallet[0].draw_status === 1}}"-->
         <image class="request" src="../../assets/request.gif"></image>
       </button>
@@ -873,7 +872,6 @@
           <!--<Delicious :syncTitle.sync="item" wx:if="{{FindWallet.length}}"></Delicious>-->
         <!--</repeat>-->
       <!--</view>-->
-      </scroll-view>
     </view>
 </template>
 <script>
@@ -912,11 +910,6 @@
         }
       }
         methods = {
-          scroll(e) {
-            setTimeout(() => {
-              this.scrollTop = e.detail.scrollTop
-            }, 1000)
-          },
           move(e) {
             // console.log(e)
           },
@@ -1098,14 +1091,11 @@
        this.getStoreAlls()
        this.getStoreWalletCount()
      }
-      // onPageScroll (e) {
-      //   this.scrollTop = e.scrollTop
-      //   if (this.scrollTop > 100) {
-      //     this.scrollTob = true
-      //   } else {
-      //     this.scrollTob = false
-      //   }
-      // }
+      onPageScroll (scroll) {
+        const {scrollTop} = scroll
+        this.scrollTop = scrollTop
+        this.$apply()
+      }
       onLoad(opts) {
         const {id} = opts
         this.storeId = id

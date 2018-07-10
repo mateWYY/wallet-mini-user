@@ -313,7 +313,6 @@
 </style>
 
 <template>
-   <scroll-view scroll-y="true" style="height:100vh;position: absolute;" @scroll="scroll" scroll-top="{{scrollTop}}">
     <view class="pages">
     <view style="position:relative;text-align:center;">
       <image class="invite" src="../../assets/shares1.png"></image>
@@ -382,7 +381,6 @@
         </view>
       </view>
     </view>
-  </scroll-view>
 </template>
 
 <script>
@@ -453,11 +451,6 @@
         wepy.switchTab({
           url: '/pages/first'
         })
-      },
-      scroll(e) {
-        setTimeout(() => {
-          this.scrollTop = e.detail.scrollTop
-        }, 2000)
       },
       move(e) {
 //          console.log()
@@ -592,6 +585,11 @@
     }
     onShow() {
       this.getCarousel()
+    }
+    onPageScroll (scroll) {
+      const {scrollTop} = scroll
+      this.scrollTop = scrollTop
+      this.$apply()
     }
     onLoad (opts) {
       this.walletId = opts.id
