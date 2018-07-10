@@ -637,7 +637,7 @@
   .requestGif{
     position: fixed;
     right:0;
-    bottom:200rpx;
+    bottom:341rpx;
     background-color: transparent;
     border: none;
     padding:0;
@@ -671,7 +671,7 @@
   .indent{
     position: fixed;
     right:0;
-    bottom:200rpx;
+    bottom:341rpx;
     background-color: transparent;
     border: none;
     padding:0;
@@ -679,8 +679,8 @@
   }
   .indents{
     position:fixed;
-    right:100rpx;
-    bottom:200rpx;
+    right:50rpx;
+    bottom:341rpx;
   }
   .icon-right{
     font-size:24rpx;

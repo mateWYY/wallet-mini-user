@@ -284,7 +284,7 @@
 </template>
 
 <script>
-    import wepy from 'wepy';
+    import wepy from 'wepy'
     import {getVolRemaining} from '../util/util'
     export default class present extends wepy.page {
         config = {
@@ -301,7 +301,7 @@
           scroll(e) {
             setTimeout(() => {
               this.scrollTop = e.detail.scrollTop
-            }, 1000)
+            })
           },
             onShareAppMessage (res) {
               if (res.from === 'button') {

@@ -83,12 +83,12 @@
               <text class="min">距离{{syncTitle.distance}}</text>
             </view>
             <view class="fu">
-              <text wx:if="{{syncTitle.wallet[index].totalAmount>0}}">福袋￥{{syncTitle.wallet[index].totalAmount}}(最高可获得{{syncTitle.wallet[index].attainAmount}}元)</text>
+              <text wx:if="{{syncTitle.wallet[index].totalAmount>0}}">福袋￥{{syncTitle.wallet[index].totalAmount}}(最高可获得{{syncTitle.wallet[index].maxValue}}元)</text>
             </view>
             <view class="yellowBag">
-              <view class="yes" wx:if="{{syncTitle.wallet[index].attainAmount.length}}">
+              <view class="yes" wx:if="{{syncTitle.wallet[index].maxValue.length}}">
                 <image class="yello" src="../assets/yellowBag.png"></image>
-                <text class="three">{{syncTitle.wallet[index].attainAmount}}</text>
+                <text class="three">{{syncTitle.wallet[index].maxValue}}</text>
                 <text class="up"></text>
               </view>
               <text wx:if="{{syncTitle.wallet[0].getNumber>0}}" class="already">已抢{{syncTitle.wallet[0].getNumber}}人

@@ -1,8 +1,11 @@
 <style lang="less">
+  Page{
+    background:#fa9410;
+  }
   .pages{
     width:100%;
-    /*height:100%;*/
-    background:linear-gradient(to bottom,#f6463a, #fa9410);
+    background:linear-gradient(to bottom,#fd4d3e, #fa9410);
+    padding-bottom:200rpx;
   }
   .shareBag{
     width:607rpx;
@@ -370,7 +373,7 @@
         </view>
       </form>
     </view>
-      <view class="sharely {{scrollTop >=100 ? 'hide': ''}}" >
+      <view class="sharely {{scrollTop >=200 ? 'hide': ''}}" >
         <button  open-type="share" class="leftShare">
           <image class="openMini" src="../../assets/shareFriend.png"></image>
         </button>
@@ -383,7 +386,7 @@
 </template>
 
 <script>
-  import wepy from 'wepy';
+  import wepy from 'wepy'
   import getCode from '@/mixins/getCode'
   import {getCarousel, getDraw, getlogin, getCommonloginCoding, getCommonLoginCodes} from '../../util/util'
   export default class Invite extends wepy.page {
@@ -430,8 +433,7 @@
       scroll(e) {
         setTimeout(() => {
           this.scrollTop = e.detail.scrollTop
-          console.log(e.detail.scrollTop)
-        }, 1000)
+        }, 2000)
       },
       move(e) {
 //          console.log()
