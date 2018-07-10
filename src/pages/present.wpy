@@ -271,7 +271,7 @@
           </view>
         </view>
       </view>
-      <view class="sharely {{scrollTop>=600 ? 'hide': ''}}" >
+      <view class="sharely {{scrollTop>=300 ? 'hide': ''}}" >
         <button  open-type="share" class="leftShare">
           <image class="openMini" src="../assets/shareFriend.png"></image>
         </button>
@@ -301,7 +301,7 @@
           scroll(e) {
             setTimeout(() => {
               this.scrollTop = e.detail.scrollTop
-            })
+            }, 800)
           },
             onShareAppMessage (res) {
               if (res.from === 'button') {

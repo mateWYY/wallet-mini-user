@@ -5,7 +5,7 @@
   .pages{
     width:100%;
     background:linear-gradient(to bottom,#fd4d3e, #fa9410);
-    padding-bottom:200rpx;
+    padding-bottom:170rpx;
   }
   .shareBag{
     width:607rpx;
