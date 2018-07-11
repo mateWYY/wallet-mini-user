@@ -328,13 +328,11 @@
       deleting(){
         let id = this.Lider.id;
         getDelete({id:id,method:'post'}).then(res=>{
-          if(res){
-            wx.navigateTo({
-              url:'order'
+            wx.navigateBack({
+              url: 'order'
             })
-          }
+          this.$apply()
         });
-        this.$apply()
       },
       // 进店铺详情
       thanks(id){
