@@ -556,7 +556,7 @@
   .open{
     width:156rpx;
     height:156rpx;
-    padding-top:55rpx;
+    padding-top:45rpx;
   }
   /*抢红包弹框*/
   .commodity{
@@ -591,7 +591,7 @@
     padding:43rpx 0 10rpx;
   }
   .random{
-    padding-top:9%;
+    padding-top:70rpx;
     font-size:24rpx;
     position: relative;
   }
@@ -603,7 +603,7 @@
     bottom:0;
     color:#cb3638;
     font-size:24rpx;
-    padding-top:80rpx;
+    padding-top:81rpx;
   }
   .Decree{
     width:371rpx;
