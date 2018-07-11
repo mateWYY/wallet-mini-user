@@ -125,7 +125,7 @@
     <view class="Term">有效期至{{wallet.effectiveEndAt}}</view>
     <view class="useWrapper">
       <view class="user">
-        <text class="spot">•</text><text style="padding-right:29rpx;">到店购买指定商品使用</text>
+        <text class="spot">•</text><text style="padding-right:29rpx;">仅参与可优惠订单使用</text>
         <text class="spot">•</text><text>订单满{{wallet.attainAmount}}元可用</text>
       </view>
       <!--<view class="used">-->

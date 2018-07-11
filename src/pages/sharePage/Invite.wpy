@@ -337,7 +337,7 @@
       <view class="jon">已参与人数{{carous.getNumber}}人</view>
     </view>
     <view class="well">
-      <view class="take">红包领取将放至账户{{userInfo.phone}}</view>
+      <view wx:if="{{userInfo.phone}}" class="take">红包领取将放至账户{{userInfo.phone}}</view>
       <view wx:if="{{carous.store.consumeNotes}}">
         <view class="need">消费须知</view>
         <view class="book">
@@ -351,7 +351,7 @@
 
     <!--弹框/是否绑定手机号-->
     <view  catchtouchmove="move" wx:if="{{isbindPhone}}" >
-      <form @submit="formSubmit" >
+      <form @submit="formSubmit">
         <view class="commodity_screen"></view>
         <view class="commodity-box">
           <text @tap="closeBindphone" class="iconfont icon-guanbi"></text>

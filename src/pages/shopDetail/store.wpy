@@ -554,9 +554,9 @@
     to { transform: rotateY(360deg); }
   }
   .open{
-    width:180rpx;
-    height:180rpx;
-    padding-top:55rpx;
+    width:156rpx;
+    height:156rpx;
+    padding-top:45rpx;
   }
   /*抢红包弹框*/
   .commodity{
@@ -573,10 +573,11 @@
     color:#fff4c0;
     text-align: center;
     position:absolute;
-    top:17%;
+    top:10%;
     left:0;
     right:0;
     font-size:0;
+    padding-top:104rpx;
   }
   .bottChild{
     width:90rpx;
@@ -587,18 +588,30 @@
   }
   .congrat{
     font-size:38rpx;
-    padding:60rpx 0 10rpx;
-  }
-  .quick{
-    font-size:26rpx;
+    padding:43rpx 0 10rpx;
   }
   .random{
-    padding-top:12%;
+    padding-top:70rpx;
     font-size:24rpx;
+    position: relative;
+  }
+  .random .today{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    color:#cb3638;
+    font-size:24rpx;
+    padding-top:81rpx;
+  }
+  .Decree{
+    width:371rpx;
+    height:51rpx;
   }
   .Lead{
     font-size:32rpx;
-    padding-top:20rpx;
+    padding-top:30rpx;
     color: #fff4c0;
   }
   .kai{
@@ -609,19 +622,21 @@
     bottom:0;
     overflow:hidden;
     margin:0 auto;
-    width:610rpx;
-    height:786rpx;
+    width:568rpx;
+    height:731rpx;
     z-index:-1;
     text-align:center;
   }
   .close{
-    width:22rpx;
-    height:22rpx;
+    font-size:25rpx;
+    width:50rpx;
+    height:50rpx;
     position:absolute;
     top:13%;
-    left:84%;
+    left:80%;
     right:0;
     bottom:0;
+    color: #fff4c0;
   }
   .shopsTitle{
     flex:1;
@@ -636,7 +651,7 @@
   }
   .requestGif{
     position: fixed;
-    right:0;
+    right:-12rpx;
     bottom:341rpx;
     background-color: transparent;
     border: none;
@@ -668,20 +683,20 @@
   .butt{
     display: flex;
   }
-  .indent{
-    position: fixed;
-    right:-12rpx;
-    bottom:341rpx;
-    background-color: transparent;
-    border: none;
-    padding:0;
-    line-height:0;
-  }
-  .indents{
-    position:fixed;
-    right:50rpx;
-    bottom:341rpx;
-  }
+  /*.indent{*/
+    /*position: fixed;*/
+    /*right:50rpx;*/
+    /*bottom:341rpx;*/
+    /*background-color: transparent;*/
+    /*border: none;*/
+    /*padding:0;*/
+    /*line-height:0;*/
+  /*}*/
+  /*.indents{*/
+    /*position:fixed;*/
+    /*right:-12rpx;*/
+    /*bottom:341rpx;*/
+  /*}*/
   .icon-right{
     font-size:24rpx;
   }
@@ -786,7 +801,7 @@
             <image class="rush" src="../../assets/rush.png"></image>
           </view>
             <button hover-class="none" class="{{storeWallet[0].draw_status===1? 'branch':'graych'}}" @tap="progress({{storeWallet[0]}})">
-              {{storeWallet[0].drawStatusText}}<text class="iconfont icon-right"></text>
+              {{storeWallet[0].drawStatusText}}<!--<text class="iconfont icon-right"></text>-->
             </button>
         </view>
           <view class="melon">
@@ -806,13 +821,16 @@
             <view class="bodyWrapper">
               <image class="bottChild" src="{{carous.store.avatarUrl}}"></image>
               <view class="Lead">{{carous.store.name}}</view>
-              <view class="congrat">恭喜你抢到福袋</view>
-              <view class="quick">快点打开吧</view>
+              <view class="congrat">恭喜你抢到红包</view>
               <image @tap="serviceSelection"  class="{{isChecked ? 'rotate': 'open'}}"  src="../../assets/kai.png"></image>
-              <view class="random">红包金额随机 满{{carous.attainAmount}}可用</view>
+              <view class="random">
+                <image class="Decree" src="../../assets/Decree.png"></image>
+                <text class="today">今日剩余领取次数: {{walletsRemain.Remaining}}</text>
+              </view>
             </view>
             <image class="kai" src="../../assets/la.jpg"></image>
-            <image @tap="openBagelen" class="close" src="../../assets/close.png"></image>
+            <text @tap="openBagelen" class="close iconfont icon-guanbi"></text>
+            <!--<image @tap="openBagelen" class="close" src="../../assets/close.png"></image>-->
           </view>
         </view>
         <!--<view class="melon">-->
@@ -854,7 +872,7 @@
           </repeat>
         </view>
       </view>
-      <button open-type="share" class="requestGif {{scrollTop>=40 ?  'indent': 'indents'}}" >
+      <button open-type="share" class="requestGif" >
         <!--wx:if="{{storeWallet[0].draw_status === 1}}"-->
         <image class="request" src="../../assets/request.gif"></image>
       </button>
@@ -879,7 +897,7 @@
     import {connect, getStore} from 'wepy-redux'
     const stores = getStore()
     import Delicious from '../../components/Delicious'
-    import { getStoreShows, getStoreWallet, getStoreWalletCount, getDraw, getCarousel } from '../../util/util';
+    import { getStoreShows, getStoreWallet, getStoreWalletCount, getDraw, getCarousel, getwalletsRemaining } from '../../util/util';
     export default class store extends wepy.page {
       config = {
         backgroundTextStyle: 'light',
@@ -902,7 +920,8 @@
         carous: {},
         isChecked: false,
         draws: {},
-        scrollTop: 0
+        scrollTop: 0,
+        walletsRemain: {}
       };
       computed = {
         sliceDown () {
@@ -995,6 +1014,7 @@
               })
             } else {
               if (item.draw_status === 1) {
+                this.getwalletsRemaining()
                 this.getCarousel(item)
                 this.showWrapper = true
               } else {
@@ -1087,15 +1107,22 @@
           this.$apply()
       })
    }
+   // 剩余可抢福袋数量
+      getwalletsRemaining () {
+        getwalletsRemaining().then(res => {
+          this.walletsRemain = res.data
+          this.$apply()
+        })
+       }
      onShow() {
        this.getStoreAlls()
        this.getStoreWalletCount()
      }
-      onPageScroll (scroll) {
-        const {scrollTop} = scroll
-        this.scrollTop = scrollTop
-        this.$apply()
-      }
+      // onPageScroll (scroll) {
+      //   const {scrollTop} = scroll
+      //   this.scrollTop = scrollTop
+      //   this.$apply()
+      // }
       onLoad(opts) {
         const {id} = opts
         this.storeId = id
