@@ -504,8 +504,8 @@
             const {token, ...data} = res.data
             wepy.setStorageSync('token', token)
             wepy.setStorageSync('store', data)
-            self.getFast()
             self.$apply()
+            self.getFast()
           }
         }).catch(err => {
           return wepy.showToast({

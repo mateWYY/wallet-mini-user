@@ -1,0 +1,1013 @@
+<template>
+  <view class="newActive">
+    <view class="top-box">
+      <image class="banner" src="./resources/top-banner@2x.png"></image>
+    </view>
+    <view class="ad-wrapper">
+       <view class="ad-left-box">
+          <image class="ad-left-bg" src="./resources/adb-left@2x.png"></image>
+          <view class="ad-left-btn">
+             <image src="./resources/adb-left-btn@2x.png" class="ad-btn-bg"></image>
+          </view>
+       </view>
+       <view class="ad-right-box">
+         <image class="ad-right-bg" src="./resources/adb-right@2x.png"></image>
+         <view class="ad-right-btn">
+             <image src="./resources/adb-right-btn@2x.png"  class="ad-btn-bg"></image>
+         </view>
+      </view>
+    </view>
+    <activeWallet ></activeWallet>
+      <!--<view class="main-box-1">-->
+        <!--<view class="header">-->
+          <!--<image src="./resources/main-box-1_bg@2x.png" class="header-image"></image>-->
+        <!--</view>-->
+        <!--<view class="ware-content">-->
+            <!--<view class="ware-list">-->
+              <!--<repeat for="{{arr}}" item="item">-->
+                 <!--<view class="ware-item">-->
+                   <!--<view class="ware-avatar">-->
+                      <!--<image src=""></image>-->
+                   <!--</view>-->
+                   <!--<view class="line"></view>-->
+                   <!--<view class="ware-desc">-->
+                     <!--<view class="ware-title">-->
+                       <!--<text>LADY西餐厅</text>-->
+                       <!--<image src="./resources/payoff@2x.png" class="payoffImage"></image>-->
+                     <!--</view>-->
+                     <!--<view class="amount-wrapper">-->
+                       <!--<text class="symbol">¥</text>-->
+                       <!--<view class="amount">-->
+                         <!--<text>3</text>-->
+                         <!--<text>2</text>-->
+                         <!--<text>1</text>-->
+                       <!--</view>-->
+                       <!--<view class="amount amount1">-->
+                         <!--<text>3</text>-->
+                         <!--<text>2</text>-->
+                         <!--<text>1</text>-->
+                       <!--</view>-->
+                       <!--<view class="amount amount2">-->
+                         <!--<text>3</text>-->
+                         <!--<text>2</text>-->
+                         <!--<text>1</text>-->
+                       <!--</view>-->
+                     <!--</view>-->
+                     <!--<view class="snapNumber">-->
+                       <!--<text>已抢36人</text>-->
+                     <!--</view>-->
+                     <!--<view class="goBuy">-->
+                       <!--<text>马上抢</text>-->
+                       <!--<text class="right-icon"></text>-->
+                     <!--</view>-->
+                   <!--</view>-->
+                 <!--</view>-->
+              <!--</repeat>-->
+            <!--</view>-->
+        <!--</view>-->
+        <!--<view class="look-more" @tap="lookMore"></view>-->
+      <!--</view>-->
+
+      <view class="main-box-2">
+        <view class="header">
+          <image src="./resources/main-box-2_bg@2x.png" class="header-image"></image>
+        </view>
+        <view class="shop-content">
+          <view class="shop-list">
+            <repeat for="{{storeActivitys}}" item="item">
+              <view class="shop-item">
+                <view class="shop-item-avatar">
+                  <image src="{{item.avatarUrl}}"></image>
+                </view>
+                <view class="shop-item-desc">
+                  <view class="shop-title">
+                     <text>{{item.name}}</text>
+                  </view>
+                   <view class="shop-subtitle">
+                      <text>{{item.categoryText}}</text>
+                      <text class="text">|</text>
+                      <text>{{item.regionText}} ＜{{item.distance}}</text>
+                   </view>
+                   <view class="popular">
+                     <image src="./resources/popup-image@2x.png" class="popular-image"></image>
+                     <text>当前人气{{item.ordersCount}}</text>
+                   </view>
+                </view>
+                <view class="goShop">
+                   <text>进入店铺</text>
+                </view>
+              </view>
+            </repeat>
+          </view>
+          <view class="{{haveMore ? 'look-more': 'goHome'}} " @tap="lookMoreStore"></view>
+        </view>
+      </view>
+
+      <!--<view class="banner-box">-->
+        <!--<image src="./resources/banner@2x.png"></image>-->
+      <!--</view>-->
+
+        <view class="navBar" id="navbar">
+          <view class="category">
+            <view class="category-item {{toView == 'box1' || toView == 'box' ? 'category-active':''}}" @tap="jumpTo('box1')">
+              <image src="./resources/local-icon@2x.png" class="local-image" wx:if="{{toView == 'box1' || toView == 'box'}}"></image>
+              <text>主食类</text>
+            </view>
+            <view class="category-item {{toView == 'box2' ? 'category-active':''}}"  @tap="jumpTo('box2')">
+              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box2'}}"></image>
+              <text>奶茶饮品</text>
+            </view>
+          </view>
+          <view class="category">
+            <view class="category-item {{toView == 'box3' ? 'category-active':''}}"  @tap="jumpTo('box3')">
+              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box3'}}"></image>
+              <text>面包甜点</text>
+            </view>
+            <view class="category-item {{toView == 'box4' ? 'category-active':''}}"  @tap="jumpTo('box4')">
+              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box4'}}"></image>
+              <text>休闲小食</text>
+            </view>
+            <view class="category-item {{toView == 'box5' ? 'category-active':''}}"  @tap="jumpTo('box5')">
+              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box5'}}"></image>
+              <text>美妆</text>
+            </view>
+          </view>
+        </view>
+
+
+      <view class="navBar navFixed" hidden="{{!scrollTop}}">
+        <view class="navFixed-wrapper">
+          <view class="category">
+            <view class="category-item {{toView == 'box1' || toView == 'box' ? 'category-active':''}}" @tap="jumpTo('box1')">
+              <image src="./resources/local-icon@2x.png" class="local-image" wx:if="{{toView == 'box1' || toView == 'box'}}"></image>
+              <text>主食类</text>
+            </view>
+            <view class="category-item {{toView == 'box2' ? 'category-active':''}}"  @tap="jumpTo('box2')">
+              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box2'}}"></image>
+              <text>奶茶饮品</text>
+            </view>
+          </view>
+          <view class="category">
+            <view class="category-item {{toView == 'box3' ? 'category-active':''}}"  @tap="jumpTo('box3')">
+              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box3'}}"></image>
+              <text>面包甜点</text>
+            </view>
+            <view class="category-item {{toView == 'box4' ? 'category-active':''}}"  @tap="jumpTo('box4')">
+              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box4'}}"></image>
+              <text>休闲小食</text>
+            </view>
+            <view class="category-item {{toView == 'box5' ? 'category-active':''}}"  @tap="jumpTo('box5')">
+              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box5'}}"></image>
+              <text>美妆</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <scroll-view  scroll-y="{{scrollTop}}" scroll-into-view="{{toView}}"  scroll-with-animation="{{true}}"  class="scr" >
+          <view class="main-box-1 main-box-3" id="box1">
+            <view class="header">
+              <image src="./resources/main-box-3_bg@2x.png" class="header-image"></image>
+            </view>
+            <view class="ware-content">
+              <view class="ware-list">
+                <repeat for="{{arr}}" item="item">
+                  <view class="ware-item">
+                    <view class="ware-avatar">
+                      <image src=""></image>
+                    </view>
+                    <view class="line"></view>
+                    <view class="ware-desc">
+                      <view class="ware-title">
+                        <text>LADY西餐厅</text>
+                        <image src="./resources/payoff@2x.png" class="payoffImage"></image>
+                      </view>
+                      <view class="amount-wrapper">
+                        <text class="symbol">¥</text>
+                        <view class="amount">
+                          <text>3</text>
+                          <text>2</text>
+                          <text>1</text>
+                        </view>
+                        <view class="amount amount1">
+                          <text>3</text>
+                          <text>2</text>
+                          <text>1</text>
+                        </view>
+                        <view class="amount amount2">
+                          <text>3</text>
+                          <text>2</text>
+                          <text>1</text>
+                        </view>
+                      </view>
+                      <view class="snapNumber">
+                        <text>已抢36人</text>
+                      </view>
+                      <view class="goBuy">
+                        <text>马上抢</text>
+                        <text class="right-icon"></text>
+                      </view>
+                    </view>
+                  </view>
+                </repeat>
+              </view>
+            </view>
+            <view class="look-more" @tap="lookMore"></view>
+          </view>
+
+          <view class="main-box-1 main-box-4" id="box2">
+            <view class="header">
+              <image src="./resources/main-box-4_bg@2x.png" class="header-image"></image>
+            </view>
+            <view class="ware-content">
+              <view class="ware-list">
+                <repeat for="{{arr}}" item="item">
+                  <view class="ware-item">
+                    <view class="ware-avatar">
+                      <image src=""></image>
+                    </view>
+                    <view class="line"></view>
+                    <view class="ware-desc">
+                      <view class="ware-title">
+                        <text>LADY西餐厅</text>
+                        <image src="./resources/payoff@2x.png" class="payoffImage"></image>
+                      </view>
+                      <view class="amount-wrapper">
+                        <text class="symbol">¥</text>
+                        <view class="amount">
+                          <text>3</text>
+                          <text>2</text>
+                          <text>1</text>
+                        </view>
+                        <view class="amount amount1">
+                          <text>3</text>
+                          <text>2</text>
+                          <text>1</text>
+                        </view>
+                        <view class="amount amount2">
+                          <text>3</text>
+                          <text>2</text>
+                          <text>1</text>
+                        </view>
+                      </view>
+                      <view class="snapNumber">
+                        <text>已抢36人</text>
+                      </view>
+                      <view class="goBuy">
+                        <text>马上抢</text>
+                        <text class="right-icon"></text>
+                      </view>
+                    </view>
+                  </view>
+                </repeat>
+              </view>
+            </view>
+            <view class="look-more" @tap="lookMore"></view>
+          </view>
+
+          <view class="main-box-1 main-box-5" id="box3">
+            <view class="header">
+              <image src="./resources/main-box-5_bg@2x.png" class="header-image"></image>
+            </view>
+            <view class="ware-content">
+              <view class="ware-list">
+                <repeat for="{{arr}}" item="item">
+                  <view class="ware-item">
+                    <view class="ware-avatar">
+                      <image src=""></image>
+                    </view>
+                    <view class="line"></view>
+                    <view class="ware-desc">
+                      <view class="ware-title">
+                        <text>LADY西餐厅</text>
+                        <image src="./resources/payoff@2x.png" class="payoffImage"></image>
+                      </view>
+                      <view class="amount-wrapper">
+                        <text class="symbol">¥</text>
+                        <view class="amount">
+                          <text>3</text>
+                          <text>2</text>
+                          <text>1</text>
+                        </view>
+                        <view class="amount amount1">
+                          <text>3</text>
+                          <text>2</text>
+                          <text>1</text>
+                        </view>
+                        <view class="amount amount2">
+                          <text>3</text>
+                          <text>2</text>
+                          <text>1</text>
+                        </view>
+                      </view>
+                      <view class="snapNumber">
+                        <text>已抢36人</text>
+                      </view>
+                      <view class="goBuy">
+                        <text>马上抢</text>
+                        <text class="right-icon"></text>
+                      </view>
+                    </view>
+                  </view>
+                </repeat>
+              </view>
+            </view>
+            <view class="look-more" @tap="lookMore"></view>
+          </view>
+
+
+          <view class="main-box-1 main-box-6" id="box4">
+            <view class="header">
+              <image src="./resources/main-box-6_bg@2x.png" class="header-image"></image>
+            </view>
+            <view class="ware-content">
+              <view class="ware-list">
+                <repeat for="{{arr}}" item="item">
+                  <view class="ware-item">
+                    <view class="ware-avatar">
+                      <image src=""></image>
+                    </view>
+                    <view class="line"></view>
+                    <view class="ware-desc">
+                      <view class="ware-title">
+                        <text>LADY西餐厅</text>
+                        <image src="./resources/payoff@2x.png" class="payoffImage"></image>
+                      </view>
+                      <view class="amount-wrapper">
+                        <text class="symbol">¥</text>
+                        <view class="amount">
+                          <text>3</text>
+                          <text>2</text>
+                          <text>1</text>
+                        </view>
+                        <view class="amount amount1">
+                          <text>3</text>
+                          <text>2</text>
+                          <text>1</text>
+                        </view>
+                        <view class="amount amount2">
+                          <text>3</text>
+                          <text>2</text>
+                          <text>1</text>
+                        </view>
+                      </view>
+                      <view class="snapNumber">
+                        <text>已抢36人</text>
+                      </view>
+                      <view class="goBuy">
+                        <text>马上抢</text>
+                        <text class="right-icon"></text>
+                      </view>
+                    </view>
+                  </view>
+                </repeat>
+              </view>
+            </view>
+            <view class="look-more" @tap="lookMore"></view>
+          </view>
+
+        <view class="main-box-1 main-box-7" id="box5">
+          <view class="header">
+            <image src="./resources/main-box-7_bg@2x.png" class="header-image"></image>
+          </view>
+          <view class="ware-content">
+            <view class="ware-list">
+              <repeat for="{{arr}}" item="item">
+                <view class="ware-item">
+                  <view class="ware-avatar">
+                    <image src=""></image>
+                  </view>
+                  <view class="line"></view>
+                  <view class="ware-desc">
+                    <view class="ware-title">
+                      <text>LADY西餐厅</text>
+                      <image src="./resources/payoff@2x.png" class="payoffImage"></image>
+                    </view>
+                    <view class="amount-wrapper">
+                      <text class="symbol">¥</text>
+                      <view class="amount">
+                        <text>3</text>
+                        <text>2</text>
+                        <text>1</text>
+                      </view>
+                      <view class="amount amount1">
+                        <text>3</text>
+                        <text>2</text>
+                        <text>1</text>
+                      </view>
+                      <view class="amount amount2">
+                        <text>3</text>
+                        <text>2</text>
+                        <text>1</text>
+                      </view>
+                    </view>
+                    <view class="snapNumber">
+                      <text>已抢36人</text>
+                    </view>
+                    <view class="goBuy">
+                      <text>马上抢</text>
+                      <text class="right-icon"></text>
+                    </view>
+                  </view>
+                </view>
+              </repeat>
+            </view>
+          </view>
+          <view class="look-more" @tap="lookMore"></view>
+        </view>
+
+        <view class="bottom-logo">
+          <image src="./resources/bottom-logo@2x.png" class="logoImage"></image>
+        </view>
+      </scroll-view>
+
+  </view>
+
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import {storeActivity, shopWallets} from '../../util/util'
+  import activeWallet from './activeList'
+  export default class Index extends wepy.page {
+    data = {
+      arr: ['1','2','3','4','5','6'],
+      scrollTop: false,
+      scrollTo: '',
+      toView: 'box',
+      haveMore: true,
+      storeActivitys: [],
+      storeParams: {
+        'per-page': 10,
+        page: 1,
+        lat: '',
+        lon: ''
+      }
+    }
+    components = {
+      activeWallet
+    }
+    onLoad() {
+      this.getStoreLIist(true)
+    }
+    methods = {
+      lookMore() {
+        for (let i = 0; i < 6; i++) {
+          this.arr.push(i)
+        }
+      },
+      jumpTo(e) {
+        if (!this.scrollTop) {
+          wx.pageScrollTo({
+            scrollTop: this.scrollTo,
+            duration: 0
+          })
+          setTimeout(() => {
+            this.toView = e
+            this.$apply()
+          }, 100)
+        } else {
+          this.toView = e
+        }
+        this.$apply()
+      },
+      lookMoreStore() {
+        setTimeout(() => {
+          if (this.haveMore) {
+            this.getStoreLIist()
+          }
+          this.$apply()
+        }, 200)
+      }
+    }
+//    获取店铺列表
+    getStoreLIist(clear) {
+      const {latitude, longitude} = this.$parent.globalData.locationMap
+      if (latitude && longitude) {
+        this.storeParams.lat = latitude
+        this.storeParams.lon = longitude
+        storeActivity({data: this.storeParams}).then(res => {
+          const data = res.data
+          if (data.length === this.storeParams['per-page']) {
+            this.haveMore = true
+            this.storeParams.page += 1
+          } else {
+            this.haveMore = false
+          }
+          if (clear) {
+            this.storeActivitys = data
+            console.log(this.FindWallet)
+          } else {
+            this.storeActivitys = this.storeActivitys.concat(data)
+          }
+          this.$apply()
+        })
+      }
+    }
+
+    // 滚动式图判断
+    onPageScroll(e) {
+      var query = wepy.createSelectorQuery()
+      const self = this
+      query.select('#navbar').boundingClientRect()
+      query.selectViewport().scrollOffset()
+      query.exec(function(res) {
+        self.scrollTo = parseInt(e.scrollTop) + parseInt(res[0].top)
+        if (parseInt(res[0].top) <= 0) {
+          self.scrollTop = true
+        } else if (parseInt(res[0].top) > 10) {
+          self.scrollTop = false
+          self.toView = 'box'
+        }
+        self.$apply()
+      })
+    }
+    config = {
+      navigationBarBackgroundColor: '#fe3092',
+      navigationBarTextStyle: '#fff',
+      backgroundTextStyle: 'light',
+      backgroundColor: '#6c2cd8',
+      navigationBarTitleText: '活动'
+    }
+  }
+</script>
+
+<style lang="stylus">
+  $main-box-color-1 = #f7faff
+  $main-box-color-bg-2 = #ed8626
+  $main-box-color-2 = #feae0f
+  $main-box-color-bg-3 = #f56262
+  $main-box-color-3 = #ff6a6a
+  $main-box-color-4 = #6e82ff
+  $main-box-color-bg-4 = #6275eb
+  $main-box-color-5 = #ff993a
+  $main-box-color-bg-5 = #ed8e36
+  $main-box-color-6 = #16bd8f
+  $main-box-color-bg-6 = #10a179
+  $main-box-color-7 = #ff6a6a
+  $main-box-color-bg-7 = #f56262
+  @import '../../stylus/mixin.styl'
+
+  page
+    width: 100%
+    height: 100%
+
+  .scr
+    height: 100vh
+
+  .newActive
+    position: relative
+    width: 100%
+    padding-bottom: 40rpx
+    background-color: #6c2cd8
+    .top-box
+      width: 100%
+      height: 530rpx
+      .banner
+        width: 100%
+        height: 100%
+    .ad-wrapper
+      display: flex
+      padding: 0 30rpx
+      justify-content: space-between
+      height: 168rpx
+      .ad-left-box,.ad-right-box
+        flex: 1
+        position: relative
+      .ad-left-box
+        margin-right: 16rpx
+      .ad-left-bg, .ad-right-bg
+        width: 338rpx
+        height: 168rpx
+      .ad-left-btn,.ad-right-btn
+        position: absolute
+        bottom: 0
+        left: 16rpx
+      .ad-btn-bg
+        width: 156rpx
+        height: 56rpx
+    .main-box-1
+      width: 690rpx
+      background-color: #db237b
+      margin: 0 auto
+      height: auto
+      min-height: 200rpx
+      /*padding-bottom: 400rpx*/
+      .header
+        width: 690rpx
+        height: 90rpx
+        margin: 40rpx auto 0 auto
+        position: relative
+        .header-image
+          width: 100%
+          height: 100%
+      .ware-content
+        width: 100%
+        height: 100%
+        background-color: #db237b
+        .ware-list
+          clear: both
+          .ware-item
+            float: left
+            width: 220rpx
+            min-height: 430rpx
+            overflow: hidden
+            margin-left: 8rpx
+            margin-top: 10rpx
+            background-color: #fff
+            .ware-avatar
+              width: 100%
+              height: 227rpx
+              image
+                width: 100%
+                height: 100%
+            .ware-desc
+              padding: 14rpx 10rpx
+              background-color: #fff
+              .ware-title
+                font-size: 24rpx
+                font-weight: bold
+                letter-spacing: 1rpx
+                white-space: nowrap
+                .payoffImage
+                  position: relative
+                  top: 5rpx
+                  width: 20rpx
+                  height: 24rpx
+                  margin-right: 10rpx
+              .amount-wrapper
+                display: flex
+                align-items:center
+                overflow: hidden
+                .symbol
+                  font-size: 24rpx
+                  color: #ff4552
+                  position: relative
+                  top: 6rpx
+                  font-weight: bold
+                  margin-right: 5rpx
+                .amount
+                  transform: translateY(0)
+                  height: 50rpx
+                  font-weight: bold
+                  font-size: 40rpx
+                  color: #ff4552
+                  display: flex
+                  flex-direction: column
+                .amount1
+                  animation-duration: 0.6s
+                  animation-delay: 0.1s
+                .amount2
+                  animation-duration: 0.7s
+                  animation-delay: 0.2s
+              .snapNumber
+                font-size: 20rpx
+                margin-bottom: 10rpx
+                color: #999999
+              .goBuy
+                border-radius: 8rpx
+                color: #ffffff
+                font-size: 24rpx
+                padding: 13rpx 0
+                text-align: center
+                background-color: #ff4552
+                .right-icon
+                  display: inline-block
+                  nagavition-icon-sm(#fff)
+
+        .line
+          border: 1rpx dashed #e6e6e6
+          position: relative
+          &:before
+            content: ""
+            width: 16rpx
+            height: 16rpx
+            background-color: #db237b
+            position: absolute
+            border-radius: 50%
+            left: -10rpx
+            top: -5rpx
+          &:after
+            content: ""
+            width: 16rpx
+            height: 16rpx
+            background-color: #db237b
+            position: absolute
+            border-radius: 50%
+            right: -10rpx
+            top: -5rpx
+    .main-box-2
+      width: 690rpx
+      margin: 60rpx auto 0 auto
+      background-color: $main-box-color-bg-2
+      .header
+        width: 690rpx
+        height: 90rpx
+        margin: 0 auto
+        .header-image
+          width: 100%
+          height: 100%
+      .shop-content
+        .shop-list
+          padding: 0 10rpx 20rpx 10rpx
+          .shop-item
+            display: flex
+            padding: 20rpx
+            margin-top: 10rpx
+            justify-content: space-between
+            background-color: #fff
+            .shop-item-avatar
+              width: 122rpx
+              height: 122rpx
+              image
+                width: 100%
+                height: 100%
+            .shop-item-desc
+              flex: 1
+              margin-left: 20rpx
+              font-size: 0
+            .shop-title
+               font-size: 26rpx
+               color: #333
+               font-weight: bold
+               margin-top: 10rpx
+               letter-spacing: 1rpx
+            .shop-subtitle
+              font-size: 20rpx
+              color: #999999
+              margin: 10rpx 0
+              .text
+                padding: 0 10rpx
+            .popular
+              background-color: #fffaf2
+              font-size: 20rpx
+              max-width: 160rpx
+              color: #ffa500
+              .popular-image
+                width: 16rpx
+                height: 17rpx
+                margin: 0 8rpx
+            .goShop
+              background-color: $main-box-color-2
+              color: #ffffff
+              font-size: 24rpx
+              padding: 14rpx 20rpx
+              border-radius: 8rpx
+              align-self: flex-end
+      .look-more,.goHome
+        &:before
+          color: $main-box-color-2
+        &:after
+          background-color: $main-box-color-2
+    .main-box-3
+      width: 690rpx
+      background-color: $main-box-color-bg-3
+      .header
+        width: 690rpx
+        height: 124rpx
+        margin: 0 auto
+        background-color: $main-box-color-3
+        .header-image
+          width: 100%
+          height: 100%
+      .ware-content
+        width: 100%
+        height: 100%
+        background-color: #f56262
+        .line
+          &:before, &:after
+            background-color: $main-box-color-bg-3
+      .look-more,.goHome
+        &:before
+          color: $main-box-color-3
+        &:after
+          background-color: $main-box-color-3
+    .main-box-4
+      margin-top: 80rpx
+      width: 690rpx
+      background-color: $main-box-color-bg-4
+      .header
+        width: 690rpx
+        height: 127rpx
+        margin: 0 auto
+        background-color: $main-box-color-4
+        .header-image
+          width: 100%
+          height: 100%
+      .ware-content
+        width: 100%
+        height: 100%
+        background-color: #f56262
+        .line
+          &:before, &:after
+            background-color: $main-box-color-bg-4
+      .look-more
+        &:before
+          color: $main-box-color-4
+        &:after
+          background-color: $main-box-color-4
+
+    .main-box-5
+      margin-top: 80rpx
+      width: 690rpx
+      background-color: $main-box-color-bg-5
+      .header
+        width: 690rpx
+        height: 130rpx
+        margin: 0 auto
+        overflow: hidden
+        background-color: $main-box-color-5
+        .header-image
+          width: 100%
+          height: 100%
+      .ware-content
+        width: 100%
+        height: 100%
+        background-color: #f56262
+        .line
+          &:before, &:after
+            background-color: $main-box-color-bg-5
+      .look-more
+        &:before
+          color: $main-box-color-5
+        &:after
+          background-color: $main-box-color-5
+
+    .main-box-6
+      margin-top: 80rpx
+      width: 690rpx
+      background-color: $main-box-color-bg-6
+      .header
+        width: 690rpx
+        height: 130rpx
+        margin: 0 auto
+        background-color: $main-box-color-6
+        .header-image
+          width: 100%
+          height: 100%
+      .ware-content
+        width: 100%
+        height: 100%
+        background-color: #f56262
+        .line
+          &:before, &:after
+            background-color: $main-box-color-bg-6
+      .look-more
+        &:before
+          color: $main-box-color-6
+        &:after
+          background-color: $main-box-color-6
+
+    .main-box-7
+      margin-top: 80rpx
+      width: 690rpx
+      background-color: $main-box-color-bg-7
+      .header
+        width: 690rpx
+        height: 127rpx
+        margin: 0 auto
+        background-color: $main-box-color-7
+        .header-image
+          width: 100%
+          height: 100%
+      .ware-content
+        width: 100%
+        height: 100%
+        background-color: #f56262
+        .line
+          &:before, &:after
+            background-color: $main-box-color-bg-7
+      .look-more
+        &:before
+          color: $main-box-color-7
+        &:after
+          background-color: $main-box-color-7
+
+    .banner-box
+      width: 690rpx
+      height: 154rpx
+      margin: 40rpx auto
+      text-align: center
+      image
+        width: 100%
+        height: 100%
+    .navBar
+      position: relative
+      padding: 0 30rpx
+      .category
+        display: flex
+      .category-item
+        flex: 1
+        text-align: center
+        background-color: #ffa126
+        color: #ffffff
+        font-size: 24rpx
+        font-weight: bold
+        padding: 26rpx 0
+        border-radius: 40rpx
+        margin:20rpx 10rpx 20rpx 0
+        border: 3rpx solid #555
+        box-sizing: border-box
+        &.category-active
+          background-color: #ffce02
+          color: #e63913
+          .local-image
+            position: relative
+            top: 6rpx
+            width: 24rpx
+            height: 28rpx
+            margin-right: 16rpx
+    .navFixed
+      position: fixed
+      top: 0
+      left: 0
+      width: 100%
+      background-color: #6c2cd8
+      z-index: 2
+      padding: 0
+      .navFixed-wrapper
+        padding: 0 30rpx
+    .bottom-logo
+      margin-top: 30rpx
+      text-align: center
+      .logoImage
+        width: 240rpx
+        height: 68rpx
+        margin: 0 auto
+    .look-more
+      clear: both
+      margin-top: 0 auto
+      &:before
+        content: '查看更多'
+        display: inline-block
+        width: 228rpx
+        margin: 20rpx 0
+        font-size: 28rpx
+        color: #db237b
+        text-indent: 50rpx
+        position: relative
+        left: 50%
+        margin-left: -114rpx
+        border-radius: 30rpx
+        height:60rpx
+        line-height: 60rpx
+        background-color: #fff
+      &:after
+        content: ">"
+        height: 40rpx
+        width: 40rpx
+        display: inline-block
+        border-radius: 50%
+        color: #ffffff
+        left: 42%
+        top: 3rpx
+        line-height: 40rpx
+        text-align: center
+        position: relative
+        background-color: #db237b
+        transform: rotate(90deg)
+
+    .goHome
+      clear: both
+      margin-top: 0 auto
+      &:before
+        content: '回到首页'
+        display: inline-block
+        width: 228rpx
+        margin: 20rpx 0
+        font-size: 28rpx
+        color: #db237b
+        text-indent: 50rpx
+        position: relative
+        left: 50%
+        margin-left: -114rpx
+        border-radius: 30rpx
+        height:60rpx
+        line-height: 60rpx
+        background-color: #fff
+      &:after
+        content: ">"
+        height: 40rpx
+        width: 40rpx
+        display: inline-block
+        border-radius: 50%
+        color: #ffffff
+        left: 42%
+        top: 3rpx
+        line-height: 40rpx
+        text-align: center
+        position: relative
+        background-color: #db237b
+  @-webkit-keyframes up /* Safari 和 Chrome */
+  {
+    0% {
+      transform: translateY(-20rpx)
+    }
+    50% {
+      transform: translateY(-40rpx)
+    }
+    100% {
+      transform: translateY(-100rpx)
+    }
+  }
+</style>

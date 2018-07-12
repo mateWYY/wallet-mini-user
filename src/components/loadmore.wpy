@@ -88,7 +88,7 @@
       </view>
     </view>
     <view wx:if="{{!loading}}" class="empty-data-box">
-      <text>很抱歉,没有找到您要资料/(ㄒoㄒ)/~~</text>
+      <text>很抱歉,没有找到您要的商品/(ㄒoㄒ)/~~</text>
     </view>
     <slot name="other"></slot>
   </view>
