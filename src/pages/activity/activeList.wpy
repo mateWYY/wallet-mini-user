@@ -1,5 +1,5 @@
 <template>
-  <view class="main-box-1 {{categoryType? 'main-box-' + categoryType : ''}}" id="box1">
+  <view class="main-box-1 {{categoryType? 'main-box-' + categoryType : ''}}" id="{{categoryType ? 'box'+ categoryType : null}}">
     <view class="header">
       <image src="./resources/main-box-{{categoryType ? categoryType : '1'}}_bg@2x.png"
              class="header-image"></image>
@@ -24,10 +24,10 @@
                 </view>
                 <view wx:if="{{item.animteAmount}}" class="animteAmount-flex">
                   <repeat for="{{item.animteAmount}}" item="items" index="indexs">
-                    <view class="amount {{'amount' + indexs}}">
-                      <text>{{items}}</text>
+                    <view class="amount {{'amount' + indexs}} {{items === '.' ? 'smallW': ''}}">
                       <text>{{index + 2}}</text>
                       <text>{{index + 3}}</text>
+                      <text>{{items}}</text>
                     </view>
                   </repeat>
                 </view>
@@ -35,7 +35,7 @@
               <view class="snapNumber">
                 <text>已抢{{item.getNumber}}人</text>
               </view>
-              <view class="goBuy" @tap="tapDraw({{item}}, {{index}})">
+              <view class="goBuy" @tap="tapDraw({{item}}, {{index}})" hover-class="hoverSty">
                 <text>马上抢</text>
                 <text class="right-icon"></text>
               </view>
@@ -74,7 +74,7 @@
     }
 //    抢福袋
     drawWallet(id, index) {
-      const amount = '78.88'
+      const amount = '7800'
       this.walletList[index].totalAmount = amount
       const animteAmount = amount.toString().split('')
       this.walletList[index].animteAmount = animteAmount
@@ -93,7 +93,7 @@
     // 获取福袋
     getWalletList(clear) {
       const self = this
-      this.params.category_id = this.categoryType
+      this.categoryType ? this.params.category_id = parseInt(this.categoryType) - 2 : this.params.category_id = ''
       shopWallets({data: this.params}).then(res => {
         const data = res.data
         if (data.length === this.params['per-page']) {
@@ -123,20 +123,17 @@
           }
           this.$apply()
         }, 500)
+      },
+      initData() {
+        setTimeout(() => {
+          this.getWalletList(true)
+        }, 500)
       }
-    }
-    onLoad() {
-      setTimeout(() => {
-        this.getWalletList(true)
-      }, 1000)
     }
   }
 </script>
 
 <style lang="stylus">
-  $main-box-color-1 = #f7faff
-  $main-box-color-bg-2 = #ed8626
-  $main-box-color-2 = #feae0f
   $main-box-color-bg-3 = #f56262
   $main-box-color-3 = #ff6a6a
   $main-box-color-4 = #6e82ff
@@ -147,7 +144,9 @@
   $main-box-color-bg-6 = #10a179
   $main-box-color-7 = #ff6a6a
   $main-box-color-bg-7 = #f56262
+
   @import '../../stylus/mixin.styl'
+
   .main-box-1
     width: 690rpx
     background-color: #db237b
@@ -216,20 +215,30 @@
                 color: #ff4552
                 display: flex
                 flex-direction: column
-              .amount0
-                animation: up 0.5s forwards linear
               .amount1
                 animation-duration: 0.6s
                 animation-delay: 0.1s
-                animation: up 0.5s forwards linear
               .amount2
                 animation-duration: 0.7s
                 animation-delay: 0.2s
-                animation: up 0.5s forwards linear
-            .animteAmount-flex
-              display: flex
-              align-items:center
-              overflow: hidden
+              .amount3
+                animation-duration: 0.7s
+                animation-delay: 0.2s
+              .amount4
+                animation-duration: 0.7s
+                animation-delay: 0.2s
+              .amount4
+                animation-duration: 0.7s
+                animation-delay: 0.2s
+             .animteAmount-flex
+                display: flex
+                align-items:center
+                overflow: hidden
+                .amount
+                  max-width: 24rpx
+                  animation: up 0.5s forwards linear
+                .smallW
+                  max-width: 13rpx
             .snapNumber
               font-size: 20rpx
               margin-bottom: 10rpx
@@ -308,7 +317,7 @@
       .line
         &:before, &:after
           background-color: $main-box-color-bg-4
-    .look-more
+    .look-more,.goHome
       &:before
         color: $main-box-color-4
       &:after
@@ -334,7 +343,7 @@
       .line
         &:before, &:after
           background-color: $main-box-color-bg-5
-    .look-more
+    .look-more,.goHome
       &:before
         color: $main-box-color-5
       &:after
@@ -359,7 +368,7 @@
       .line
         &:before, &:after
           background-color: $main-box-color-bg-6
-    .look-more
+    .look-more,.goHome
       &:before
         color: $main-box-color-6
       &:after
@@ -384,7 +393,7 @@
       .line
         &:before, &:after
           background-color: $main-box-color-bg-7
-    .look-more
+    .look-more,.goHome
       &:before
         color: $main-box-color-7
       &:after

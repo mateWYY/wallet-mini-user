@@ -1,5 +1,5 @@
 <template>
-  <view class="newActive">
+  <view class="newActive" >
     <view class="top-box">
       <image class="banner" src="./resources/top-banner@2x.png"></image>
     </view>
@@ -17,57 +17,7 @@
          </view>
       </view>
     </view>
-    <activeWallet ></activeWallet>
-      <!--<view class="main-box-1">-->
-        <!--<view class="header">-->
-          <!--<image src="./resources/main-box-1_bg@2x.png" class="header-image"></image>-->
-        <!--</view>-->
-        <!--<view class="ware-content">-->
-            <!--<view class="ware-list">-->
-              <!--<repeat for="{{arr}}" item="item">-->
-                 <!--<view class="ware-item">-->
-                   <!--<view class="ware-avatar">-->
-                      <!--<image src=""></image>-->
-                   <!--</view>-->
-                   <!--<view class="line"></view>-->
-                   <!--<view class="ware-desc">-->
-                     <!--<view class="ware-title">-->
-                       <!--<text>LADY西餐厅</text>-->
-                       <!--<image src="./resources/payoff@2x.png" class="payoffImage"></image>-->
-                     <!--</view>-->
-                     <!--<view class="amount-wrapper">-->
-                       <!--<text class="symbol">¥</text>-->
-                       <!--<view class="amount">-->
-                         <!--<text>3</text>-->
-                         <!--<text>2</text>-->
-                         <!--<text>1</text>-->
-                       <!--</view>-->
-                       <!--<view class="amount amount1">-->
-                         <!--<text>3</text>-->
-                         <!--<text>2</text>-->
-                         <!--<text>1</text>-->
-                       <!--</view>-->
-                       <!--<view class="amount amount2">-->
-                         <!--<text>3</text>-->
-                         <!--<text>2</text>-->
-                         <!--<text>1</text>-->
-                       <!--</view>-->
-                     <!--</view>-->
-                     <!--<view class="snapNumber">-->
-                       <!--<text>已抢36人</text>-->
-                     <!--</view>-->
-                     <!--<view class="goBuy">-->
-                       <!--<text>马上抢</text>-->
-                       <!--<text class="right-icon"></text>-->
-                     <!--</view>-->
-                   <!--</view>-->
-                 <!--</view>-->
-              <!--</repeat>-->
-            <!--</view>-->
-        <!--</view>-->
-        <!--<view class="look-more" @tap="lookMore"></view>-->
-      <!--</view>-->
-
+     <activeWallet1></activeWallet1>
       <view class="main-box-2">
         <view class="header">
           <image src="./resources/main-box-2_bg@2x.png" class="header-image"></image>
@@ -106,316 +56,71 @@
       <!--<view class="banner-box">-->
         <!--<image src="./resources/banner@2x.png"></image>-->
       <!--</view>-->
-
-        <view class="navBar" id="navbar">
-          <view class="category">
-            <view class="category-item {{toView == 'box1' || toView == 'box' ? 'category-active':''}}" @tap="jumpTo('box1')">
-              <image src="./resources/local-icon@2x.png" class="local-image" wx:if="{{toView == 'box1' || toView == 'box'}}"></image>
-              <text>主食类</text>
-            </view>
-            <view class="category-item {{toView == 'box2' ? 'category-active':''}}"  @tap="jumpTo('box2')">
-              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box2'}}"></image>
-              <text>奶茶饮品</text>
-            </view>
+    <view class="navBar" id="navbar">
+      <view class="navFixed-wrapper">
+        <view class="category">
+          <view class="category-item {{toView == 'box3' || toView == 'box' ? 'category-active':''}}" @tap="jumpTo('box3')">
+            <image src="./resources/local-icon@2x.png" class="local-image" wx:if="{{toView == 'box3' || toView == 'box'}}"></image>
+            <text>主食类</text>
           </view>
-          <view class="category">
-            <view class="category-item {{toView == 'box3' ? 'category-active':''}}"  @tap="jumpTo('box3')">
-              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box3'}}"></image>
-              <text>面包甜点</text>
-            </view>
-            <view class="category-item {{toView == 'box4' ? 'category-active':''}}"  @tap="jumpTo('box4')">
-              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box4'}}"></image>
-              <text>休闲小食</text>
-            </view>
-            <view class="category-item {{toView == 'box5' ? 'category-active':''}}"  @tap="jumpTo('box5')">
-              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box5'}}"></image>
-              <text>美妆</text>
-            </view>
+          <view class="category-item {{toView == 'box4' ? 'category-active':''}}"  @tap="jumpTo('box4')">
+            <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box4'}}"></image>
+            <text>奶茶饮品</text>
           </view>
         </view>
-
+        <view class="category">
+          <view class="category-item {{toView == 'box5' ? 'category-active':''}}"  @tap="jumpTo('box5')">
+            <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box5'}}"></image>
+            <text>面包甜点</text>
+          </view>
+          <view class="category-item {{toView == 'box6' ? 'category-active':''}}"  @tap="jumpTo('box6')">
+            <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box6'}}"></image>
+            <text>休闲小食</text>
+          </view>
+          <view class="category-item {{toView == 'box7' ? 'category-active':''}}"  @tap="jumpTo('box7')">
+            <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box7'}}"></image>
+            <text>美妆</text>
+          </view>
+        </view>
+      </view>
+    </view>
 
       <view class="navBar navFixed" hidden="{{!scrollTop}}">
         <view class="navFixed-wrapper">
           <view class="category">
-            <view class="category-item {{toView == 'box1' || toView == 'box' ? 'category-active':''}}" @tap="jumpTo('box1')">
-              <image src="./resources/local-icon@2x.png" class="local-image" wx:if="{{toView == 'box1' || toView == 'box'}}"></image>
+            <view class="category-item {{toView == 'box3' || toView == 'box' ? 'category-active':''}}" @tap="jumpTo('box3')">
+              <image src="./resources/local-icon@2x.png" class="local-image" wx:if="{{toView == 'box3' || toView == 'box'}}"></image>
               <text>主食类</text>
             </view>
-            <view class="category-item {{toView == 'box2' ? 'category-active':''}}"  @tap="jumpTo('box2')">
-              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box2'}}"></image>
+            <view class="category-item {{toView == 'box4' ? 'category-active':''}}"  @tap="jumpTo('box4')">
+              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box4'}}"></image>
               <text>奶茶饮品</text>
             </view>
           </view>
           <view class="category">
-            <view class="category-item {{toView == 'box3' ? 'category-active':''}}"  @tap="jumpTo('box3')">
-              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box3'}}"></image>
-              <text>面包甜点</text>
-            </view>
-            <view class="category-item {{toView == 'box4' ? 'category-active':''}}"  @tap="jumpTo('box4')">
-              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box4'}}"></image>
-              <text>休闲小食</text>
-            </view>
             <view class="category-item {{toView == 'box5' ? 'category-active':''}}"  @tap="jumpTo('box5')">
               <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box5'}}"></image>
+              <text>面包甜点</text>
+            </view>
+            <view class="category-item {{toView == 'box6' ? 'category-active':''}}"  @tap="jumpTo('box6')">
+              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box6'}}"></image>
+              <text>休闲小食</text>
+            </view>
+            <view class="category-item {{toView == 'box7' ? 'category-active':''}}"  @tap="jumpTo('box7')">
+              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box7'}}"></image>
               <text>美妆</text>
             </view>
           </view>
         </view>
       </view>
 
-      <scroll-view  scroll-y="{{scrollTop}}" scroll-into-view="{{toView}}"  scroll-with-animation="{{true}}"  class="scr" >
-          <view class="main-box-1 main-box-3" id="box1">
-            <view class="header">
-              <image src="./resources/main-box-3_bg@2x.png" class="header-image"></image>
-            </view>
-            <view class="ware-content">
-              <view class="ware-list">
-                <repeat for="{{arr}}" item="item">
-                  <view class="ware-item">
-                    <view class="ware-avatar">
-                      <image src=""></image>
-                    </view>
-                    <view class="line"></view>
-                    <view class="ware-desc">
-                      <view class="ware-title">
-                        <text>LADY西餐厅</text>
-                        <image src="./resources/payoff@2x.png" class="payoffImage"></image>
-                      </view>
-                      <view class="amount-wrapper">
-                        <text class="symbol">¥</text>
-                        <view class="amount">
-                          <text>3</text>
-                          <text>2</text>
-                          <text>1</text>
-                        </view>
-                        <view class="amount amount1">
-                          <text>3</text>
-                          <text>2</text>
-                          <text>1</text>
-                        </view>
-                        <view class="amount amount2">
-                          <text>3</text>
-                          <text>2</text>
-                          <text>1</text>
-                        </view>
-                      </view>
-                      <view class="snapNumber">
-                        <text>已抢36人</text>
-                      </view>
-                      <view class="goBuy">
-                        <text>马上抢</text>
-                        <text class="right-icon"></text>
-                      </view>
-                    </view>
-                  </view>
-                </repeat>
-              </view>
-            </view>
-            <view class="look-more" @tap="lookMore"></view>
-          </view>
 
-          <view class="main-box-1 main-box-4" id="box2">
-            <view class="header">
-              <image src="./resources/main-box-4_bg@2x.png" class="header-image"></image>
-            </view>
-            <view class="ware-content">
-              <view class="ware-list">
-                <repeat for="{{arr}}" item="item">
-                  <view class="ware-item">
-                    <view class="ware-avatar">
-                      <image src=""></image>
-                    </view>
-                    <view class="line"></view>
-                    <view class="ware-desc">
-                      <view class="ware-title">
-                        <text>LADY西餐厅</text>
-                        <image src="./resources/payoff@2x.png" class="payoffImage"></image>
-                      </view>
-                      <view class="amount-wrapper">
-                        <text class="symbol">¥</text>
-                        <view class="amount">
-                          <text>3</text>
-                          <text>2</text>
-                          <text>1</text>
-                        </view>
-                        <view class="amount amount1">
-                          <text>3</text>
-                          <text>2</text>
-                          <text>1</text>
-                        </view>
-                        <view class="amount amount2">
-                          <text>3</text>
-                          <text>2</text>
-                          <text>1</text>
-                        </view>
-                      </view>
-                      <view class="snapNumber">
-                        <text>已抢36人</text>
-                      </view>
-                      <view class="goBuy">
-                        <text>马上抢</text>
-                        <text class="right-icon"></text>
-                      </view>
-                    </view>
-                  </view>
-                </repeat>
-              </view>
-            </view>
-            <view class="look-more" @tap="lookMore"></view>
-          </view>
-
-          <view class="main-box-1 main-box-5" id="box3">
-            <view class="header">
-              <image src="./resources/main-box-5_bg@2x.png" class="header-image"></image>
-            </view>
-            <view class="ware-content">
-              <view class="ware-list">
-                <repeat for="{{arr}}" item="item">
-                  <view class="ware-item">
-                    <view class="ware-avatar">
-                      <image src=""></image>
-                    </view>
-                    <view class="line"></view>
-                    <view class="ware-desc">
-                      <view class="ware-title">
-                        <text>LADY西餐厅</text>
-                        <image src="./resources/payoff@2x.png" class="payoffImage"></image>
-                      </view>
-                      <view class="amount-wrapper">
-                        <text class="symbol">¥</text>
-                        <view class="amount">
-                          <text>3</text>
-                          <text>2</text>
-                          <text>1</text>
-                        </view>
-                        <view class="amount amount1">
-                          <text>3</text>
-                          <text>2</text>
-                          <text>1</text>
-                        </view>
-                        <view class="amount amount2">
-                          <text>3</text>
-                          <text>2</text>
-                          <text>1</text>
-                        </view>
-                      </view>
-                      <view class="snapNumber">
-                        <text>已抢36人</text>
-                      </view>
-                      <view class="goBuy">
-                        <text>马上抢</text>
-                        <text class="right-icon"></text>
-                      </view>
-                    </view>
-                  </view>
-                </repeat>
-              </view>
-            </view>
-            <view class="look-more" @tap="lookMore"></view>
-          </view>
-
-
-          <view class="main-box-1 main-box-6" id="box4">
-            <view class="header">
-              <image src="./resources/main-box-6_bg@2x.png" class="header-image"></image>
-            </view>
-            <view class="ware-content">
-              <view class="ware-list">
-                <repeat for="{{arr}}" item="item">
-                  <view class="ware-item">
-                    <view class="ware-avatar">
-                      <image src=""></image>
-                    </view>
-                    <view class="line"></view>
-                    <view class="ware-desc">
-                      <view class="ware-title">
-                        <text>LADY西餐厅</text>
-                        <image src="./resources/payoff@2x.png" class="payoffImage"></image>
-                      </view>
-                      <view class="amount-wrapper">
-                        <text class="symbol">¥</text>
-                        <view class="amount">
-                          <text>3</text>
-                          <text>2</text>
-                          <text>1</text>
-                        </view>
-                        <view class="amount amount1">
-                          <text>3</text>
-                          <text>2</text>
-                          <text>1</text>
-                        </view>
-                        <view class="amount amount2">
-                          <text>3</text>
-                          <text>2</text>
-                          <text>1</text>
-                        </view>
-                      </view>
-                      <view class="snapNumber">
-                        <text>已抢36人</text>
-                      </view>
-                      <view class="goBuy">
-                        <text>马上抢</text>
-                        <text class="right-icon"></text>
-                      </view>
-                    </view>
-                  </view>
-                </repeat>
-              </view>
-            </view>
-            <view class="look-more" @tap="lookMore"></view>
-          </view>
-
-        <view class="main-box-1 main-box-7" id="box5">
-          <view class="header">
-            <image src="./resources/main-box-7_bg@2x.png" class="header-image"></image>
-          </view>
-          <view class="ware-content">
-            <view class="ware-list">
-              <repeat for="{{arr}}" item="item">
-                <view class="ware-item">
-                  <view class="ware-avatar">
-                    <image src=""></image>
-                  </view>
-                  <view class="line"></view>
-                  <view class="ware-desc">
-                    <view class="ware-title">
-                      <text>LADY西餐厅</text>
-                      <image src="./resources/payoff@2x.png" class="payoffImage"></image>
-                    </view>
-                    <view class="amount-wrapper">
-                      <text class="symbol">¥</text>
-                      <view class="amount">
-                        <text>3</text>
-                        <text>2</text>
-                        <text>1</text>
-                      </view>
-                      <view class="amount amount1">
-                        <text>3</text>
-                        <text>2</text>
-                        <text>1</text>
-                      </view>
-                      <view class="amount amount2">
-                        <text>3</text>
-                        <text>2</text>
-                        <text>1</text>
-                      </view>
-                    </view>
-                    <view class="snapNumber">
-                      <text>已抢36人</text>
-                    </view>
-                    <view class="goBuy">
-                      <text>马上抢</text>
-                      <text class="right-icon"></text>
-                    </view>
-                  </view>
-                </view>
-              </repeat>
-            </view>
-          </view>
-          <view class="look-more" @tap="lookMore"></view>
-        </view>
-
+      <scroll-view  scroll-y="{{scrollTop}}" scroll-into-view="{{toView}}"  scroll-with-animation="{{true}}"  @scroll="scroll" class="scr">
+        <activeWallet2 categoryType="3"></activeWallet2>
+        <activeWallet3 categoryType="4"></activeWallet3>
+        <activeWallet4 categoryType="5"></activeWallet4>
+        <activeWallet5 categoryType="6"></activeWallet5>
+        <activeWallet6 categoryType="7"></activeWallet6>
         <view class="bottom-logo">
           <image src="./resources/bottom-logo@2x.png" class="logoImage"></image>
         </view>
@@ -427,14 +132,14 @@
 
 <script>
   import wepy from 'wepy'
-  import {storeActivity, shopWallets} from '../../util/util'
+  import {storeActivity} from '../../util/util'
   import activeWallet from './activeList'
   export default class Index extends wepy.page {
     data = {
-      arr: ['1','2','3','4','5','6'],
       scrollTop: false,
       scrollTo: '',
       toView: 'box',
+      loadInit: true,
       haveMore: true,
       storeActivitys: [],
       storeParams: {
@@ -445,17 +150,22 @@
       }
     }
     components = {
-      activeWallet
+      activeWallet1: activeWallet,
+      activeWallet2: activeWallet,
+      activeWallet3: activeWallet,
+      activeWallet4: activeWallet,
+      activeWallet5: activeWallet,
+      activeWallet6: activeWallet
     }
     onLoad() {
       this.getStoreLIist(true)
+      this.$invoke('activeWallet1', 'initData', '')
+      this.$invoke('activeWallet2', 'initData', '')
+      setTimeout(() => {
+        this.getChildData()
+      }, 400)
     }
     methods = {
-      lookMore() {
-        for (let i = 0; i < 6; i++) {
-          this.arr.push(i)
-        }
-      },
       jumpTo(e) {
         if (!this.scrollTop) {
           wx.pageScrollTo({
@@ -470,6 +180,9 @@
           this.toView = e
         }
         this.$apply()
+      },
+      scroll(e) {
+        console.log(e)
       },
       lookMoreStore() {
         setTimeout(() => {
@@ -504,7 +217,12 @@
         })
       }
     }
-
+    async getChildData() {
+      await this.$invoke('activeWallet3', 'initData', '')
+      await this.$invoke('activeWallet4', 'initData', '')
+      await this.$invoke('activeWallet5', 'initData', '')
+      await this.$invoke('activeWallet6', 'initData', '')
+    }
     // 滚动式图判断
     onPageScroll(e) {
       var query = wepy.createSelectorQuery()
@@ -512,13 +230,15 @@
       query.select('#navbar').boundingClientRect()
       query.selectViewport().scrollOffset()
       query.exec(function(res) {
-        self.scrollTo = parseInt(e.scrollTop) + parseInt(res[0].top)
+        // console.log(res[0].bottom)
+        self.scrollTop = parseInt(res[0].top)
         if (parseInt(res[0].top) <= 0) {
           self.scrollTop = true
         } else if (parseInt(res[0].top) > 10) {
           self.scrollTop = false
           self.toView = 'box'
         }
+        self.scrollTo = parseInt(e.scrollTop) + parseInt(res[0].top)
         self.$apply()
       })
     }
@@ -533,19 +253,9 @@
 </script>
 
 <style lang="stylus">
-  $main-box-color-1 = #f7faff
   $main-box-color-bg-2 = #ed8626
   $main-box-color-2 = #feae0f
-  $main-box-color-bg-3 = #f56262
-  $main-box-color-3 = #ff6a6a
-  $main-box-color-4 = #6e82ff
-  $main-box-color-bg-4 = #6275eb
-  $main-box-color-5 = #ff993a
-  $main-box-color-bg-5 = #ed8e36
-  $main-box-color-6 = #16bd8f
-  $main-box-color-bg-6 = #10a179
-  $main-box-color-7 = #ff6a6a
-  $main-box-color-bg-7 = #f56262
+
   @import '../../stylus/mixin.styl'
 
   page
@@ -587,11 +297,6 @@
         width: 156rpx
         height: 56rpx
     .main-box-1
-      width: 690rpx
-      background-color: #db237b
-      margin: 0 auto
-      height: auto
-      min-height: 200rpx
       /*padding-bottom: 400rpx*/
       .header
         width: 690rpx
@@ -675,27 +380,8 @@
                   display: inline-block
                   nagavition-icon-sm(#fff)
 
-        .line
-          border: 1rpx dashed #e6e6e6
-          position: relative
-          &:before
-            content: ""
-            width: 16rpx
-            height: 16rpx
-            background-color: #db237b
-            position: absolute
-            border-radius: 50%
-            left: -10rpx
-            top: -5rpx
-          &:after
-            content: ""
-            width: 16rpx
-            height: 16rpx
-            background-color: #db237b
-            position: absolute
-            border-radius: 50%
-            right: -10rpx
-            top: -5rpx
+    .mt40
+      margin-top: 250rpx
     .main-box-2
       width: 690rpx
       margin: 60rpx auto 0 auto
@@ -759,130 +445,6 @@
           color: $main-box-color-2
         &:after
           background-color: $main-box-color-2
-    .main-box-3
-      width: 690rpx
-      background-color: $main-box-color-bg-3
-      .header
-        width: 690rpx
-        height: 124rpx
-        margin: 0 auto
-        background-color: $main-box-color-3
-        .header-image
-          width: 100%
-          height: 100%
-      .ware-content
-        width: 100%
-        height: 100%
-        background-color: #f56262
-        .line
-          &:before, &:after
-            background-color: $main-box-color-bg-3
-      .look-more,.goHome
-        &:before
-          color: $main-box-color-3
-        &:after
-          background-color: $main-box-color-3
-    .main-box-4
-      margin-top: 80rpx
-      width: 690rpx
-      background-color: $main-box-color-bg-4
-      .header
-        width: 690rpx
-        height: 127rpx
-        margin: 0 auto
-        background-color: $main-box-color-4
-        .header-image
-          width: 100%
-          height: 100%
-      .ware-content
-        width: 100%
-        height: 100%
-        background-color: #f56262
-        .line
-          &:before, &:after
-            background-color: $main-box-color-bg-4
-      .look-more
-        &:before
-          color: $main-box-color-4
-        &:after
-          background-color: $main-box-color-4
-
-    .main-box-5
-      margin-top: 80rpx
-      width: 690rpx
-      background-color: $main-box-color-bg-5
-      .header
-        width: 690rpx
-        height: 130rpx
-        margin: 0 auto
-        overflow: hidden
-        background-color: $main-box-color-5
-        .header-image
-          width: 100%
-          height: 100%
-      .ware-content
-        width: 100%
-        height: 100%
-        background-color: #f56262
-        .line
-          &:before, &:after
-            background-color: $main-box-color-bg-5
-      .look-more
-        &:before
-          color: $main-box-color-5
-        &:after
-          background-color: $main-box-color-5
-
-    .main-box-6
-      margin-top: 80rpx
-      width: 690rpx
-      background-color: $main-box-color-bg-6
-      .header
-        width: 690rpx
-        height: 130rpx
-        margin: 0 auto
-        background-color: $main-box-color-6
-        .header-image
-          width: 100%
-          height: 100%
-      .ware-content
-        width: 100%
-        height: 100%
-        background-color: #f56262
-        .line
-          &:before, &:after
-            background-color: $main-box-color-bg-6
-      .look-more
-        &:before
-          color: $main-box-color-6
-        &:after
-          background-color: $main-box-color-6
-
-    .main-box-7
-      margin-top: 80rpx
-      width: 690rpx
-      background-color: $main-box-color-bg-7
-      .header
-        width: 690rpx
-        height: 127rpx
-        margin: 0 auto
-        background-color: $main-box-color-7
-        .header-image
-          width: 100%
-          height: 100%
-      .ware-content
-        width: 100%
-        height: 100%
-        background-color: #f56262
-        .line
-          &:before, &:after
-            background-color: $main-box-color-bg-7
-      .look-more
-        &:before
-          color: $main-box-color-7
-        &:after
-          background-color: $main-box-color-7
-
     .banner-box
       width: 690rpx
       height: 154rpx
@@ -892,7 +454,9 @@
         width: 100%
         height: 100%
     .navBar
+      margin: 25rpx 0
       position: relative
+      top: 0
       padding: 0 30rpx
       .category
         display: flex
@@ -919,12 +483,12 @@
             margin-right: 16rpx
     .navFixed
       position: fixed
-      top: 0
+      margin: 0
       left: 0
+      padding: 0
       width: 100%
       background-color: #6c2cd8
       z-index: 2
-      padding: 0
       .navFixed-wrapper
         padding: 0 30rpx
     .bottom-logo
@@ -934,70 +498,72 @@
         width: 240rpx
         height: 68rpx
         margin: 0 auto
-    .look-more
-      clear: both
-      margin-top: 0 auto
-      &:before
-        content: '查看更多'
-        display: inline-block
-        width: 228rpx
-        margin: 20rpx 0
-        font-size: 28rpx
-        color: #db237b
-        text-indent: 50rpx
-        position: relative
-        left: 50%
-        margin-left: -114rpx
-        border-radius: 30rpx
-        height:60rpx
-        line-height: 60rpx
-        background-color: #fff
-      &:after
-        content: ">"
-        height: 40rpx
-        width: 40rpx
-        display: inline-block
-        border-radius: 50%
-        color: #ffffff
-        left: 42%
-        top: 3rpx
-        line-height: 40rpx
-        text-align: center
-        position: relative
-        background-color: #db237b
-        transform: rotate(90deg)
+  .look-more
+    clear: both
+    margin-top: 0 auto
+    &:before
+      content: '查看更多'
+      display: inline-block
+      width: 228rpx
+      margin: 20rpx 0
+      font-size: 28rpx
+      color: #db237b
+      text-indent: 50rpx
+      position: relative
+      left: 50%
+      margin-left: -114rpx
+      border-radius: 30rpx
+      height:60rpx
+      line-height: 60rpx
+      background-color: #fff
+    &:after
+      content: ">"
+      height: 40rpx
+      width: 40rpx
+      display: inline-block
+      border-radius: 50%
+      color: #ffffff
+      left: 42%
+      top: 3rpx
+      line-height: 40rpx
+      text-align: center
+      position: relative
+      background-color: #db237b
+      transform: rotate(90deg)
 
-    .goHome
-      clear: both
-      margin-top: 0 auto
-      &:before
-        content: '回到首页'
-        display: inline-block
-        width: 228rpx
-        margin: 20rpx 0
-        font-size: 28rpx
-        color: #db237b
-        text-indent: 50rpx
-        position: relative
-        left: 50%
-        margin-left: -114rpx
-        border-radius: 30rpx
-        height:60rpx
-        line-height: 60rpx
-        background-color: #fff
-      &:after
-        content: ">"
-        height: 40rpx
-        width: 40rpx
-        display: inline-block
-        border-radius: 50%
-        color: #ffffff
-        left: 42%
-        top: 3rpx
-        line-height: 40rpx
-        text-align: center
-        position: relative
-        background-color: #db237b
+  .goHome
+    clear: both
+    margin-top: 0 auto
+    &:before
+      content: '回到首页'
+      display: inline-block
+      width: 228rpx
+      margin: 20rpx 0
+      font-size: 28rpx
+      color: #db237b
+      text-indent: 50rpx
+      position: relative
+      left: 50%
+      margin-left: -114rpx
+      border-radius: 30rpx
+      height:60rpx
+      line-height: 60rpx
+      background-color: #fff
+    &:after
+      content: ">"
+      height: 40rpx
+      width: 40rpx
+      display: inline-block
+      border-radius: 50%
+      color: #ffffff
+      left: 42%
+      top: 3rpx
+      line-height: 40rpx
+      text-align: center
+      position: relative
+      background-color: #db237b
+  .hoverSty
+    opacity: 0.7
   @-webkit-keyframes up /* Safari 和 Chrome */
   {
     0% {
