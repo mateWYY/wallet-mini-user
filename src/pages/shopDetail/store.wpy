@@ -530,7 +530,7 @@
   .LadyGaga{
     display: flex;
     height:50rpx;
-    padding-top:16rpx;
+    padding-top:10rpx;
   }
   /*.shareBtn{*/
     /*background-color: transparent;*/

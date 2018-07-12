@@ -5,7 +5,7 @@
   .pages{
     width:100%;
     background:linear-gradient(to bottom,#fd4d3e, #fa9410);
-    padding-bottom:170rpx;
+    padding-bottom:150rpx;
   }
   .shareBag{
     width:607rpx;
@@ -361,7 +361,7 @@
           </view>
           <view class="tel Fix">
             <input class="ty1" name="code"  type="number" maxlength="6" @input="iptCode" placeholder="请输入验证码"/>
-            <!--<text  @tap="getCode" class="num">{{codes}}</text>-->
+            <!--<text @tap="getCode" class="num">{{codes}}</text>-->
             <!--<text wx:if="{{isShow}}" class="num">{{time}}</text>-->
             <button class="num" @tap="reqCode" plain  disabled="{{buttonDisable}}">{{buttonText}}</button>
           </view>
@@ -371,7 +371,7 @@
         </view>
       </form>
     </view>
-      <view class="sharely {{scrollTop >=200 ? 'hide': ''}}">
+      <view class="sharely {{scrollTop >=200 ? 'hide': ''}}" >
         <button  open-type="share" class="leftShare">
           <image class="openMini" src="../../assets/shareFriend.png"></image>
         </button>
@@ -414,6 +414,9 @@
       scrollTop: 0
     };
     computed ={
+      togoable() {
+        return !(this.telephone)
+      },
       userInfo() {
         return wepy.getStorageSync('store')
       }
@@ -451,7 +454,6 @@
       return {
         title: tmpTitle.store.name + '| 邀请你瓜分￥' + tmpTitle.totalAmount + '元现金红包！点击立即领取',
         imageUrl: '../../assets/shareTu.png',
-        // path:'/pages/sharePage/Invite?id='+this.storeWallet[0].id,
         success: function(res) {
           console.log(res)
           wepy.showShareMenu({
@@ -498,10 +500,10 @@
           }
         }).then(res => {
           if (res) {
+            self.isbindPhone = false
             const {token, ...data} = res.data
             wepy.setStorageSync('token', token)
             wepy.setStorageSync('store', data)
-            self.isbindPhone = false
             self.getFast()
             self.$apply()
           }

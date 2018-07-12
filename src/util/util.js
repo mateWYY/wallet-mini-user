@@ -1,7 +1,7 @@
 // noinspection JSAnnotator
 import wepy from 'wepy'
-// const host = 'https://coupon.test.mihutime.com'
-const host = 'https://itimego.com'
+const host = 'https://coupon.test.mihutime.com'
+// const host = 'https://itimego.com'
 let token = wx.getStorageSync('token')
 const wxRequest = (params = {}, url) => {
   let token = wepy.getStorageSync('token')
@@ -68,7 +68,7 @@ const getVolSearch = (params) => wxRequest(params, host + '/shop/v1/search-logs'
 const getVolSearchClear = (params) => wxRequest(params, host + '/shop/v1/search-logs/clear');
 const getVolRemaining = (params) => wxRequest(params, host + '/shop/v1/wallet-shows/remaining');
 const getVolTotal = (params) => wxRequest(params, host + '/shop/v1/wallet-shows/total');
-//设置//
+//设置
 const getVolNickname = (params) => wxRequest(params, host + '/shop/v1/users/nickname');
 const getVolSex = (params) => wxRequest(params, host + '/shop/v1/users/sex');
 const getVolSexType = (params) => wxRequest(params, host + '/shop/v1/users/sex-type');
@@ -97,8 +97,9 @@ const getOrderDetail = (params) => wxRequest(params, host + '/shop/v1/orders/'+ 
 const getOrders = (params) => wxRequest(params, host + '/shop/v1/orders/'+ params.id + '/wallet');
 const getDelete = (params) => wxRequest(params, host + '/shop/v1/orders/'+ params.id+ '/delete');
 const getPingparams = (params) => wxRequest(params, host + '/shop/v1/orders/' + params.id+ '/pay')
-// 福袋展示/分享
+// 福袋展示/分享//福袋检查
 const getDrawlogs = (params) => wxRequest(params, host + '/shop/v1/wallet-shows/draw-logs');
+// const getDrawStore = (params) => wxRequest(params, host + '/shop/v1/wallets/' + params.id + '/draw-store');
 // 通知列表、详情
 const getmessages = (params) => wxRequest(params, host + '/shop/v1/messages');
 const getmessageDetail = (params) => wxRequest(params, host + '/shop/v1/messages/'+ params.id);
@@ -174,4 +175,5 @@ module.exports = {
   getOrderClose,
   getOrderDetail,
   getwalletsRemaining
-};
+  // getDrawStore
+}
