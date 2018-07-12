@@ -731,7 +731,7 @@
         </view>
         <view class="Location">
           <text  @tap="Gohere" class="iconfont icon-dingwei1" style="width:38rpx;height:38rpx;color:#33a1ff;"></text>
-          <view class="room">{{stores.addressFull}}<text class="foo">(距你步行{{stores.distance}})</text> </view>
+          <view class="room">{{stores.addressFull}}<text class="foo">(距你{{stores.distance}})</text> </view>
           <text class="line"></text>
           <text @tap="onChangeShowState" class="phone iconfont icon-dianhua"></text>
           <!--电话弹框-->
@@ -872,8 +872,7 @@
           </repeat>
         </view>
       </view>
-      <button open-type="share" class="requestGif" >
-        <!--wx:if="{{storeWallet[0].draw_status === 1}}"-->
+      <button open-type="share" class="requestGif"  wx:if="{{storeWallet[0].drawStatusText}}">
         <image class="request" src="../../assets/request.gif"></image>
       </button>
       <!--消费须知-->
@@ -1087,6 +1086,7 @@
       getStoreWallet() {
         getStoreWallet({id: this.storeId, data: this.params}).then(res=>{
           this.storeWallet = res.data
+          console.log(this.storeWallet)
           this.$apply()
         })
       }

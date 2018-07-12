@@ -366,13 +366,12 @@
             <button class="num" @tap="reqCode" plain  disabled="{{buttonDisable}}">{{buttonText}}</button>
           </view>
           <view class="button-wrapper">
-            <button formType="submit" class="buttonable" disabled="{{!logins.phone || !logins.code}}" plain>确定
-            </button>
+            <button formType="submit" class="buttonable" disabled="{{!logins.phone || !logins.code}}" plain>确定</button>
           </view>
         </view>
       </form>
     </view>
-      <view class="sharely {{scrollTop >=200 ? 'hide': ''}}" >
+      <view class="sharely {{scrollTop >=200 ? 'hide': ''}}">
         <button  open-type="share" class="leftShare">
           <image class="openMini" src="../../assets/shareFriend.png"></image>
         </button>
@@ -386,7 +385,7 @@
 <script>
   import wepy from 'wepy'
   import getCode from '@/mixins/getCode'
-  import {getCarousel, getDraw, getlogin, getCommonloginCoding, getCommonLoginCodes} from '../../util/util'
+  import {getCarousel, getDraw, getCommonloginCoding, getCommonLoginCodes} from '../../util/util'
   export default class Invite extends wepy.page {
     config = {
       backgroundTextStyle: 'light',
@@ -415,9 +414,6 @@
       scrollTop: 0
     };
     computed ={
-      togoable() {
-        return !(this.telephone)
-      },
       userInfo() {
         return wepy.getStorageSync('store')
       }
@@ -444,6 +440,28 @@
             url: '../first'
           })
         })
+      }
+    }
+    // 分享页面小程序
+    onShareAppMessage (res) {
+      const tmpTitle = this.carous
+      if (res.from === 'button') {
+        // 来自button转发按钮
+      }
+      return {
+        title: tmpTitle.store.name + '| 邀请你瓜分￥' + tmpTitle.totalAmount + '元现金红包！点击立即领取',
+        imageUrl: '../../assets/shareTu.png',
+        // path:'/pages/sharePage/Invite?id='+this.storeWallet[0].id,
+        success: function(res) {
+          console.log(res)
+          wepy.showShareMenu({
+            // 要求小程序返回分享目标信息
+            withShareTicket: true
+          })
+        },
+        fail: function(res) {
+          console.log(res)
+        }
       }
     }
     methods = {
@@ -505,7 +523,7 @@
             duration: 1000
           })
         }
-        const api = getCommonloginCoding({data: {phone: this.logins.phone}, method: 'Post'})
+        const api = getCommonloginCoding({data: {phone: this.logins.phone}, method: 'POST'})
         this.getCode(api)
       },
 //          关闭手机号弹窗
