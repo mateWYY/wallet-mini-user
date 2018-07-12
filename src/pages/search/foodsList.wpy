@@ -289,7 +289,8 @@
     position: sticky;
     position: -webkit-sticky;
     top: 0;
-    height: 136rpx;
+    height: 85rpx;
+    /*height: 136rpx;*/
   }
   .distanceSelect{
     color: #ff4552;
@@ -314,53 +315,54 @@
         <text wx:if="{{params.keyword}}" @tap="closeInputVal" class="iconfont icon-guanbi1"></text>
       </view>
       <!--店铺福袋列表-->
-      <view class="AllType" wx:if="{{FindWallet.length>0}}">
-        <view @tap="clickPerson(1)" class="{{selectPerson == 1 && selectPersonShow ? 'active_all' :''}}">
-          <text class="basc">全部类型</text>
-          <view class="dot-bottom"></view>
-        </view>
-        <view @tap="clickPerson(2)" class="{{selectPerson == 2 && selectPersonShow ? 'active_all' :''}}">
-          <text class="basc">附近</text>
-          <view class="dot-bottom"></view>
-        </view>
-      </view>
+      <!--<view class="AllType" wx:if="{{FindWallet.length>0}}">-->
+        <!--<view @tap="clickPerson(1)" class="{{selectPerson == 1 && selectPersonShow ? 'active_all' :''}}">-->
+          <!--<text class="basc">全部类型</text>-->
+          <!--<view class="dot-bottom"></view>-->
+        <!--</view>-->
+        <!--<view @tap="clickPerson(2)" class="{{selectPerson == 2 && selectPersonShow ? 'active_all' :''}}">-->
+          <!--<text class="basc">附近</text>-->
+          <!--<view class="dot-bottom"></view>-->
+        <!--</view>-->
+      <!--</view>-->
     </view>
 
-    <view class="person_modal" catchtouchmove="move" wx:if="{{selectPersonShow}}">
-      <view class="phone_select" hidden="{{selectPerson == 1}}">
-        <view class="selectCategory">
-          <repeat for="{{distance}}" item="item" index="index">
-            <view class="select_one {{distanceIndex == index ? 'distanceSelect' : ''}}"
-                  @tap="setDistance({{index}},{{item}})">
-              <text class="text-color">{{item}}</text>
-              <view class="nice" wx:if="{{distanceIndex == index}}"></view>
-            </view>
-          </repeat>
-        </view>
-      </view>
-      <view hidden="{{selectPerson == 2}}" class="filter-category" >
-        <view class="left-mainCategory">
-          <repeat for="{{allCategory}}" item="item" index="index">
-            <view class="mainCategoryItem {{mainSelectCate == index ? 'mainActive': ''}}"
-                  @tap="selectMainCategory({{index}},{{item}})">
-              {{item.name}}
-            </view>
-          </repeat>
-          <view class="mainCategoryItem" @tap="allMainCate">
-            <text class="text-color">全部</text>
-          </view>
-        </view>
-        <scroll-view scroll-y  class="right-childCategory">
-          <repeat for="{{categoryChilds}}" item="item">
-            <view class="childCategoryItem {{selectCategoryId == item.id ? 'childActive' : ''}}"
-                  @tap="filterCate({{item}})">
-              {{item.name}}
-            </view>
-          </repeat>
-        </scroll-view>
-      </view>
-      <view class="person_box" @tap="close"></view>
-    </view>
+    <!--<view class="person_modal" catchtouchmove="move" wx:if="{{selectPersonShow}}">-->
+      <!--<view class="phone_select" hidden="{{selectPerson == 1}}">-->
+        <!--<view class="selectCategory">-->
+          <!--<repeat for="{{distance}}" item="item" index="index">-->
+            <!--<view class="select_one {{distanceIndex == index ? 'distanceSelect' : ''}}"-->
+                  <!--@tap="setDistance({{index}},{{item}})">-->
+              <!--<text class="text-color">{{item}}</text>-->
+              <!--<view class="nice" wx:if="{{distanceIndex == index}}"></view>-->
+            <!--</view>-->
+          <!--</repeat>-->
+        <!--</view>-->
+      <!--</view>-->
+      <!--<view hidden="{{selectPerson == 2}}" class="filter-category" >-->
+        <!--<view class="left-mainCategory">-->
+          <!--<repeat for="{{allCategory}}" item="item" index="index">-->
+            <!--<view class="mainCategoryItem {{mainSelectCate == index ? 'mainActive': ''}}"-->
+                  <!--@tap="selectMainCategory({{index}},{{item}})">-->
+              <!--{{item.name}}-->
+            <!--</view>-->
+          <!--</repeat>-->
+          <!--<view class="mainCategoryItem" @tap="allMainCate">-->
+            <!--<text class="text-color">全部</text>-->
+          <!--</view>-->
+        <!--</view>-->
+        <!--<scroll-view scroll-y  class="right-childCategory">-->
+          <!--<repeat for="{{categoryChilds}}" item="item">-->
+            <!--<view class="childCategoryItem {{selectCategoryId == item.id ? 'childActive' : ''}}"-->
+                  <!--@tap="filterCate({{item}})">-->
+              <!--{{item.name}}-->
+            <!--</view>-->
+          <!--</repeat>-->
+        <!--</scroll-view>-->
+      <!--</view>-->
+      <!--<view class="person_box" @tap="close"></view>-->
+    <!--</view>-->
+
     <loadmore :pullUpStatus.sync="haveMore" :loading.sync="loading">
         <repeat for="{{FindWallet}}" item="item">
           <Delicious :syncTitle.sync="item" wx:if="{{FindWallet.length}}" :types="-1"></Delicious>
@@ -398,8 +400,8 @@
       categoryChilds: [],
       mainSelectCate: 0,
       distanceIndex: 0,
-      selectPersonShow: false,
-      selectPerson: 1,
+      // selectPersonShow: false,
+      // selectPerson: 1,
       selectArea: false
     };
     components = {
@@ -453,56 +455,55 @@
       //监听input输入框//
       toSearch(e) {
         this.params.keyword = e.detail.value
-        if (this.params.keyword) {
-          this.getAllStores(true)
-        }
-      },
-      setDistance(index, i) {
-        this.distanceIndex = index
-        if (index === 0) {
-          this.params.distance = ''
-        } else {
-          this.params.distance = parseInt(i)
-        }
         this.params.page = 1
         this.getAllStores(true)
-        this.selectPersonShow = false
       },
+      // setDistance(index, i) {
+      //   this.distanceIndex = index
+      //   if (index === 0) {
+      //     this.params.distance = ''
+      //   } else {
+      //     this.params.distance = parseInt(i)
+      //   }
+      //   this.params.page = 1
+      //   this.getAllStores(true)
+      //   this.selectPersonShow = false
+      // },
       // 点击选择类型
-      clickPerson(val) {
-        this.selectPersonShow = true
-        this.selectPerson = val
-      },
-      allMainCate() {
-        this.params.categoryId = ''
-        this.params.distance = ''
-        this.params.page = 1
-        this.getAllStores(true)
-        this.selectPersonShow = false
-      },
-      selectMainCategory(val, item) {
-        this.mainSelectCate = val
-        this.getChildsCategory(item.id)
-      },
-      filterCate(item) {
-        this.selectCategoryId = item.id
-        this.params.categoryId = item.id
-        this.params.page = 1
-        this.getAllStores(true)
-        this.selectPersonShow = false
-      },
+      // clickPerson(val) {
+      //   this.selectPersonShow = true
+      //   this.selectPerson = val
+      // },
+      // allMainCate() {
+      //   this.params.categoryId = ''
+      //   this.params.distance = ''
+      //   this.params.page = 1
+      //   this.getAllStores(true)
+      //   this.selectPersonShow = false
+      // },
+      // selectMainCategory(val, item) {
+      //   this.mainSelectCate = val
+      //   this.getChildsCategory(item.id)
+      // },
+      // filterCate(item) {
+      //   this.selectCategoryId = item.id
+      //   this.params.categoryId = item.id
+      //   this.params.page = 1
+      //   this.getAllStores(true)
+      //   this.selectPersonShow = false
+      // },
       move(e) {
 //      console.log(e)
-      },
-      // 点击切换
-      mySelect(e) {
-        this.firstPerson = e.target.dataset.me
-        this.selectPerson = true
-        this.selectArea = false
-      },
-      close() {
-        this.selectPersonShow = false
       }
+      // 点击切换
+      // mySelect(e) {
+      //   this.firstPerson = e.target.dataset.me
+      //   this.selectPerson = true
+      //   this.selectArea = false
+      // },
+      // close() {
+      //   this.selectPersonShow = false
+      // }
     };
     onPullDownRefresh () {
       wepy.showNavigationBarLoading()
