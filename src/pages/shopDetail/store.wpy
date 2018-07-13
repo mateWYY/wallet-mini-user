@@ -82,6 +82,7 @@
   font-weight:bold;
   align-self: center;
   vertical-align:middle;
+  padding-right:10rpx;
 }
   .melon{
     padding-left:40rpx;
@@ -642,13 +643,13 @@
     flex:1;
     align-self: center;
   }
-  .rush{
-    width:66rpx;
-    height:26rpx;
-    vertical-align:middle;
-    align-self:center;
-    padding-left:9rpx;
-  }
+  /*.rush{*/
+    /*width:66rpx;*/
+    /*height:26rpx;*/
+    /*vertical-align:middle;*/
+    /*align-self:center;*/
+    /*padding-left:9rpx;*/
+  /*}*/
   .requestGif{
     position: fixed;
     right:-12rpx;
@@ -704,6 +705,17 @@
     width: 0;
     height: 0;
     color: transparent;
+  }
+  .maxValue{
+    height:28rpx;
+    padding:3rpx 5rpx;
+    background-color: rgba(255, 69, 82, 0.14);
+    border-radius: 2rpx;
+    border: solid 1px rgba(255, 69, 82, 0.14);
+    font-size:22rpx;
+    color: #ff4552;
+    align-self: center;
+    vertical-align: middle;
   }
 </style>
 <template>
@@ -798,7 +810,7 @@
           <view class="shopsTitle">
             <image class="shopmon" src="../../assets/shopmon.png"></image>
             <text class="Fourtune">福袋大派送</text>
-            <image class="rush" src="../../assets/rush.png"></image>
+            <text class="maxValue">最高可享￥{{storeWallet[0].maxValue}}</text>
           </view>
             <button hover-class="none" class="{{storeWallet[0].draw_status===1? 'branch':'graych'}}" @tap="progress({{storeWallet[0]}})">
               {{storeWallet[0].drawStatusText}}<!--<text class="iconfont icon-right"></text>-->
@@ -807,7 +819,7 @@
           <view class="melon">
             <view class="other">
               <view class="allonter">
-                <view class="already">最大红包￥{{storeWallet[0].maxValue}} | 每天限领{{storeWallet[0].limitNum}}次</view>
+                <view class="already">每天限领{{storeWallet[0].limitNum}}次</view>
               </view>
               <view class="total">
                 <view class="already">{{storeWallet[0].getNumber}}人已领</view>
