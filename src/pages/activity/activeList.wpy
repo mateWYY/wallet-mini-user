@@ -25,9 +25,10 @@
                 <view wx:if="{{item.animteAmount}}" class="animteAmount-flex">
                   <repeat for="{{item.animteAmount}}" item="items" index="indexs">
                     <view class="amount {{'amount' + indexs}} {{items === '.' ? 'smallW': ''}}">
-                      <text>{{index + 2}}</text>
-                      <text>{{index + 3}}</text>
-                      <text>{{items}}</text>
+                      <text class="text">{{index + 1}}</text>
+                      <text class="text">{{index + 2}}</text>
+                      <text class="text">{{index + 3}}</text>
+                      <text class="text">{{items}}</text>
                     </view>
                   </repeat>
                 </view>
@@ -35,8 +36,9 @@
               <view class="snapNumber">
                 <text>已抢{{item.getNumber}}人</text>
               </view>
-              <view class="goBuy" @tap="tapDraw({{item}}, {{index}})" hover-class="hoverSty">
-                <text>马上抢</text>
+              <view class="goBuy {{item.draw_status == 0 ? 'BuyStyle':''}}" @tap="tapDraw({{item}}, {{index}})"
+                    hover-class="hoverSty">
+                <text>{{item.drawText}}</text>
                 <text class="right-icon"></text>
               </view>
             </view>
@@ -74,21 +76,21 @@
     }
 //    抢福袋
     drawWallet(id, index) {
-      const amount = '7800'
-      this.walletList[index].totalAmount = amount
-      const animteAmount = amount.toString().split('')
-      this.walletList[index].animteAmount = animteAmount
-//      getDraw({method: 'post', id: id, data: {id: id}}).then(res => {
-//        const {amount} = res.data
-//        const animteAmount = amount.toString().split('')
-//        console.log(animteAmount)
-//        this.walletList[index].totalAmount = amount
-//        this.walletList[index].animteAmount = animteAmount
-//        this.walletList[index].animate = true
-//        this.$apply()
-//      }).catch(err => {
-//        return wepy.showToast({title: `${err.message}`, icon: 'none', duration: 2000})
-//      })
+      getDraw({method: 'post', id: id, data: {id: id}}).then(res => {
+        const {amount, id} = res.data
+        const animteAmount = amount.toString().split('')
+        console.log(animteAmount)
+        this.$emit('returnWallet', res.data)
+        this.walletList[index].draw_status = 0
+        this.walletList[index].drawText = '去买单'
+        this.walletList[index].totalAmount = amount
+        this.walletList[index].animteAmount = animteAmount
+        this.walletList[index].userWalletId = id
+        this.walletList[index].animate = true
+        this.$apply()
+      }).catch(err => {
+        return wepy.showToast({title: `${err.message}`, icon: 'none', duration: 2000})
+      })
     }
     // 获取福袋
     getWalletList(clear) {
@@ -104,7 +106,6 @@
         }
         if (clear) {
           this.walletList = data
-          console.log(this.walletList)
         } else {
           this.walletList = this.walletList.concat(data)
         }
@@ -113,8 +114,14 @@
     }
     methods = {
       tapDraw(item, index) {
-        const {id} = item
-        this.drawWallet(id, index)
+        const {id, draw_status, userWalletId} = item
+        if (parseInt(draw_status) === 0) {
+          wx.navigateTo({
+            url: `../../pages/payment/bagBuy?id=${userWalletId}`
+          })
+        } else {
+          this.drawWallet(id, index)
+        }
       },
       lookMore() {
         setTimeout(() => {
@@ -203,18 +210,19 @@
               .symbol
                 font-size: 24rpx
                 color: #ff4552
-                position: relative
-                top: 10rpx
                 font-weight: bold
                 margin-right: 5rpx
               .amount
                 transform: translateY(0)
-                height: 50rpx
+                height: 45rpx
                 font-weight: bold
                 font-size: 40rpx
                 color: #ff4552
                 display: flex
                 flex-direction: column
+                .text
+                  flex: 1
+                  display: inline-block
               .amount1
                 animation-duration: 0.6s
                 animation-delay: 0.1s
@@ -222,11 +230,11 @@
                 animation-duration: 0.7s
                 animation-delay: 0.2s
               .amount3
-                animation-duration: 0.7s
-                animation-delay: 0.2s
+                animation-duration: 0.8s
+                animation-delay: 0.3s
               .amount4
-                animation-duration: 0.7s
-                animation-delay: 0.2s
+                animation-duration: 0.9s
+                animation-delay: 0.4s
               .amount4
                 animation-duration: 0.7s
                 animation-delay: 0.2s
@@ -253,6 +261,8 @@
               .right-icon
                 display: inline-block
                 nagavition-icon-sm(#fff)
+            .BuyStyle
+              background-color:#feae0f
 
       .line
         border: 1rpx dashed #e6e6e6
@@ -275,11 +285,12 @@
           border-radius: 50%
           right: -10rpx
           top: -5rpx
-  .main-box-3
+.newActive
+  .main-box-1.main-box-3
     width: 690rpx
     background-color: $main-box-color-bg-3
     .header
-      width: 690rpx
+      width: 697rpx
       height: 124rpx
       margin: 0 auto
       background-color: $main-box-color-3
@@ -298,7 +309,7 @@
         color: $main-box-color-3
       &:after
         background-color: $main-box-color-3
-  .main-box-4
+  .main-box-1.main-box-4
     margin-top: 80rpx
     width: 690rpx
     background-color: $main-box-color-bg-4
@@ -323,7 +334,7 @@
       &:after
         background-color: $main-box-color-4
 
-  .main-box-5
+  .main-box-1.main-box-5
     margin-top: 80rpx
     width: 690rpx
     background-color: $main-box-color-bg-5
@@ -349,7 +360,7 @@
       &:after
         background-color: $main-box-color-5
 
-  .main-box-6
+  .main-box-1.main-box-6
     margin-top: 80rpx
     width: 690rpx
     background-color: $main-box-color-bg-6
@@ -374,7 +385,7 @@
       &:after
         background-color: $main-box-color-6
 
-  .main-box-7
+  .main-box-1.main-box-7
     margin-top: 80rpx
     width: 690rpx
     background-color: $main-box-color-bg-7

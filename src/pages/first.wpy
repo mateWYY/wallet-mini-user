@@ -43,6 +43,8 @@
       <delicacy :category.sync="selectTab" ></delicacy>
     </view>
   </view>
+
+  <activeTipsPopup :showTips.sync="showTipPopup"></activeTipsPopup>
 </template>
 
 <script>
@@ -58,6 +60,7 @@
   import amapFile from '@/libs/amap-wx'
   import delicacy from '../components/delicacy'
   import Delicious from '../components/Delicious';
+  import activeTipsPopup from '../components/activeTipsPopup';
   export default class first extends wepy.page {
     config = {
       backgroundTextStyle: 'light',
@@ -69,6 +72,7 @@
       backgroundColor: "#ff4552"
     };
     data = {
+      showTipPopup: false,
       selectTab: 0,
       haveMore: true,
       showapp: false,
@@ -155,8 +159,13 @@
       });
     }
     onShow() {
-      const {name} = this.$parent.globalData.cityId
-      if (name) { this.address.city = name } else {
+      const {name, id} = this.$parent.globalData.cityId
+      if (name) {
+        this.address.city = name
+        if (parseInt(id) === 1108) {
+          this.showTipPopup = true
+        }
+      } else {
         this.getLocations()
       }
     }
@@ -167,7 +176,8 @@
     }
     components = {
       delicacy: delicacy,
-      Delicious: Delicious
+      Delicious: Delicious,
+      activeTipsPopup
     };
     getLocations () {
       const myAmapFun = new amapFile.AMapWX({key: key})
@@ -178,6 +188,9 @@
           self.$parent.globalData.locationMap.latitude = latitude
           self.$parent.globalData.locationMap.longitude = longitude
           self.address.city = regeocodeData.addressComponent.city
+          if (regeocodeData.addressComponent.city === '阜阳市') {
+            self.showTipPopup = true
+          }
           self.$apply()
         },
         fail: function(info) {

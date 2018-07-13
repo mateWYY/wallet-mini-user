@@ -198,7 +198,7 @@
       m: '',
       s: '',
       value: '',
-      timer: 0,
+      timer: '',
       paymentId: {}
     };
 
@@ -224,6 +224,7 @@
         }).catch(err => {
           console.log(err)
           if (err.indexOf('fail') !== -1) {
+            clearInterval(this.timer)
             wepy.navigateBack()
           }
         })
@@ -243,19 +244,21 @@
         this.paymentId = res.data
         let t = this.paymentId.endAtTime
         clearInterval(this.timer)
-        this.timer = setInterval(() => {
-          let hh = parseInt(t / 60 / 60 % 24, 10)
-          let mm = parseInt(t / 60 % 60, 10)
-          let ss = parseInt(t % 60, 10)
-          this.h = hh < 10 ? ("0" + hh) : hh;   //时
-          this.m = mm < 10 ? ("0" + mm) : mm;   //分
-          this.s = ss < 10 ? ("0" + ss) : ss;   //秒
-          t--;
-          if (parseInt(t) < 0) {
-            clearInterval(this.timer)
-          }
-          this.$apply()
-        }, 1000);
+        if (!this.timer) {
+          this.timer = setInterval(() => {
+            let hh = parseInt(t / 60 / 60 % 24, 10)
+            let mm = parseInt(t / 60 % 60, 10)
+            let ss = parseInt(t % 60, 10)
+            this.h = hh < 10 ? ("0" + hh) : hh;   //时
+            this.m = mm < 10 ? ("0" + mm) : mm;   //分
+            this.s = ss < 10 ? ("0" + ss) : ss;   //秒
+            t--;
+            if (parseInt(t) < 0) {
+              clearInterval(this.timer)
+            }
+            this.$apply()
+          }, 1000)
+        }
       })
     }
     events = {};

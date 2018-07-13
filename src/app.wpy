@@ -271,7 +271,7 @@ export default class extends wepy.app {
       this.login()
     })
      wepy.reLaunch({
-       url: '../pages/activity/newActive'
+
 // //        url:'../pages/search/Plan'
 //       // url:"pages/bindCell"
 //       // url:"../pages/search/plan"
