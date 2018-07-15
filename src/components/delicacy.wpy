@@ -130,7 +130,7 @@
   <view class="delicacy">
     <swiper indicator-dots="true" indicator-active-color="#fff" class="{{category == 0 ? 'swiper-sty': 'swiper-sty1'}}" wx:if="{{imags.length}}">
       <repeat for="{{imags}}" item="item">
-        <swiper-item>
+        <swiper-item @tap="goActivity">
           <image src="{{item.imageUrl}}" class="slideImage"/>
         </swiper-item>
       </repeat>
@@ -441,6 +441,23 @@
     }
 
     methods = {
+      // 跳转活动页
+      goActivity() {
+        let token = wepy.getStorageSync('token')
+        if (!token) {
+          wx.redirectTo({
+            url: './bindCell'
+          })
+        } else {
+          const {id} = this.$parent.$parent.globalData.cityId
+          const {address} = this.$parent.$parent.globalData.locationMap
+          if (parseInt(id) === 1108 || address === '阜阳市') {
+            wx.navigateTo({
+              url: './activity/newActive'
+            })
+          }
+        }
+      },
       // 去买单
       buysImmedly(id){
         wx.navigateTo({
