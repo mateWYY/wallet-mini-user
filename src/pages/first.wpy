@@ -159,20 +159,32 @@
       });
     }
     onShow() {
-      const {name, id} = this.$parent.globalData.cityId
+      const {name} = this.$parent.globalData.cityId
       if (name) {
         this.address.city = name
-        if (parseInt(id) === 1108) {
-          this.showTipPopup = true
-        }
       } else {
         this.getLocations()
       }
     }
 
     onLoad() {
+      this.showTipPopup = true
       this.getCommonCategories()
+      this.showActivity()
+    }
+    showActivity() {
       // 高度自适应
+      const {latitude, longitude} = this.$parent.globalData.locationMap
+      if (latitude && longitude) {
+        if (this.address.city === '阜阳市') {
+          this.showTipPopup = true
+        }
+        this.$apply()
+      } else {
+        setTimeout(() => {
+          this.showActivity()
+        }, 1000)
+      }
     }
     components = {
       delicacy: delicacy,
@@ -187,10 +199,8 @@
           const {latitude, longitude, regeocodeData} = data[0]
           self.$parent.globalData.locationMap.latitude = latitude
           self.$parent.globalData.locationMap.longitude = longitude
+          self.$parent.globalData.locationMap.address = regeocodeData.addressComponent.city
           self.address.city = regeocodeData.addressComponent.city
-          if (regeocodeData.addressComponent.city === '阜阳市') {
-            self.showTipPopup = true
-          }
           self.$apply()
         },
         fail: function(info) {

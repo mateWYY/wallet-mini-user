@@ -1,7 +1,7 @@
 <template>
-  <view class="activeTipsPopup"  hidden="{{!showTips}}">
+  <view class="activeTipsPopup"  hidden="{{!showTips}}" catchtouchmove="move">
     <view class="activeTipsPopup-mask"></view>
-    <view class="activeTipsPopup-content">
+    <scroll-view class="activeTipsPopup-content"  scroll-y scroll-with-animation>
       <view class="content">
         <view class="main-title">纸象优惠活动规则</view>
         <view class="title"> 活动时间：7月14日——7月20日</view>
@@ -25,7 +25,7 @@
       <view class="close" @tap="close">
         <text>x</text>
       </view>
-    </view>
+    </scroll-view>
   </view>
 </template>
 

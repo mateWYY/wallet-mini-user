@@ -185,7 +185,7 @@
           //   });
           //   return false
           // }
-          let telreg = /^1(3|4|5|7|8)\d{9}$/;
+          let telreg = /^1(3|4|5|7|8|9)\d{9}$/;
           if (!telreg.test(this.tel) || !this.tel) {
             wx.showToast({
               title: '手机号有误',

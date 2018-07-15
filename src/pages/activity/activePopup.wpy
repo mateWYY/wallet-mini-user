@@ -2,7 +2,7 @@
   <view class="activePopup" hidden="{{!activePopupVisible}}"  catchtouchmove="move">
     <view class="activePopup-mask"></view>
     <view class="activePopup-content">
-      <view class="popupImage">
+      <view class="popupImage"  catchtouchmove="move">
         <image src="./resources/popup-bg@2x.png" class="walletBg"></image>
         <view class="storeDesc">
             <view class="storeAvatar">
@@ -19,7 +19,7 @@
            </view>
         </view>
         <view class="sense">
-          <text>恭喜您超过<text class="text">{{getpercent}}%</text>的小伙伴</text>
+          <text>恭喜您超过<text class="text">{{activeWallets.roundNumber}}%</text>的小伙伴</text>
         </view>
         <view class="close" @tap="close">
           <image src="./resources/popup-close@2x.png"></image>
@@ -48,10 +48,6 @@
         type: Object,
         default: {}
       }
-    }
-    onLoad() {
-      const number = parseInt(Math.random() * 100)
-      number < 30 ? this.getpercent = number + 60 : this.getpercent = number
     }
     methods = {
       close () {

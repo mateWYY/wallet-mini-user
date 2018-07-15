@@ -259,18 +259,11 @@ export default class extends wepy.app {
   };
   onLaunch() {
     wepy.checkSession().then(res => {
-//      console.log(res)
-//      let token = wx.getStorageSync('token');
-//      if (!token) {
-//        wx.reLaunch({
-//          url: 'bindCell'
-//        })
-//      }
-      console.log(res)
     }).catch(() => {
+      wx.clearStorage()
       this.login()
     })
-     wepy.reLaunch({
+     // wepy.reLaunch({
 
 // //        url:'../pages/search/Plan'
 //       // url:"pages/bindCell"
@@ -279,7 +272,7 @@ export default class extends wepy.app {
 //       // url: "components/Delicious"
 //       //   url:"pages/mine/myBag"
 //       // url: "../pages/shopDetail/progress"
-     })
+//      })
   }
   async login() {
     let loginStatus = await wepy.login();
