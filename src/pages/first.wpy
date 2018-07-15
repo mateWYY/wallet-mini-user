@@ -168,7 +168,6 @@
     }
 
     onLoad() {
-      this.showTipPopup = true
       this.getCommonCategories()
       this.showActivity()
     }
