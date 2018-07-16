@@ -1,23 +1,26 @@
 <template>
-  <view class="newActive" >
+  <scroll-view scroll-y="{{!showRule}}"  scroll-with-animation scroll-into-view="{{toView}}"  class="scr newActive" @scroll="scroll">
     <view class="top-box">
       <image class="banner" src="./resources/top-banner@2x.png"></image>
+      <view class="active-rule" @tap="showRuleHandler">
+        <text>活动规则</text>
+      </view>
     </view>
     <view class="ad-wrapper">
-       <view class="ad-left-box">
+       <view class="ad-left-box" @tap="goMainBox">
           <image class="ad-left-bg" src="./resources/adb-left@2x.png"></image>
           <view class="ad-left-btn">
              <image src="./resources/adb-left-btn@2x.png" class="ad-btn-bg"></image>
           </view>
        </view>
-       <view class="ad-right-box">
+       <view class="ad-right-box" @tap="goMain">
          <image class="ad-right-bg" src="./resources/adb-right@2x.png"></image>
          <view class="ad-right-btn">
              <image src="./resources/adb-right-btn@2x.png"  class="ad-btn-bg"></image>
          </view>
       </view>
     </view>
-     <activeWallet1></activeWallet1>
+     <activeWallet1 @returnWallet.user="getWallets" ></activeWallet1>
       <view class="main-box-2">
         <view class="header">
           <image src="./resources/main-box-2_bg@2x.png" class="header-image"></image>
@@ -43,13 +46,13 @@
                      <text>当前人气{{item.ordersCount}}</text>
                    </view>
                 </view>
-                <view class="goShop">
+                <view class="goShop" @tap="goShop({{item}})">
                    <text>进入店铺</text>
                 </view>
               </view>
             </repeat>
           </view>
-          <view class="{{haveMore ? 'look-more': 'goHome'}} " @tap="lookMoreStore"></view>
+          <view class="{{haveMore ? 'look-more': 'goHome'}}" @tap="lookMoreStore"></view>
         </view>
       </view>
 
@@ -61,7 +64,7 @@
         <view class="category">
           <view class="category-item {{toView == 'box3' || toView == 'box' ? 'category-active':''}}" @tap="jumpTo('box3')">
             <image src="./resources/local-icon@2x.png" class="local-image" wx:if="{{toView == 'box3' || toView == 'box'}}"></image>
-            <text>主食类</text>
+            <text>主食类{{initHeight}}</text>
           </view>
           <view class="category-item {{toView == 'box4' ? 'category-active':''}}"  @tap="jumpTo('box4')">
             <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box4'}}"></image>
@@ -85,65 +88,75 @@
       </view>
     </view>
 
-      <view class="navBar navFixed" hidden="{{!scrollTop}}">
-        <view class="navFixed-wrapper">
-          <view class="category">
-            <view class="category-item {{toView == 'box3' || toView == 'box' ? 'category-active':''}}" @tap="jumpTo('box3')">
-              <image src="./resources/local-icon@2x.png" class="local-image" wx:if="{{toView == 'box3' || toView == 'box'}}"></image>
-              <text>主食类</text>
-            </view>
-            <view class="category-item {{toView == 'box4' ? 'category-active':''}}"  @tap="jumpTo('box4')">
-              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box4'}}"></image>
-              <text>奶茶饮品</text>
-            </view>
-          </view>
-          <view class="category">
-            <view class="category-item {{toView == 'box5' ? 'category-active':''}}"  @tap="jumpTo('box5')">
-              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box5'}}"></image>
-              <text>面包甜点</text>
-            </view>
-            <view class="category-item {{toView == 'box6' ? 'category-active':''}}"  @tap="jumpTo('box6')">
-              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box6'}}"></image>
-              <text>休闲小食</text>
-            </view>
-            <view class="category-item {{toView == 'box7' ? 'category-active':''}}"  @tap="jumpTo('box7')">
-              <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box7'}}"></image>
-              <text>美妆</text>
-            </view>
-          </view>
+
+
+    <activeWallet2 categoryType="3" @returnWallet.user="getWallets"></activeWallet2>
+    <activeWallet3 categoryType="4" @returnWallet.user="getWallets"></activeWallet3>
+    <activeWallet4 categoryType="5" @returnWallet.user="getWallets"></activeWallet4>
+    <activeWallet5 categoryType="6" @returnWallet.user="getWallets"></activeWallet5>
+    <activeWallet6 categoryType="7" @returnWallet.user="getWallets"></activeWallet6>
+    <view class="bottom-logo">
+      <image src="./resources/bottom-logo@2x.png" class="logoImage"></image>
+    </view>
+  <!--</view>-->
+  </scroll-view>
+  <activePopup :activePopupVisible.sync="showActivePopup" :activeWallets.sync="drawWallets"></activePopup>
+  <Popup  :showTips.sync="showRule"></Popup>
+  <view class="navBar navFixed" hidden="{{scrollTop > 0}}">
+    <view class="navFixed-wrapper">
+      <view class="category">
+        <view class="category-item {{toView == 'box3' || toView == 'box' ? 'category-active':''}}" @tap="jumpTo('box3')">
+          <image src="./resources/local-icon@2x.png" class="local-image" wx:if="{{toView == 'box3' || toView == 'box'}}"></image>
+          <text>主食类</text>
+        </view>
+        <view class="category-item {{toView == 'box4' ? 'category-active':''}}"  @tap="jumpTo('box4')">
+          <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box4'}}"></image>
+          <text>奶茶饮品</text>
         </view>
       </view>
-
-
-      <scroll-view  scroll-y="{{scrollTop}}" scroll-into-view="{{toView}}"  scroll-with-animation="{{true}}"  @scroll="scroll" class="scr">
-        <activeWallet2 categoryType="3"></activeWallet2>
-        <activeWallet3 categoryType="4"></activeWallet3>
-        <activeWallet4 categoryType="5"></activeWallet4>
-        <activeWallet5 categoryType="6"></activeWallet5>
-        <activeWallet6 categoryType="7"></activeWallet6>
-        <view class="bottom-logo">
-          <image src="./resources/bottom-logo@2x.png" class="logoImage"></image>
+      <view class="category">
+        <view class="category-item {{toView == 'box5' ? 'category-active':''}}"  @tap="jumpTo('box5')">
+          <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box5'}}"></image>
+          <text>面包甜点</text>
         </view>
-      </scroll-view>
-
+        <view class="category-item {{toView == 'box6' ? 'category-active':''}}"  @tap="jumpTo('box6')">
+          <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box6'}}"></image>
+          <text>休闲小食</text>
+        </view>
+        <view class="category-item {{toView == 'box7' ? 'category-active':''}}"  @tap="jumpTo('box7')">
+          <image src="./resources/local-icon@2x.png" class="local-image" hidden="{{toView != 'box7'}}"></image>
+          <text>美妆</text>
+        </view>
+      </view>
+    </view>
   </view>
-
+  <view class="shareBtn">
+    <button open-type="share" class="btn" plain>
+      <image src="../../assets/request.gif"></image>
+    </button>
+  </view>
 </template>
 
 <script>
   import wepy from 'wepy'
   import {storeActivity} from '../../util/util'
   import activeWallet from './activeList'
+  import activePopup from './activePopup'
+  import Popup from './popup'
   export default class Index extends wepy.page {
     data = {
-      scrollTop: false,
+      scrollTop: 1,
+      showRule: false,
       scrollTo: '',
+      initHeight: '',
       toView: 'box',
       loadInit: true,
       haveMore: true,
       storeActivitys: [],
+      drawWallets: {},
+      showActivePopup: false,
       storeParams: {
-        'per-page': 10,
+        'per-page': 3,
         page: 1,
         lat: '',
         lon: ''
@@ -155,17 +168,75 @@
       activeWallet3: activeWallet,
       activeWallet4: activeWallet,
       activeWallet5: activeWallet,
-      activeWallet6: activeWallet
+      activeWallet6: activeWallet,
+      activePopup,
+      Popup
     }
     onLoad() {
       this.getStoreLIist(true)
       this.$invoke('activeWallet1', 'initData', '')
       this.$invoke('activeWallet2', 'initData', '')
-      setTimeout(() => {
-        this.getChildData()
-      }, 400)
+      this.getChildData()
+    }
+    // 分享页面小程序
+    onShareAppMessage (res) {
+      if (res.from === 'menu') {
+        // 来自页面内转发按钮
+        console.log(res.target)
+      }
+      return {
+        title: '热辣暑期档 * 纸象优惠,邀请您瓜分红包',
+        success: function(res) {
+          console.log(res);
+          wx.showShareMenu({
+            // 要求小程序返回分享目标信息
+            withShareTicket: true
+          })
+        },
+        fail: function(res) {
+          console.log(res)
+        }
+      }
     }
     methods = {
+      goShop(item) {
+        const {id} = item
+        wx.navigateTo({
+          url: `../shopDetail/store?id=${id}`
+        })
+      },
+      scroll(e) {
+        const self = this
+        const query = wx.createSelectorQuery()
+        query.select('#navbar').boundingClientRect()
+        query.selectViewport().scrollOffset()
+        query.exec(function(res) {
+          self.scrollTop = res[0].top
+          self.scrollTo = parseInt(e.detail.scrollTop) + parseInt(res[0].top)
+          if (res[0].top > 940) {
+            self.toView = 'box'
+          }
+          self.$apply()
+        })
+      },
+      goMainBox() {
+        this.toView = 'box3'
+      },
+      goMain() {
+        this.toView = 'main'
+      },
+      showRuleHandler() {
+        this.showRule = true
+      },
+      getWallets(v) {
+        if (v) {
+          setTimeout(() => {
+            this.showActivePopup = true
+            this.drawWallets = v
+            this.$apply()
+          }, 1500)
+        }
+      },
       jumpTo(e) {
         if (!this.scrollTop) {
           wx.pageScrollTo({
@@ -181,13 +252,14 @@
         }
         this.$apply()
       },
-      scroll(e) {
-        console.log(e)
-      },
       lookMoreStore() {
         setTimeout(() => {
           if (this.haveMore) {
             this.getStoreLIist()
+          } else {
+            wx.switchTab({
+              url: '../first'
+            })
           }
           this.$apply()
         }, 200)
@@ -223,31 +295,12 @@
       await this.$invoke('activeWallet5', 'initData', '')
       await this.$invoke('activeWallet6', 'initData', '')
     }
-    // 滚动式图判断
-    onPageScroll(e) {
-      var query = wepy.createSelectorQuery()
-      const self = this
-      query.select('#navbar').boundingClientRect()
-      query.selectViewport().scrollOffset()
-      query.exec(function(res) {
-        // console.log(res[0].bottom)
-        self.scrollTop = parseInt(res[0].top)
-        if (parseInt(res[0].top) <= 0) {
-          self.scrollTop = true
-        } else if (parseInt(res[0].top) > 10) {
-          self.scrollTop = false
-          self.toView = 'box'
-        }
-        self.scrollTo = parseInt(e.scrollTop) + parseInt(res[0].top)
-        self.$apply()
-      })
-    }
     config = {
-      navigationBarBackgroundColor: '#fe3092',
+      navigationBarBackgroundColor: '#f83675',
       navigationBarTextStyle: '#fff',
       backgroundTextStyle: 'light',
-      backgroundColor: '#6c2cd8',
-      navigationBarTitleText: '活动'
+      backgroundColor: '#f83675',
+      navigationBarTitleText: '热辣暑期档 * 纸象优惠 '
     }
   }
 </script>
@@ -261,22 +314,37 @@
   page
     width: 100%
     height: 100%
+    overflow-x: hidden
 
   .scr
     height: 100vh
-
   .newActive
     position: relative
     width: 100%
-    padding-bottom: 40rpx
     background-color: #6c2cd8
     .top-box
+      position: relative
       width: 100%
       height: 530rpx
       .banner
         width: 100%
         height: 100%
+      .active-rule
+        position: absolute
+        width: 140rpx
+        height: 40rpx
+        line-height: 40 rpx
+        border-radius: 30rpx
+        top: 50%
+        text-align: center
+        font-size: 24rpx
+        right: -20rpx
+        color: #6c2cd8
+        background-color: #ffefd7
+        z-index: 2
     .ad-wrapper
+      position: relative
+      bottom: 20rpx
       display: flex
       padding: 0 30rpx
       justify-content: space-between
@@ -296,12 +364,13 @@
       .ad-btn-bg
         width: 156rpx
         height: 56rpx
+        animation: vary 1s infinite
     .main-box-1
       /*padding-bottom: 400rpx*/
       .header
         width: 690rpx
         height: 90rpx
-        margin: 40rpx auto 0 auto
+        margin: 17rpx auto 0 auto
         position: relative
         .header-image
           width: 100%
@@ -348,16 +417,18 @@
                   font-size: 24rpx
                   color: #ff4552
                   position: relative
-                  top: 6rpx
+                  top: 1px
                   font-weight: bold
                   margin-right: 5rpx
                 .amount
                   transform: translateY(0)
-                  height: 50rpx
+                  height: 25px
+                  line-height: 26px
                   font-weight: bold
                   font-size: 40rpx
                   color: #ff4552
                   display: flex
+                  align-items: flex-end
                   flex-direction: column
                 .amount1
                   animation-duration: 0.6s
@@ -365,17 +436,12 @@
                 .amount2
                   animation-duration: 0.7s
                   animation-delay: 0.2s
-              .snapNumber
-                font-size: 20rpx
-                margin-bottom: 10rpx
-                color: #999999
               .goBuy
                 border-radius: 8rpx
                 color: #ffffff
                 font-size: 24rpx
                 padding: 13rpx 0
                 text-align: center
-                background-color: #ff4552
                 .right-icon
                   display: inline-block
                   nagavition-icon-sm(#fff)
@@ -453,51 +519,19 @@
       image
         width: 100%
         height: 100%
-    .navBar
-      margin: 25rpx 0
-      position: relative
-      top: 0
-      padding: 0 30rpx
-      .category
-        display: flex
-      .category-item
-        flex: 1
-        text-align: center
-        background-color: #ffa126
-        color: #ffffff
-        font-size: 24rpx
-        font-weight: bold
-        padding: 26rpx 0
-        border-radius: 40rpx
-        margin:20rpx 10rpx 20rpx 0
-        border: 3rpx solid #555
-        box-sizing: border-box
-        &.category-active
-          background-color: #ffce02
-          color: #e63913
-          .local-image
-            position: relative
-            top: 6rpx
-            width: 24rpx
-            height: 28rpx
-            margin-right: 16rpx
-    .navFixed
-      position: fixed
-      margin: 0
-      left: 0
-      padding: 0
-      width: 100%
-      background-color: #6c2cd8
-      z-index: 2
-      .navFixed-wrapper
-        padding: 0 30rpx
     .bottom-logo
       margin-top: 30rpx
+      padding: 40rpx 0
       text-align: center
       .logoImage
         width: 240rpx
         height: 68rpx
         margin: 0 auto
+    overflow: hidden
+  .overStyle
+    height: 100vh
+    overflow: hidden
+    padding: 0
   .look-more
     clear: both
     margin-top: 0 auto
@@ -530,12 +564,49 @@
       position: relative
       background-color: #db237b
       transform: rotate(90deg)
-
+  .navBar
+    margin: 25rpx 0
+    position: relative
+    padding: 0 30rpx
+    .category
+      display: flex
+    .category-item
+      flex: 1
+      text-align: center
+      background-color: #ffa126
+      color: #ffffff
+      font-size: 24rpx
+      font-weight: bold
+      padding: 26rpx 0
+      border-radius: 40rpx
+      margin:20rpx 10rpx 20rpx 0
+      border: 3rpx solid #555
+      box-sizing: border-box
+      &.category-active
+        background-color: #ffce02
+        color: #e63913
+        .local-image
+          position: relative
+          top: 6rpx
+          width: 24rpx
+          height: 28rpx
+          margin-right: 16rpx
+  .navFixed
+    position: fixed
+    margin: 0
+    left: 0
+    top: 0
+    padding: 0
+    width: 100%
+    background-color: rgba(0,0,0,0.8)
+    z-index: 2
+    .navFixed-wrapper
+      padding: 0 30rpx
   .goHome
     clear: both
     margin-top: 0 auto
     &:before
-      content: '回到首页'
+      content: '查看更多'
       display: inline-block
       width: 228rpx
       margin: 20rpx 0
@@ -564,16 +635,44 @@
       background-color: #db237b
   .hoverSty
     opacity: 0.7
+  .shareBtn
+    position: fixed
+    top: 50%
+    width: 140rpx
+    height: 140rpx
+    right: 0
+    .btn[plain]
+      background-color: transparent
+      width: 100%
+      height: 100%
+      padding: 0
+      margin: 0
+      border: none
+      image
+        width: 100%
+        height: 100%
   @-webkit-keyframes up /* Safari 和 Chrome */
   {
     0% {
-      transform: translateY(-20rpx)
+      transform: translateY(-10px)
     }
     50% {
-      transform: translateY(-40rpx)
+      transform: translateY(-20px)
     }
     100% {
-      transform: translateY(-100rpx)
+      transform: translateY(-50px)
+    }
+    100% {
+      transform: translateY(-78px)
+    }
+  }
+
+  @-webkit-keyframes vary {
+    0% {
+      transform: scale(1)
+    }
+    50% {
+      transform: scale(1.1)
     }
   }
 </style>

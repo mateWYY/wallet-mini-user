@@ -1,0 +1,192 @@
+<template>
+  <view class="activePopup" hidden="{{!activePopupVisible}}"  catchtouchmove="move">
+    <view class="activePopup-mask"></view>
+    <view class="activePopup-content">
+      <view class="popupImage"  catchtouchmove="move">
+        <image src="./resources/popup-bg@2x.png" class="walletBg"></image>
+        <view class="storeDesc">
+            <view class="storeAvatar">
+              <image src="{{activeWallets.store.avatarUrl}}"></image>
+            </view>
+            <view class="storeName">
+              <text>{{activeWallets.store.name}}</text>
+            </view>
+            <view class="walletAmount">
+               <text>{{activeWallets.amount}}</text><text class="text">元</text>
+            </view>
+           <view class="fullAmount">
+              <text>红包满{{activeWallets.attainAmount}}可用</text>
+           </view>
+        </view>
+        <view class="sense">
+          <text>恭喜您超过<text class="text">{{activeWallets.roundNumber}}%</text>的小伙伴</text>
+        </view>
+        <view class="close" @tap="close">
+          <image src="./resources/popup-close@2x.png"></image>
+        </view>
+        <view class="confirm-btn" @tap="goBuy">
+          <text>去买单</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class Index extends wepy.component {
+    data = {
+      getpercent: ''
+    }
+    props = {
+      activePopupVisible: {
+        type: Boolean,
+        default: false,
+        twoWay: true
+      },
+      activeWallets: {
+        type: Object,
+        default: {}
+      }
+    }
+    methods = {
+      close () {
+        this.activePopupVisible = false
+      },
+      move(e) {
+        console.log()
+      },
+      goBuy() {
+        const {id} = this.activeWallets
+        if (id) {
+          wx.navigateTo({
+            url: `../../pages/payment/bagBuy?id=${id}`
+          })
+        }
+        this.activePopupVisible = false
+      }
+    }
+  }
+</script>
+
+<style lang="stylus">
+  .activePopup
+    width: 100%
+    height: 100%
+    top: 0
+    left: 0
+    position: fixed
+    z-index: 222
+    .activePopup-mask
+      position: absolute
+      width: 100%
+      height: 100%
+      top: 0
+      left: 0
+      background-color: rgba(0,0,0,0.5)
+    .activePopup-content
+      position: absolute
+      width: 100%
+      height: 100%
+      left: 0
+      top: 0
+      z-index: 2
+      overflow: hidden
+      .popupImage
+        position: absolute
+        top: 50%
+        left: 50%
+        margin-top: -332rpx
+        margin-left: -300rpx
+        width: 634rpx
+        height: 665rpx
+        .walletBg
+          width: 100%
+          height: 100%
+        .storeDesc
+          position: absolute
+          top: 178rpx
+          width: 100%
+          left: -3%
+          text-align: center
+          color: #ffffff
+          z-index: 2
+          font-size: 0
+          .storeAvatar
+            width: 70rpx
+            height: 70rpx
+            border: 3rpx solid #fff
+            border-radius: 8rpx
+            margin: 0 auto
+            overflow: hidden
+            image
+              width: 100%
+              height: 100%
+          .storeName
+            color: #ffffff
+            font-size: 26rpx
+            margin-top: 20rpx
+          .walletAmount
+            font-size: 80rpx
+            color: #fdf401
+            padding: 20rpx 0 10rpx 0
+            letter-spacing: 1rpx
+            font-weight: bold
+            .text
+              font-weight: normal
+              position: relative
+              bottom: 6rpx
+              font-size: 36rpx
+          .fullAmount
+            font-size: 24rpx
+            color: #ffffff
+            letter-spacing: 2rpx
+        .sense
+          position: absolute
+          bottom: 80rpx
+          width: 100%
+          left: -10rpx
+          font-size: 22rpx
+          color: #ffffff
+          text-align: center
+          .text
+            color: #fdf401
+        .close
+          position: absolute
+          width: 50rpx
+          height: 50rpx
+          top: -20rpx
+          right: 0
+          text-align: center
+          image
+            width: 100%
+            height: 100%
+        .confirm-btn
+          position: absolute
+          width: 420rpx
+          background-color: #fee901
+          padding: 20rpx 0
+          color: #a57506
+          font-size: 30rpx
+          bottom: -75rpx
+          left: 50%
+          margin-left: -233rpx
+          border-radius: 40rpx
+          text-align: center
+
+        animation: dialog-zoom .3s
+      .popup-leave
+        animation: dialog-zoom .3s reverse
+  @-webkit-keyframes dialog-zoom {
+    0% {
+      transform: scale(0)
+    }
+    50% {
+      transform: scale(1.1)
+    }
+    100% {
+      transform: scale(1)
+    }
+  }
+
+</style>

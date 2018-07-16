@@ -1,5 +1,5 @@
 <template>
-  <view class="main-box-1 {{categoryType? 'main-box-' + categoryType : ''}}" id="{{categoryType ? 'box'+ categoryType : null}}">
+  <view class="main-box-1 {{categoryType? 'main-box-' + categoryType : ''}}" id="{{categoryType ? 'box'+ categoryType : 'main'}}">
     <view class="header">
       <image src="./resources/main-box-{{categoryType ? categoryType : '1'}}_bg@2x.png"
              class="header-image"></image>
@@ -10,33 +10,38 @@
           <view class="ware-item">
             <view class="ware-avatar">
               <image src="{{item.storeAvatar}}"></image>
+               <view class="peoples">
+                 <text>{{item.getNumber}}人已抢</text>
+               </view>
             </view>
             <view class="line"></view>
             <view class="ware-desc">
               <view class="ware-title">
                 <text>{{item.storeName}}</text>
-                <image src="./resources/payoff@2x.png" class="payoffImage"></image>
+              </view>
+              <view class="snapNumber">
+                <text>最大红包金额</text>
               </view>
               <view class="amount-wrapper">
+                <image src="./resources/payoff@2x.png" class="payoffImage"></image>
                 <text class="symbol">¥</text>
                 <view class="amount amountNo" wx:if="{{!item.animteAmount}}">
-                  <text>{{item.totalAmount}}</text>
+                  <text>{{item.maxValue}}</text>
                 </view>
                 <view wx:if="{{item.animteAmount}}" class="animteAmount-flex">
                   <repeat for="{{item.animteAmount}}" item="items" index="indexs">
                     <view class="amount {{'amount' + indexs}} {{items === '.' ? 'smallW': ''}}">
-                      <text>{{index + 2}}</text>
-                      <text>{{index + 3}}</text>
-                      <text>{{items}}</text>
+                      <text class="text">{{index + 1}}</text>
+                      <text class="text">{{index + 2}}</text>
+                      <text class="text">{{index + 3}}</text>
+                      <text class="text">{{items}}</text>
                     </view>
                   </repeat>
                 </view>
               </view>
-              <view class="snapNumber">
-                <text>已抢{{item.getNumber}}人</text>
-              </view>
-              <view class="goBuy" @tap="tapDraw({{item}}, {{index}})" hover-class="hoverSty">
-                <text>马上抢</text>
+              <view class="goBuy {{item.draw_status == 0 ? 'BuyStyle':''}}" @tap="tapDraw({{item}}, {{index}})"
+                    hover-class="hoverSty">
+                <text>{{item.drawText}}</text>
                 <text class="right-icon"></text>
               </view>
             </view>
@@ -44,7 +49,8 @@
         </repeat>
       </view>
     </view>
-    <view class="{{haveMore ? 'look-more': 'goHome'}}" @tap="lookMore"></view>
+    <view class="{{haveMore ? 'look-more': 'goHome'}}" @tap="lookMore" ></view>
+    <view class="laoding"></view>
   </view>
 </template>
 
@@ -74,26 +80,29 @@
     }
 //    抢福袋
     drawWallet(id, index) {
-      const amount = '7800'
-      this.walletList[index].totalAmount = amount
-      const animteAmount = amount.toString().split('')
-      this.walletList[index].animteAmount = animteAmount
-//      getDraw({method: 'post', id: id, data: {id: id}}).then(res => {
-//        const {amount} = res.data
-//        const animteAmount = amount.toString().split('')
-//        console.log(animteAmount)
-//        this.walletList[index].totalAmount = amount
-//        this.walletList[index].animteAmount = animteAmount
-//        this.walletList[index].animate = true
-//        this.$apply()
-//      }).catch(err => {
-//        return wepy.showToast({title: `${err.message}`, icon: 'none', duration: 2000})
-//      })
+      getDraw({method: 'post', id: id, data: {id: id}}).then(res => {
+        const number = parseInt(Math.random() * 100)
+        let numbers = ''
+        number <= 30 ? numbers = number + 60 : numbers = number
+        const {amount, id, ...data} = res.data
+        const params = {amount: amount, id: id, ...data, roundNumber: numbers}
+        const animteAmount = amount.toString().split('')
+        this.$emit('returnWallet', params)
+        this.walletList[index].draw_status = 0
+        this.walletList[index].drawText = '去买单'
+        this.walletList[index].totalAmount = amount
+        this.walletList[index].animteAmount = animteAmount
+        this.walletList[index].userWalletId = id
+        this.walletList[index].animate = true
+        this.$apply()
+      }).catch(err => {
+        return wepy.showToast({title: `${err.message}`, icon: 'none', duration: 2000})
+      })
     }
     // 获取福袋
     getWalletList(clear) {
       const self = this
-      this.categoryType ? this.params.category_id = parseInt(this.categoryType) - 2 : this.params.category_id = ''
+      this.categoryType ? this.params.category_id = parseInt(this.categoryType) - 1 : this.params.category_id = ''
       shopWallets({data: this.params}).then(res => {
         const data = res.data
         if (data.length === this.params['per-page']) {
@@ -104,7 +113,6 @@
         }
         if (clear) {
           this.walletList = data
-          console.log(this.walletList)
         } else {
           this.walletList = this.walletList.concat(data)
         }
@@ -113,21 +121,29 @@
     }
     methods = {
       tapDraw(item, index) {
-        const {id} = item
-        this.drawWallet(id, index)
+        const {id, draw_status, userWalletId} = item
+        if (parseInt(draw_status) === 0) {
+          wx.navigateTo({
+            url: `../../pages/payment/bagBuy?id=${userWalletId}`
+          })
+        } else {
+          this.drawWallet(id, index)
+        }
       },
       lookMore() {
         setTimeout(() => {
           if (this.haveMore) {
             this.getWalletList()
+          } else {
+            wx.switchTab({
+              url: '../first'
+            })
           }
           this.$apply()
         }, 500)
       },
       initData() {
-        setTimeout(() => {
-          this.getWalletList(true)
-        }, 500)
+        this.getWalletList(true)
       }
     }
   }
@@ -179,23 +195,32 @@
           .ware-avatar
             width: 100%
             height: 227rpx
+            position: relative
             image
               width: 100%
               height: 100%
+            .peoples
+              position: absolute
+              min-width: 60rpx
+              right: 15rpx
+              padding: 4rpx 10rpx
+              bottom: 15rpx
+              font-size:20rpx
+              color: #ffffff
+              text-align: center
+              border-radius: 20px
+              background-color: rgba(0,0,0,0.5)
           .ware-desc
             padding: 14rpx 10rpx
             background-color: #fff
+            font-size: 0
             .ware-title
               font-size: 24rpx
               font-weight: bold
               letter-spacing: 1rpx
               white-space: nowrap
-              .payoffImage
-                position: relative
-                top: 5rpx
-                width: 20rpx
-                height: 24rpx
-                margin-right: 10rpx
+              overflow: hidden
+              text-overflow: ellipsis
             .amount-wrapper
               display: flex
               align-items:center
@@ -203,18 +228,19 @@
               .symbol
                 font-size: 24rpx
                 color: #ff4552
-                position: relative
-                top: 10rpx
                 font-weight: bold
                 margin-right: 5rpx
               .amount
                 transform: translateY(0)
-                height: 50rpx
+                height: 45rpx
                 font-weight: bold
                 font-size: 40rpx
                 color: #ff4552
                 display: flex
                 flex-direction: column
+                .text
+                  flex: 1
+                  display: inline-block
               .amount1
                 animation-duration: 0.6s
                 animation-delay: 0.1s
@@ -222,11 +248,11 @@
                 animation-duration: 0.7s
                 animation-delay: 0.2s
               .amount3
-                animation-duration: 0.7s
-                animation-delay: 0.2s
+                animation-duration: 0.8s
+                animation-delay: 0.3s
               .amount4
-                animation-duration: 0.7s
-                animation-delay: 0.2s
+                animation-duration: 0.9s
+                animation-delay: 0.4s
               .amount4
                 animation-duration: 0.7s
                 animation-delay: 0.2s
@@ -239,11 +265,22 @@
                   animation: up 0.5s forwards linear
                 .smallW
                   max-width: 13rpx
+            .payoffImage
+              position: relative
+              top: 5rpx
+              width: 20rpx
+              height: 24rpx
+              margin-right: 10rpx
             .snapNumber
+              width: 135rpx
               font-size: 20rpx
-              margin-bottom: 10rpx
-              color: #999999
+              margin: 5rpx 0
+              line-height: 1.2
+              text-indent: 5rpx
+              border: 1px solid #feae0f
+              color: #feae0f
             .goBuy
+              margin-top: 10rpx
               border-radius: 8rpx
               color: #ffffff
               font-size: 24rpx
@@ -253,6 +290,8 @@
               .right-icon
                 display: inline-block
                 nagavition-icon-sm(#fff)
+            .BuyStyle
+              background-color:#feae0f
 
       .line
         border: 1rpx dashed #e6e6e6
@@ -275,11 +314,12 @@
           border-radius: 50%
           right: -10rpx
           top: -5rpx
-  .main-box-3
+.newActive
+  .main-box-1.main-box-3
     width: 690rpx
     background-color: $main-box-color-bg-3
     .header
-      width: 690rpx
+      width: 697rpx
       height: 124rpx
       margin: 0 auto
       background-color: $main-box-color-3
@@ -298,7 +338,7 @@
         color: $main-box-color-3
       &:after
         background-color: $main-box-color-3
-  .main-box-4
+  .main-box-1.main-box-4
     margin-top: 80rpx
     width: 690rpx
     background-color: $main-box-color-bg-4
@@ -323,7 +363,7 @@
       &:after
         background-color: $main-box-color-4
 
-  .main-box-5
+  .main-box-1.main-box-5
     margin-top: 80rpx
     width: 690rpx
     background-color: $main-box-color-bg-5
@@ -349,7 +389,7 @@
       &:after
         background-color: $main-box-color-5
 
-  .main-box-6
+  .main-box-1.main-box-6
     margin-top: 80rpx
     width: 690rpx
     background-color: $main-box-color-bg-6
@@ -374,7 +414,7 @@
       &:after
         background-color: $main-box-color-6
 
-  .main-box-7
+  .main-box-1.main-box-7
     margin-top: 80rpx
     width: 690rpx
     background-color: $main-box-color-bg-7

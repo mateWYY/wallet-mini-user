@@ -1,0 +1,131 @@
+<template>
+  <view class="activeTipsPopup" catchtouchmove="move" hidden="{{!showTips}}">
+    <view class="activeTipsPopup-mask"></view>
+    <view class="activeTipsPopup-content">
+      <view class="popup-box">
+        <image src="../components/resources/tipsPopup-bg.png" class="bg-image"></image>
+        <view class="close" @tap="close">
+          <image src="../components/resources/tipsClose.png" class="close-bg"></image>
+        </view>
+        <view class="confirm-btn" @tap="goActive">
+          <image src="../components/resources/tipsBtn.png" class="btn-bg"></image>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class Index extends wepy.component {
+    props = {
+      showTips: {
+        type: Boolean,
+        default: true,
+        twoWay: true
+      }
+    }
+    methods = {
+      close() {
+        this.showTips = false
+      },
+      move(e) {
+        console.log()
+      },
+      goActive() {
+        let token = wepy.getStorageSync('token')
+        if (!token) {
+          wx.redirectTo({
+            url: './bindCell'
+          })
+        } else {
+          wx.navigateTo({
+            url: `./activity/newActive`
+          })
+          this.showTips = false
+        }
+      }
+    }
+  }
+</script>
+
+<style lang="stylus">
+  .activeTipsPopup
+    position: fixed
+    width: 100%
+    height: 100%
+    left: 0
+    top: 0
+    z-index: 101
+    .activeTipsPopup-mask
+      position: absolute
+      width: 100%
+      height: 100%
+      left: 0
+      top: 0
+      background-color: rgba(0,0,0,0.5)
+    .activeTipsPopup-content
+      position: absolute
+      width: 100%
+      height: 100%
+      left: 0
+      top: 0
+      z-index: 1
+      .popup-box
+        position: absolute
+        width: 648rpx
+        height: 490rpx
+        left: 50%
+        top: 60%
+        margin-left: -324rpx
+        margin-top: -395rpx
+        .bg-image
+          animation: dialog-zoom 0.5s
+          width: 100%
+          height: 100%
+        .close
+          position: absolute
+          top: -70rpx
+          right: 0
+          width: 30rpx
+          height: 30rpx
+          animation:
+          .close-bg
+            width: 100%
+            height: 100%
+        .confirm-btn
+          position: absolute
+          width: 330rpx
+          height: 80rpx
+          left: 50%
+          margin-left: -165rpx
+          text-align: center
+          bottom: -50rpx
+          .btn-bg
+            animation: vary 1s infinite ease-out
+            animation-delay: 1s
+            width: 100%
+            height: 100%
+
+
+  @-webkit-keyframes vary {
+    0% {
+      transform: scale(1)
+    }
+    50% {
+      transform: scale(1.1)
+    }
+  }
+
+  @-webkit-keyframes dialog-zoom {
+    0% {
+        transform: scale(0)
+      }
+    50% {
+        transform: scale(1.1)
+      }
+    100% {
+        transform: scale(1)
+      }
+  }
+</style>
