@@ -128,7 +128,7 @@ export default class extends wepy.app {
       'pages/sharePage/Invite',
       'pages/sharePage/Lead'
     ],
-    window:{
+    window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: '纸象优惠',
