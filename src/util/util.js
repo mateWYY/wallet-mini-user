@@ -2,7 +2,6 @@
 import wepy from 'wepy'
 // const host = 'https://coupon.test.mihutime.com'
 const host = 'https://itimego.com'
-let token = wx.getStorageSync('token')
 const wxRequest = (params = {}, url) => {
   let token = wepy.getStorageSync('token')
   return new Promise((resolve, reject) => {
@@ -40,6 +39,9 @@ const wxRequest = (params = {}, url) => {
 const getCommonChildFour = (params) => wxRequest(params, host + '/common/v1/categories/'+ params.id+'/child-four');
 const getCommonChilds = (params) => wxRequest(params, host + '/common/v1/categories/'+params.id+'/child');
 //公共接口
+const getWechatInfo = (params) => wxRequest(params, host + '/common/v1/accounts/wechat-info')
+const getWechatLogin = (params) => wxRequest(params, host + '/common/v1/accounts/wechat-login')
+const getWechatCheck = (params) => wxRequest(params, host + '/common/v1/wechats/checkout')
 const getCommonFiles = (params) => wxRequest(params, host + '/common/v1/files');
 const getCommonCodes = (params) => wxRequest(params, host + '/common/v1/auth-codes');
 const getCommonloginCoding = (params) => wxRequest(params, host + '/common/v1/login-codes');
@@ -182,6 +184,9 @@ module.exports = {
   getOrderDetail,
   storeActivity,
   shopWallets,
-  getwalletsRemaining
+  getwalletsRemaining,
+  getWechatInfo,
+  getWechatLogin,
+  getWechatCheck
   // getDrawStore
 }
