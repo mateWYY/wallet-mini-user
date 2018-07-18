@@ -717,6 +717,61 @@
     align-self: center;
     vertical-align: middle;
   }
+
+  /*领取记录弹框*/
+  .commodity_Record{
+    position: fixed;
+    left:0;
+    right:0;
+    top:30%;
+    z-index:2000;
+    overflow:hidden;
+    width:560rpx;
+    height:510rpx;
+    margin:0 auto;
+    background-color:#fff;
+    font-size:0;
+  }
+  .walletChance{
+    width:560rpx;
+    height:180rpx;
+  }
+  .commodity_Record .degree{
+    font-weight: bold;
+    font-size: 30rpx;
+    color: #333333;
+    text-align: center;
+    padding:60rpx 0 38rpx;
+  }
+  .commodity_Record .degree .fine{
+    font-size: 30rpx;
+    font-weight:bold;
+    color: #ff4552;
+  }
+  .commodity_Record .tomorrow{
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #ff4552;
+    text-align: center;
+  }
+  .commodity_Record .know{
+    width: 520rpx;
+    height: 80rpx;
+    line-height:80rpx;
+    background-image: linear-gradient(-30deg, rgba(225, 19, 34, 0.3) 0%, rgba(255, 69, 82, 0.3) 100%), linear-gradient(#ff4552, #ff4552);
+    box-shadow: 0 0 10rpx 0 rgba(255, 69, 82, 0.57);
+    border-radius: 5rpx;
+    font-size: 28rpx;
+    font-weight: bold;
+    color: #ffffff;
+    margin-top:40rpx;
+  }
+  .walletClose{
+    position: absolute;
+    top:20rpx;
+    right:20rpx;
+    color:#fff;
+  }
 </style>
 <template>
     <view>
@@ -894,6 +949,18 @@
           <view class="sey">{{stores.consumeNotes}}</view>
         </view>
       </view>
+
+      <!--领取记录弹框-->
+      <view  catchtouchmove="move" wx:if="{{record}}">
+        <view class="commodity_screen"></view>
+        <view class="commodity_Record">
+          <text @tap="walletClose" class="walletClose iconfont icon-guanbi"></text>
+          <image class="walletChance" src="../../assets/walletChance.png"></image>
+          <view class="degree">今日红包领取次数<text class="fine">({{walletsRemain.storeQuantity}}/{{walletsRemain.drawStoreQuantity}})</text>已用完</view>
+          <view class="tomorrow">明天再来哦</view>
+          <button @tap="walletClose" class="know">我知道了</button>
+        </view>
+      </view>
       <!--附近推荐-->
       <!--<view class="near">-->
         <!--<view class="recomed">附近推荐</view>-->
@@ -926,13 +993,14 @@
         showImd: true,
         currentTab: 0,
         UserWallet: [],
-        chaper:{},
+        chaper: {},
         storeId: {},
         carous: {},
         isChecked: false,
         draws: {},
         scrollTop: 0,
-        walletsRemain: {}
+        walletsRemain: {},
+        record: false
       };
       computed = {
         sliceDown () {
@@ -940,6 +1008,9 @@
         }
       }
         methods = {
+          walletClose () {
+            this.record = !(this.record)
+          },
           move(e) {
             // console.log(e)
           },
@@ -959,11 +1030,12 @@
               this.$apply();
             }).catch(err =>{
               if(err.status === 422){
-                wx.redirectTo({
-                  url:'../../pages/shopDetail/openBag'
-                })
-                const {message} = err;
-                this.$parent.globalData.message = message
+                this.record = true
+                // wx.redirectTo({
+                //   url:'../../pages/shopDetail/openBag'
+                // })
+                // const {message} = err;
+                // this.$parent.globalData.message = message
               }
             })
           },
