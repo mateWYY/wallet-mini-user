@@ -385,7 +385,7 @@
 <script>
   import wepy from 'wepy'
   import getCode from '@/mixins/getCode'
-  import {getCarousel, getDraw, getCommonloginCoding, getCommonLoginCodes} from '../../util/util'
+  import {getCarousel, getDraw, getCommonloginCoding, getCommonLoginCodes, getDrawStore} from '../../util/util'
   export default class Invite extends wepy.page {
     config = {
       backgroundTextStyle: 'light',
@@ -426,10 +426,9 @@
       if (!this.userInfo.id) {
         this.isbindPhone = true
       } else {
-        let id = this.carous.id;
+        let id = this.carous.id
         getDraw({method: 'POST', id: id}).then(res => {
-          this.draws = res.data;
-          console.log(this.draws)
+          this.draws = res.data
           wepy.navigateTo({
             url: '/pages/sharePage/Lead?val=' + JSON.stringify(this.draws)
           })
@@ -473,7 +472,7 @@
         })
       },
       move(e) {
-//          console.log()
+//  console.log()
       },
       getTapWallet() {
         this.getFast()
@@ -482,7 +481,7 @@
       iptPhone(e) {
         this.logins.phone = e.detail.value
       },
-//        验证码
+//  验证码
       iptCode (e) {
         this.logins.code = e.detail.value
       },
@@ -515,7 +514,7 @@
           })
         })
       },
-//        获取验证码
+//     获取验证码
       async reqCode() {
         let telreg = /^1(3|4|5|7|8)\d{9}$/
         if (!telreg.test(this.logins.phone) || !this.logins.phone) {
@@ -533,7 +532,7 @@
         this.isbindPhone = false
       }
     }
-//    请求定位权限
+// 请求定位权限
     getPression() {
       let _this = this
       wepy.getSetting().then(res => {
@@ -588,6 +587,7 @@
           getCarousel({id: this.walletId, data: params}).then(res => {
             this.carous = res.data
             console.log(this.carous)
+            this.getDrawStore()
             this.$apply()
           }).catch(err => {
             return wepy.showToast({
@@ -604,12 +604,32 @@
       }
     }
     onShow() {
+      if (!this.userInfo.id) {
+        this.isbindPhone = true
+      }
       this.getCarousel()
     }
     onPageScroll (scroll) {
       const {scrollTop} = scroll
       this.scrollTop = scrollTop
       this.$apply()
+    }
+
+    getDrawStore() {
+      getDrawStore({id: this.carous.storeId}).then(res => {
+        console.log(res)
+      }).catch(err => {
+        if (err.status === 422) {
+          wepy.showToast({
+            title: `${err.message}`,
+            icon: 'none',
+            duration: 2000
+          })
+        }
+        return wepy.switchTab({
+          url: '/pages/first'
+        })
+      })
     }
     onLoad (opts) {
       this.walletId = opts.id
