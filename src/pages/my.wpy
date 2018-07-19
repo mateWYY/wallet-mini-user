@@ -412,7 +412,7 @@
     background-color:#ff4552;
     color: #ffffff;
     width: 400rpx;
-    font-size: 30rpx;
+    font-size: 30rpx
   }
 </style>
 <template>
@@ -469,6 +469,7 @@
     </view>
     <!-- 常用功能 -->
     <view class="Common">
+      <view class="function">常用功能</view>
       <view class="Receive">
         <view class="ReceiveChild" @tap="scanningCode">
           <image class="footprint" src="../assets/saoma.png"></image>
@@ -538,7 +539,7 @@
   <popup :showTips.sync="getUserinfoVisible">
     <view class="getUserInfo-box">
       <view class="title">
-        <text>纸象优惠将获取您的头像、昵称</text>
+        <text>纸象优惠将获取您的头像、昵称2</text>
         <view class="logoImage">
           <image src="../assets/chengse.png"></image>
         </view>
@@ -689,10 +690,10 @@
               icon: 'none',
               duration: 2000
             })
-            const {weixinUserId} = res.data
+            const {weixinUserId, unionId} = res.data
             if (weixinUserId) wepy.setStorageSync('weixinUserId', weixinUserId)
+            if (unionId) wepy.setStorageSync('unionId', unionId)
             this.getUserInfo()
-            this.$apply()
           }).catch(err => {
             wx.showToast({
               title: `${err.message}`,
@@ -706,7 +707,6 @@
               })
             }
             this.getUserInfo()
-            this.$apply()
           })
         } else {
           wx.showToast({
