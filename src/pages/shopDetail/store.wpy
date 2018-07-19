@@ -545,9 +545,9 @@
   }
   /*打开红包*/
   .rotate{
-    width:180rpx;
-    height:180rpx;
-    padding-top:55rpx;
+    width:156rpx;
+    height:156rpx;
+    padding-top:45rpx;
     animation: anim .6s infinite alternate;
   }
   @keyframes anim {
@@ -1020,10 +1020,8 @@
           serviceSelection() {
             this.isChecked = true
             let id = this.carous.id
-            this.showWrapper = false
             getDraw({method: 'POST', id:id}).then(res =>{
               this.draws = res.data
-              console.log(this.draws)
               wx.navigateTo({
                 url:'../../pages/shopDetail/openBag?val='+JSON.stringify(this.draws)
               })
@@ -1038,6 +1036,10 @@
                 // this.$parent.globalData.message = message
               }
             })
+            setTimeout(() => {
+              this.showWrapper = false
+              this.$apply()
+            }, 700)
           },
           openBagelen () {
             let that = this
