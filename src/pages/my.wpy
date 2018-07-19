@@ -541,6 +541,7 @@
         scanningCode(){
           wx.scanCode({
             success(res){
+              console.log(res)
               let reg_url = /^[^\?]+\?([\w\W]+)$/,
                 reg_para = /([^&=]+)=([\w\W]*?)(&|$|#)/g,
                 arr_url = reg_url.exec(res.result),
@@ -553,17 +554,17 @@
               }
               let  str = ret
               if(str.toString() !== ''){
-                if(str.type && str.type == 'store'){
+                if(str.type && str.type === 'store') {
                   setTimeout(()=>{
                     wx.showToast({
                       title: '成功',
                       icon: 'success',
                       duration: 2000
+                    }, 1000)
+                  })
+                    wx.navigateTo({
+                      url:'../pages/shopDetail/store?id='+str.id
                     })
-                  })
-                  wx.navigateTo({
-                    url:'../pages/payment/immediately?id='+str.id
-                  })
                 }
               }else{
                 wx.showToast({
