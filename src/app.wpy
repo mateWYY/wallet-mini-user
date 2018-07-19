@@ -211,6 +211,12 @@ export default class extends wepy.app {
           'nickname',
           'region'
         ]
+      },
+      {
+        root: 'pages/authroize',
+        pages: [
+          'authroize'
+        ]
       }
     ],
     tabBar: {
@@ -236,6 +242,8 @@ export default class extends wepy.app {
   };
 
   globalData = {
+    getUserInfo: {},
+    userInfos: '',
     userInfo: null,
     locationMap: {},
     weixinUserId: '',
@@ -258,11 +266,13 @@ export default class extends wepy.app {
     cityId: ''
   };
   onLaunch() {
-    wepy.checkSession().then(res => {
-    }).catch(() => {
-      wx.clearStorage()
+    wepy.checkSession().then().catch(() => {
+      wx.clearStorageSync()
       this.login()
     })
+    const weixinUserId = wepy.getStorageSync('weixinUserId')
+    if (!weixinUserId) this.login()
+  }
      // wepy.reLaunch({
 
 // //        url:'../pages/search/Plan'
@@ -273,19 +283,25 @@ export default class extends wepy.app {
 //       //   url:"pages/mine/myBag"
 //       // url: "../pages/shopDetail/progress"
 //      })
-  }
-  async login() {
-    let loginStatus = await wepy.login();
-    getlogin({data:{code:loginStatus.code,loginType:1}}).then(res => {
-      const {user, weixinUserId} = res.data;
-      this.globalData.weixinUserId = weixinUserId;
-      stores.dispatch({type:'SET_WEIXINID',weixinUserId:{weixinUserId}});
-      if (user) {
-        const {token, ...data} = user
-        wepy.setStorageSync('token', token)
-        wepy.setStorageSync('store', data)
-        console.log(user)
-      }
+  login() {
+    wepy.login().then(res => {
+      const {code} = res
+      getlogin({data: {code: code, loginType: 1}}).then(res => {
+        const {user, weixinUserId, unionId} = res.data
+        if (weixinUserId) {
+          wepy.setStorageSync('weixinUserId', weixinUserId)
+        }
+        if (unionId) {
+          wepy.setStorageSync('unionId', unionId)
+        }
+        if (user) {
+          const {token, ...data} = user
+          wepy.setStorageSync('token', token)
+          wepy.setStorageSync('store', data)
+        }
+        stores.dispatch({type:'SET_WEIXINID',weixinUserId:{weixinUserId}})
+        this.$apply()
+      })
     })
   }
 }

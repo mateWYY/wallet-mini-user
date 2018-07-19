@@ -1,7 +1,7 @@
 // noinspection JSAnnotator
 import wepy from 'wepy'
-// const host = 'https://coupon.test.mihutime.com'
-const host = 'https://itimego.com'
+const host = 'https://coupon.test.mihutime.com'
+// const host = 'https://itimego.com'
 const wxRequest = (params = {}, url) => {
   let token = wepy.getStorageSync('token')
   return new Promise((resolve, reject) => {
@@ -39,7 +39,7 @@ const wxRequest = (params = {}, url) => {
 const getCommonChildFour = (params) => wxRequest(params, host + '/common/v1/categories/'+ params.id+'/child-four');
 const getCommonChilds = (params) => wxRequest(params, host + '/common/v1/categories/'+params.id+'/child');
 //公共接口
-const getWechatInfo = (params) => wxRequest(params, host + '/common/v1/accounts/wechat-info')
+const getWechatInfo = (params) => wxRequest(params, host + '/common/v1/accounts/wechat-info-new')
 const getWechatLogin = (params) => wxRequest(params, host + '/common/v1/accounts/wechat-login')
 const getWechatCheck = (params) => wxRequest(params, host + '/common/v1/wechats/checkout')
 const getCommonFiles = (params) => wxRequest(params, host + '/common/v1/files');

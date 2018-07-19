@@ -45,6 +45,7 @@
   </view>
 
   <activeTipsPopup :showTips.sync="showTipPopup"></activeTipsPopup>
+
 </template>
 
 <script>
@@ -61,6 +62,7 @@
   import delicacy from '../components/delicacy'
   import Delicious from '../components/Delicious';
   import activeTipsPopup from '../components/activeTipsPopup';
+  import popup from '../components/popup'
   export default class first extends wepy.page {
     config = {
       backgroundTextStyle: 'light',
@@ -76,6 +78,7 @@
       selectTab: 0,
       haveMore: true,
       showapp: false,
+      getUserinfoVisible: false,
       scrollTop: 0,
       scrollLeft: 0, // tab标题的滚动条位置
       winHeight: '',
@@ -266,7 +269,7 @@
       },
       bindPickerChange (e) {
         this.index = e.detail.value
-      }
+      },
       // /*** 滑动切换tab*/
       // bindChange(e) {
       //   let that = this;
