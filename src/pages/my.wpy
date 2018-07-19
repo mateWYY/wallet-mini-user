@@ -375,6 +375,45 @@
     width:42rpx;
     height:42rpx;
   }
+
+
+  .getUserInfo-box{
+    position: absolute;
+    width: 400rpx;
+    height: 240rpx;
+    left: 50%;
+    top: 50%;
+    padding: 30rpx;
+    margin-left: -230rpx;
+    margin-top: -150rpx;
+    background-color: #fff;
+    z-index: 2;
+    border-radius: 8rpx;
+  }
+  .getUserInfo-box .title{
+    font-size: 28rpx;
+  }
+  .getUserInfo-box .title .logoImage{
+    width: 80rpx;
+    height: 80rpx;
+    margin: 10rpx auto;
+    padding: 10rpx;
+    border-radius: 50%;
+    text-align: center;
+  }
+  .getUserInfo-box .title .logoImage>image{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+  .getUserInfo-box .btn-wrapper .btn{
+    position: absolute;
+    bottom: 20rpx;
+    background-color:#ff4552;
+    color: #ffffff;
+    width: 400rpx;
+    font-size: 30rpx;
+  }
 </style>
 <template>
   <view>
@@ -430,8 +469,6 @@
     </view>
     <!-- 常用功能 -->
     <view class="Common">
-      <view class="function">常用功能</view>
-      <!-- 领取足迹 -->
       <view class="Receive">
         <view class="ReceiveChild" @tap="scanningCode">
           <image class="footprint" src="../assets/saoma.png"></image>
@@ -498,13 +535,28 @@
         </loadmore>
       </view>
   </view>
+  <popup :showTips.sync="getUserinfoVisible">
+    <view class="getUserInfo-box">
+      <view class="title">
+        <text>纸象优惠将获取您的头像、昵称</text>
+        <view class="logoImage">
+          <image src="../assets/chengse.png"></image>
+        </view>
+      </view>
+      <view class="btn-wrapper">
+        <button open-type="getUserInfo" @getuserinfo="GetUserInfoHandler" class="btn" >确认</button>
+      </view>
+    </view>
+  </popup>
 </template>
 
 <script>
     import wepy from 'wepy';
-    import {getVolById, getFindWallet} from '../util/util'
+    import {getVolById, getFindWallet, getWechatInfo, getlogin} from '../util/util'
     import Delicious from '../components/Delicious'
     import loadmore from '../components/loadmore'
+    import popup from '../components/popup'
+    import getUserInfo from '@/mixins/getUserInfo'
     export default class my extends wepy.page {
       config = {
         backgroundTextStyle: 'light',
@@ -513,6 +565,7 @@
         navigationBarTextStyle: 'white',
         onReachBottomDistance: '500'
       };
+      mixins = [getUserInfo]
       data = {
         index: 0,
         lips:1,
@@ -521,6 +574,7 @@
         avatarUrl:{},
         FindWallet: [],
         telnum:'',
+        getUserinfoVisible: false,
         loading: true,
         haveMore: true,
         walletPerage: {
@@ -530,13 +584,26 @@
       };
       components={
         Delicious: Delicious,
-        loadmore: loadmore
+        loadmore: loadmore,
+        popup
       };
       methods = {
-        avatar(){
+        avatar() {
          wx.navigateTo({
            url:'../setUp/personal'
          })
+        },
+        // 点击允许获取微信用户信息
+        GetUserInfoHandler(e) {
+          const {encryptedData, iv} = e.detail
+          this.geWechatInfo(iv, encryptedData)
+          this.getUserinfoVisible = false
+          let token = wepy.getStorageSync('token')
+          if (!token) {
+            wepy.navigateTo({
+              url: './bindCell'
+            })
+          }
         },
         scanningCode(){
           wx.scanCode({
@@ -583,14 +650,72 @@
         }
       };
       bindPhone() {
-        let token = wepy.getStorageSync('token')
-        if (!token) {
-          wepy.redirectTo({
-            url: './bindCell'
+        wepy.getStorage({key: 'unionId'}).then(res => {
+          let token = wepy.getStorageSync('token')
+          if (!token) {
+            wepy.navigateTo({
+              url: './bindCell'
+            })
+          } else {
+            this.getUserInfo()
+          }
+          this.$apply()
+        }).catch(() => {
+          wepy.getUserInfo().then(res => {
+            const {encryptedData, iv} = res
+            this.geWechatInfo(iv, encryptedData)
+            this.$apply()
+          }).catch(() => {
+            this.getUserinfoVisible = true
+            this.$apply()
+          })
+        })
+      }
+      // 获取权限微信用户信息
+      geWechatInfo(iv, encryptData) {
+        const weixinUserId = wx.getStorageSync('weixinUserId')
+        if (weixinUserId) {
+          getWechatInfo({method: 'post',
+            data: {
+              weixinUserId: weixinUserId,
+              loginType: 1,
+              iv: iv,
+              encryptData: encryptData
+            }
+          }).then(res => {
+            wx.showToast({
+              title: '授权成功',
+              icon: 'none',
+              duration: 2000
+            })
+            const {weixinUserId} = res.data
+            if (weixinUserId) wepy.setStorageSync('weixinUserId', weixinUserId)
+            this.getUserInfo()
+            this.$apply()
+          }).catch(err => {
+            wx.showToast({
+              title: `${err.message}`,
+              icon: 'none',
+              duration: 2000
+            })
+            let token = wepy.getStorageSync('token')
+            if (!token) {
+              wepy.navigateTo({
+                url: './bindCell'
+              })
+            }
+            this.getUserInfo()
+            this.$apply()
+          })
+        } else {
+          wx.showToast({
+            title: 'weixinUserId不存在',
+            icon: 'none',
+            duration: 2000
           })
         }
       }
-      getuserPhone(){
+      getuserPhone() {
         this.telnum = this.users.phone.substr(0, 3) + "****" + this.users.phone.substr(7)
       }
       // 加载更多
@@ -639,18 +764,28 @@
           })
         }
       }
-      onShow() {
-        this.walletPerage.page = 1
-        this.getFindWallet(true)
+      getUserInfo() {
         getVolById().then(res => {
           this.users = res.data
           this.getuserPhone()
           this.$parent.globalData.storeInfo = this.users
           this.$apply()
         })
-        this.bindPhone()
+        this.walletPerage.page = 1
+        this.getFindWallet(true)
       }
-      onLoad () {}
+      onShow() {
+        const token = wx.getStorageSync('token')
+        const unionId = wx.getStorageSync('unionId')
+        if (token && unionId) {
+          this.bindPhone()
+        } else {
+          setTimeout(() => {
+            this.bindPhone()
+            this.$apply()
+          }, 1000)
+        }
+      }
     }
 
 </script>

@@ -717,6 +717,9 @@
     align-self: center;
     vertical-align: middle;
   }
+  .hover{
+    opacity: 0.8;
+  }
 </style>
 <template>
     <view>
@@ -805,14 +808,14 @@
         </view>
       </view>
       <!--店铺福袋-->
-      <view class="lucky-bag" wx:if="{{storeWallet.length>=1}}">
+      <view class="lucky-bag" wx:if="{{storeWallet.length}}">
         <view class="lucky-top">
           <view class="shopsTitle">
             <image class="shopmon" src="../../assets/shopmon.png"></image>
             <text class="Fourtune">福袋大派送</text>
             <text class="maxValue">最高可享￥{{storeWallet[0].maxValue}}</text>
           </view>
-            <button hover-class="none" class="{{storeWallet[0].draw_status===1? 'branch':'graych'}}" @tap="progress({{storeWallet[0]}})">
+            <button hover-class="btn-hover"  class="{{storeWallet[0].draw_status === 1 ?'branch' : 'graych' }}"   @tap="progress({{storeWallet[0]}})" disabled="{{showWrapper}}">
               {{storeWallet[0].drawStatusText}}<!--<text class="iconfont icon-right"></text>-->
             </button>
         </view>
@@ -919,6 +922,7 @@
       data = {
         unRedView: false,
         showView:false,
+        walletDisabled: true,
         showWrapper:false,
         stores: {},
         index: 0,
@@ -950,21 +954,19 @@
             this.isChecked = true
             let id = this.carous.id
             this.showWrapper = false
-            getDraw({method: 'POST', id:id}).then(res =>{
+            getDraw({method: 'POST', id:id, data: {id: id}}).then(res =>{
               this.draws = res.data
               console.log(this.draws)
               wx.navigateTo({
                 url:'../../pages/shopDetail/openBag?val='+JSON.stringify(this.draws)
               })
               this.$apply();
-            }).catch(err =>{
-              if(err.status === 422){
-                wx.redirectTo({
-                  url:'../../pages/shopDetail/openBag'
-                })
-                const {message} = err;
-                this.$parent.globalData.message = message
-              }
+            }).catch(err => {
+              return wx.showToast({
+                title: `${err.message}`,
+                icon: 'none',
+                duration: 2000
+              })
             })
           },
           openBagelen () {
@@ -1084,6 +1086,7 @@
         } else {
           setTimeout(() => {
             this.getStoreAlls()
+            this.$apply()
           }, 1000)
         }
       }
@@ -1091,6 +1094,7 @@
       getStoreShows(){
         getStoreShows({id:this.storeId, data:this.params}).then(res=>{
           this.stores = res.data
+          wx.hideLoading()
           this.$apply()
         })
       }
