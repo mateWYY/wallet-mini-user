@@ -299,6 +299,7 @@
         }, 1000)
       }
       onShow(){
+        this.params.page = 1
         this.getUserWallets(true);
         this.getUserWalletCount();
       }

@@ -119,7 +119,7 @@
 
 <script>
   import wepy from 'wepy'
-  let amapFile = require('../../libs/amap-wx.js');
+  let amapFile = require('../../libs/amap-wx.js')
   import { getCommonIs_open } from '../../util/util'
   export default class address extends wepy.page {
     config = {

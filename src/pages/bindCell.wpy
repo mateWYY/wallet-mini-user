@@ -114,7 +114,7 @@
       }
       const api = getCommonloginCoding({data: {phone: this.phone}, method: 'Post'})
       this.getCode(api).then(() => {
-        wepy.redirectTo({
+        wepy.navigateTo({
           url: `./OverCell?phone=${this.phone}`
         })
       })

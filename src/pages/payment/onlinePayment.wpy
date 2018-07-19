@@ -176,7 +176,7 @@
 
 <script>
   import wepy from 'wepy';
-  import {getPingparams, getOrderDetail} from '../../util/util';
+  import {getPingparams, getOrderDetail, getlogin, getWechatCheck} from '../../util/util';
   import payMixins from '@/mixins/pay'
   export default class onlinePayment extends wepy.page {
     config = {
@@ -222,11 +222,32 @@
             url: `./PaymentStatus?vcd=${id}`
           })
         }).catch(err => {
-          console.log(err)
-          if (err.indexOf('fail') !== -1) {
-            clearInterval(this.timer)
-            wepy.navigateBack()
+          clearInterval(this.timer)
+          if (err.indexOf('network_err') !== -1) {
+            wepy.showToast({
+              title: '网络连接超时',
+              icon: 'loading',
+              duration: 6000
+            })
+            setTimeout(() => {
+              return wepy.switchTab({
+                url: '../first'
+              })
+            }, 6000)
+          } else {
+            wepy.navigateTo({
+              url: '../order/order'
+            })
           }
+        })
+      }).catch(err => {
+        wepy.showToast({
+          title: `${err.message}`,
+          icon: 'none',
+          duration: 1000
+        })
+        return wepy.redirectTo({
+          url: '../order/order'
         })
       })
     }
@@ -261,19 +282,39 @@
         }
       })
     }
-    events = {};
-    onShow(){
-      this.getOrderDetail()
+    wechatCheck() {
+      getWechatCheck({method: 'post'}).then(res => {
+        console.log(res)
+      }).catch(() => {
+        this.login()
+      })
     }
-    onUnload(){
+    login() {
+      wepy.login().then(res => {
+        const {code} = res
+        getlogin({data: {code: code, loginType: 1}}).then(res => {
+          const {weixinUserId} = res.data
+          if (weixinUserId) {
+            wepy.setStorageSync('weixinUserId', weixinUserId)
+            wepy.redirectTo({
+              url: '../bindCell'
+            })
+          }
+        })
+      })
+    }
+    onUnload() {
       clearInterval(this.timer)
+    }
+    onShow() {
+      this.getOrderDetail()
     }
     onLoad(opt) {
       this.value = this.$parent.globalData.value;
       this.redsList = JSON.parse(opt.vcd);
+      this.wechatCheck()
     }
   }
 </script>
-
 
 

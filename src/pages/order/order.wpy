@@ -95,6 +95,9 @@
     text-align:right;
     display:inline-block;
   }
+  .leaveChild:nth-of-type(1){
+    margin-right: 20rpx;
+  }
   .grey{
     color:#999999;
   }
@@ -169,6 +172,7 @@
             实付金额:￥<text class="big">{{item.totalAmount }}</text>
           </view>
           <view class="leave" wx:if="{{item.status==1}}">
+            <view @tap="deleteOrder({{item}})" class="leaveChild">取消订单</view>
             <view @tap="leaveChild({{item}})" class="leaveChild">去付款</view>
           </view>
         </view>
@@ -179,7 +183,7 @@
 </template>
 <script>
     import wepy from 'wepy';
-    import {getVolOrders} from '../../util/util'
+    import {getVolOrders, getOrderClose} from '../../util/util'
     import loadmore from '../../components/loadmore';
     export default class Order extends wepy.page {
         config = {
@@ -215,6 +219,27 @@
                 url: '../../pages/payment/onlinePayment?vcd='+ item.id
               })
             }
+          },
+          // 删除订单
+          deleteOrder(item) {
+            getOrderClose({id: item.id, method: 'post'}).then(res => {
+              const {status} = res.data
+              if (status === 4) {
+                wx.showToast({
+                  title: '订单取消成功',
+                  icon: 'none',
+                  duration: 2000
+                })
+                this.params.page = 1
+                this.getVolOrders(true)
+              }
+            }).catch(err => {
+              return wx.showToast({
+                title: err.data.message,
+                icon: 'none',
+                duration: 2000
+              })
+            })
           },
           writer(id, event){
             wx.navigateTo({

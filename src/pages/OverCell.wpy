@@ -113,7 +113,7 @@
 <script>
     import wepy from 'wepy';
     import getCode from '@/mixins/getCode'
-    import {getCommonLoginCodes, getCommonloginCoding} from '../util/util'
+    import {getWechatLogin, getCommonloginCoding} from '../util/util'
     export default class OverCell extends wepy.page {
       config ={
         backgroundTextStyle: 'light',
@@ -136,12 +136,12 @@
         },
         formSubmit(e) {
           const {code} = e.detail.value
-          let weixinUserId = this.$parent.globalData.weixinUserId
+          const weixinUserId = wx.getStorageSync('weixinUserId')
           let phone = this.phone
           console.log(code)
           console.log(this.phone)
-          if (this.phone && code) {
-            getCommonLoginCodes({
+          if (this.phone && code && weixinUserId) {
+            getWechatLogin({
               method: 'POST',
               data: {
                 phone: phone,
