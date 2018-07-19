@@ -717,8 +717,60 @@
     align-self: center;
     vertical-align: middle;
   }
-  .hover{
-    opacity: 0.8;
+
+  /*领取记录弹框*/
+  .commodity_Record{
+    position: fixed;
+    left:0;
+    right:0;
+    top:30%;
+    z-index:2000;
+    overflow:hidden;
+    width:560rpx;
+    height:510rpx;
+    margin:0 auto;
+    background-color:#fff;
+    font-size:0;
+  }
+  .walletChance{
+    width:560rpx;
+    height:180rpx;
+  }
+  .commodity_Record .degree{
+    font-weight: bold;
+    font-size: 30rpx;
+    color: #333333;
+    text-align: center;
+    padding:60rpx 0 38rpx;
+  }
+  .commodity_Record .degree .fine{
+    font-size: 30rpx;
+    font-weight:bold;
+    color: #ff4552;
+  }
+  .commodity_Record .tomorrow{
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #ff4552;
+    text-align: center;
+  }
+  .commodity_Record .know{
+    width: 520rpx;
+    height: 80rpx;
+    line-height:80rpx;
+    background-image: linear-gradient(-30deg, rgba(225, 19, 34, 0.3) 0%, rgba(255, 69, 82, 0.3) 100%), linear-gradient(#ff4552, #ff4552);
+    box-shadow: 0 0 10rpx 0 rgba(255, 69, 82, 0.57);
+    border-radius: 5rpx;
+    font-size: 28rpx;
+    font-weight: bold;
+    color: #ffffff;
+    margin-top:40rpx;
+  }
+  .walletClose{
+    position: absolute;
+    top:20rpx;
+    right:20rpx;
+    color:#fff;
   }
 </style>
 <template>
@@ -808,14 +860,14 @@
         </view>
       </view>
       <!--店铺福袋-->
-      <view class="lucky-bag" wx:if="{{storeWallet.length}}">
+      <view class="lucky-bag" wx:if="{{storeWallet.length>=1}}">
         <view class="lucky-top">
           <view class="shopsTitle">
             <image class="shopmon" src="../../assets/shopmon.png"></image>
             <text class="Fourtune">福袋大派送</text>
             <text class="maxValue">最高可享￥{{storeWallet[0].maxValue}}</text>
           </view>
-            <button hover-class="btn-hover"  class="{{storeWallet[0].draw_status === 1 ?'branch' : 'graych' }}"   @tap="progress({{storeWallet[0]}})" disabled="{{showWrapper}}">
+            <button hover-class="none" class="{{storeWallet[0].draw_status===1? 'branch':'graych'}}" @tap="progress({{storeWallet[0]}})">
               {{storeWallet[0].drawStatusText}}<!--<text class="iconfont icon-right"></text>-->
             </button>
         </view>
@@ -897,6 +949,18 @@
           <view class="sey">{{stores.consumeNotes}}</view>
         </view>
       </view>
+
+      <!--领取记录弹框-->
+      <view  catchtouchmove="move" wx:if="{{record}}">
+        <view class="commodity_screen"></view>
+        <view class="commodity_Record">
+          <text @tap="walletClose" class="walletClose iconfont icon-guanbi"></text>
+          <image class="walletChance" src="../../assets/walletChance.png"></image>
+          <view class="degree">今日红包领取次数<text class="fine">({{walletsRemain.storeQuantity}}/{{walletsRemain.drawStoreQuantity}})</text>已用完</view>
+          <view class="tomorrow">明天再来哦</view>
+          <button @tap="walletClose" class="know">我知道了</button>
+        </view>
+      </view>
       <!--附近推荐-->
       <!--<view class="near">-->
         <!--<view class="recomed">附近推荐</view>-->
@@ -922,7 +986,6 @@
       data = {
         unRedView: false,
         showView:false,
-        walletDisabled: true,
         showWrapper:false,
         stores: {},
         index: 0,
@@ -930,13 +993,14 @@
         showImd: true,
         currentTab: 0,
         UserWallet: [],
-        chaper:{},
+        chaper: {},
         storeId: {},
         carous: {},
         isChecked: false,
         draws: {},
         scrollTop: 0,
-        walletsRemain: {}
+        walletsRemain: {},
+        record: false
       };
       computed = {
         sliceDown () {
@@ -944,6 +1008,9 @@
         }
       }
         methods = {
+          walletClose () {
+            this.record = !(this.record)
+          },
           move(e) {
             // console.log(e)
           },
@@ -954,19 +1021,22 @@
             this.isChecked = true
             let id = this.carous.id
             this.showWrapper = false
-            getDraw({method: 'POST', id:id, data: {id: id}}).then(res =>{
+            getDraw({method: 'POST', id:id}).then(res =>{
               this.draws = res.data
               console.log(this.draws)
               wx.navigateTo({
                 url:'../../pages/shopDetail/openBag?val='+JSON.stringify(this.draws)
               })
               this.$apply();
-            }).catch(err => {
-              return wx.showToast({
-                title: `${err.message}`,
-                icon: 'none',
-                duration: 2000
-              })
+            }).catch(err =>{
+              if(err.status === 422){
+                this.record = true
+                // wx.redirectTo({
+                //   url:'../../pages/shopDetail/openBag'
+                // })
+                // const {message} = err;
+                // this.$parent.globalData.message = message
+              }
             })
           },
           openBagelen () {
@@ -1086,7 +1156,6 @@
         } else {
           setTimeout(() => {
             this.getStoreAlls()
-            this.$apply()
           }, 1000)
         }
       }
@@ -1094,7 +1163,6 @@
       getStoreShows(){
         getStoreShows({id:this.storeId, data:this.params}).then(res=>{
           this.stores = res.data
-          wx.hideLoading()
           this.$apply()
         })
       }
