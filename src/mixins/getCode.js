@@ -4,7 +4,8 @@ export default class testMixin extends wepy.mixin {
   data = {
     buttonText: '获取验证码',
     buttonDisable: false,
-    number: 60
+    number: 60,
+    timers: ''
   }
 
   async getCode(getCodeApi) {
@@ -26,22 +27,24 @@ export default class testMixin extends wepy.mixin {
   }
 
   countDown() {
-    let timer = null
-    clearInterval(timer)
+    this.timers = null
+    clearInterval(this.timers)
     this.buttonText = `(${this.number}s)重新获取`
     this.buttonDisable = true
-    timer = setInterval(() => {
-      this.number--
-      if (this.number > 0) {
-        this.buttonText = `(${this.number}s)重新获取`
-        this.buttonDisable = true
-      } else {
-        this.buttonText = '获取验证码'
-        this.buttonDisable = false
-        clearInterval(timer)
-        this.number = 60
-      }
-      this.$apply()
-    }, 1000)
+    if (!this.timers) {
+      this.timers = setInterval(() => {
+        this.number--
+        if (this.number > 0) {
+          this.buttonText = `(${this.number}s)重新获取`
+          this.buttonDisable = true
+        } else {
+          this.buttonText = '获取验证码'
+          this.buttonDisable = false
+          clearInterval(this.timers)
+          this.number = 60
+        }
+        this.$apply()
+      }, 1000)
+    }
   }
 }
