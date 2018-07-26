@@ -867,8 +867,9 @@
             <text class="Fourtune">福袋大派送</text>
             <text class="maxValue">最高可享￥{{storeWallet[0].maxValue}}</text>
           </view>
-            <button hover-class="none" class="{{storeWallet[0].draw_status===1? 'branch':'graych'}}" @tap="progress({{storeWallet[0]}})">
-              {{storeWallet[0].drawStatusText}}<!--<text class="iconfont icon-right"></text>-->
+            <button hover-class="none" class="{{storeWallet[0].draw_status===1||storeWallet[0].draw_status===2? 'branch':'graych'}}" @tap="progress({{storeWallet[0]}})">
+              <text wx:if="{{storeWallet[0].draw_status!==2}}">{{storeWallet[0].drawStatusText}}</text>
+              <text wx:if="{{storeWallet[0].draw_status===2}}">抢红包</text>
             </button>
         </view>
           <view class="melon">
@@ -956,7 +957,7 @@
         <view class="commodity_Record">
           <text @tap="walletClose" class="walletClose iconfont icon-guanbi"></text>
           <image class="walletChance" src="../../assets/walletChance.png"></image>
-          <view class="degree">今日红包领取次数<text class="fine">({{walletsRemain.storeQuantity}}/{{walletsRemain.drawStoreQuantity}})</text>已用完</view>
+          <view class="degree">今日红包领取次数<text class="fine">({{walletsRemain.drawStoreQuantity}}/{{walletsRemain.drawStoreQuantity}})</text>已用完</view>
           <view class="tomorrow">明天再来哦</view>
           <button @tap="walletClose" class="know">我知道了</button>
         </view>
@@ -1026,15 +1027,12 @@
                 url:'../../pages/shopDetail/openBag?val='+JSON.stringify(this.draws)
               })
               this.$apply();
-            }).catch(err =>{
-              if(err.status === 422){
-                this.record = true
-                // wx.redirectTo({
-                //   url:'../../pages/shopDetail/openBag'
-                // })
-                // const {message} = err;
-                // this.$parent.globalData.message = message
-              }
+            }).catch(err => {
+              return wepy.showToast({
+                title: `${err.message}`,
+                icon: 'none',
+                duration: 1000
+              })
             })
             setTimeout(() => {
               this.showWrapper = false
@@ -1077,7 +1075,7 @@
             this.unRedView = !(this.unRedView)
           },
           // 联系电话
-          makePhone(){
+          makePhone() {
             wx.makePhoneCall({
               phoneNumber:this.stores.phone
             })
@@ -1102,6 +1100,10 @@
                 this.getwalletsRemaining()
                 this.getCarousel(item)
                 this.showWrapper = true
+              } else if (item.draw_status === 2) {
+                this.getwalletsRemaining()
+                this.showWrapper = false
+                this.record = true
               } else {
                 this.showWrapper = false
               }
