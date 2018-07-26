@@ -975,7 +975,7 @@
     import {connect, getStore} from 'wepy-redux'
     const stores = getStore()
     import Delicious from '../../components/Delicious'
-    import { getStoreShows, getStoreWallet, getStoreWalletCount, getDraw, getCarousel, getwalletsRemaining } from '../../util/util';
+    import {getStoreShows, getStoreWallet, getStoreWalletCount, getDraw, getCarousel, getwalletsRemaining, orderCheckout, getOrderClose} from '../../util/util';
     export default class store extends wepy.page {
       config = {
         backgroundTextStyle: 'light',
@@ -1124,6 +1124,39 @@
         }
       }
 
+      // 关闭订单重新生成
+      closeOrder(id) {
+        const self = this
+        getOrderClose({id: id, method: 'post'}).then(res => {
+          self.getStoreWalletCount()
+        })
+      }
+      // 订单检查
+      reqOrderCheckout(id) {
+        const self = this
+        orderCheckout({id: id, method: 'post', data: {id: id}}).then(res => {
+          const {code, order} = res.data
+          if (code === 0 && order) {
+            wepy.showModal({
+              title: '温馨提示',
+              content: '您当前在本店铺有未完成订单',
+              cancelText: '取消订单',
+              confirmText: '去支付',
+              confirmColor: '#ff4552'
+            }).then(res => {
+              if (res.confirm) {
+                wx.navigateTo({
+                  url: '../payment/onlinePayment?vcd=' + order.id
+                })
+              } else if (res.cancel) {
+                self.closeOrder(order.id)
+              }
+            }).catch(() => {
+              this.reqOrderCheckout(this.storesId)
+            })
+          }
+        })
+      }
       // 分享页面小程序
       onShareAppMessage (res) {
         const tmpTitle = this.stores
@@ -1172,7 +1205,7 @@
       getStoreWallet() {
         getStoreWallet({id: this.storeId, data: this.params}).then(res=>{
           this.storeWallet = res.data
-          console.log(this.storeWallet)
+          wx.hideLoading()
           this.$apply()
         })
       }
@@ -1201,6 +1234,9 @@
         })
        }
      onShow() {
+       wx.showLoading({
+         title: '加载中'
+       })
        this.getStoreAlls()
        this.getStoreWalletCount()
      }
@@ -1212,6 +1248,9 @@
       onLoad(opts) {
         const {id} = opts
         this.storeId = id
+        if (id) {
+          this.reqOrderCheckout(id)
+        }
       }
     }
 </script>
