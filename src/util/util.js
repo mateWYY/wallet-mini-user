@@ -1,7 +1,7 @@
 // noinspection JSAnnotator
 import wepy from 'wepy'
-const host = 'https://coupon.test.mihutime.com'
-// const host = 'https://itimego.com'
+// const host = 'https://coupon.test.mihutime.com'
+const host = 'https://itimego.com'
 const wxRequest = (params = {}, url) => {
   let token = wepy.getStorageSync('token')
   return new Promise((resolve, reject) => {
@@ -113,6 +113,7 @@ const getVolsFeedbacked = (params) => wxRequest(params, host + '/shop/v1/feedbac
 // 支付成功，关闭订单
 const getOrderSuccess = (params) => wxRequest(params, host + '/shop/v1/orders/'+params.id+'/success');
 const getOrderClose = (params) => wxRequest(params, host + '/shop/v1/orders/'+params.id+'/close');
+const orderCheckout = (params) => wxRequest(params, host + '/shop/v1/orders/' + +params.id + '/checkout')
 
 // 剩余可抢福袋数量
 const getwalletsRemaining = (params) => wxRequest(params, host + '/shop/v1/wallets/remaining')
@@ -183,6 +184,7 @@ module.exports = {
   getOrderSuccess,
   getOrderClose,
   getOrderDetail,
+  orderCheckout,
   storeActivity,
   shopWallets,
   getwalletsRemaining,
