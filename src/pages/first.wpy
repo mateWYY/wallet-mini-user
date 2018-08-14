@@ -6,7 +6,7 @@
         <text>{{address.city}}</text>
         <text style="font-size:22rpx;padding-left:5rpx" class="iconfont icon-jiantouxia"></text>
       </view>
-      <input @tap="setSearchStorage" class="i-focus" placeholder-class="place" disabled placeholder="搜索商家名或品类..."
+      <input @tap="setSearchStorage" class="i-focus" placeholder-class="place" disabled placeholder="请输入商家名..."
              auto-focus/>
       <text class="see iconfont icon-sousuo"></text>
     </view>
@@ -45,12 +45,12 @@
   </view>
 
   <activeTipsPopup :showTips.sync="showTipPopup"></activeTipsPopup>
-
+  <navMenu></navMenu>
 </template>
 
 <script>
   const key = 'f36b92d5af8a23965483c2b3d80fa233'
-  import wepy from 'wepy';
+  import wepy from 'wepy'
   import {
     getCommonCategories,
     getCommonBanner,
@@ -63,6 +63,7 @@
   import Delicious from '../components/Delicious';
   import activeTipsPopup from '../components/activeTipsPopup';
   import popup from '../components/popup'
+  import navMenu from '../components/navMenu'
   export default class first extends wepy.page {
     config = {
       backgroundTextStyle: 'light',
@@ -96,7 +97,9 @@
       cityId: {},
       FindWallet: [],
       searchLoadingComplete: false, // “没有数据”的变量，默认false，隐藏
-      address: {},
+      address: {
+        city: ''
+      },
       params: {
         'per-page': 10,
         page: 1,
@@ -150,17 +153,6 @@
       }, 1000)
     }
 
-    getHeight() {
-      wepy.getSystemInfo().then(res => {
-        let clientHeight = res.windowHeight,
-          clientWidth = res.windowWidth,
-          rpxR = 750 / clientWidth;
-        let calc = clientHeight * rpxR - 180;
-        console.log(calc);
-        this.winHeight = calc + 200;
-        this.$apply()
-      });
-    }
     onShow() {
       const {name} = this.$parent.globalData.cityId
       if (name) {
@@ -191,7 +183,8 @@
     components = {
       delicacy: delicacy,
       Delicious: Delicious,
-      activeTipsPopup
+      activeTipsPopup,
+      navMenu
     };
     getLocations () {
       const myAmapFun = new amapFile.AMapWX({key: key})
@@ -210,14 +203,6 @@
         }
       })
     }
-//    getLocation () {
-//      wepy.getLocation({
-//        type: 'wgs84'
-//      }).then(res => {
-//        this.$parent.globalData.locationMap = res /*(包含经纬度)*/
-//      })
-//    }
-
     watch = {
       'address' (val) {
         this.$invoke('delicacy', 'getSelect', this.selectTab)

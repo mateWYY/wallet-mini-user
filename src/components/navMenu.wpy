@@ -1,0 +1,219 @@
+<template>
+   <view class="navMenu">
+      <view class="menu-content" animation="{{animationData}}">
+          <view class="menu-close" @tap="menuClose" wx:if="{{show}}">
+            <image src="./resources/navMenu-right-icon.png" class="navIcon navRight-icon"></image>
+            <text class="text">收起</text>
+          </view>
+          <view class="menu-open" @tap="menuClose" wx:if="{{!show}}">
+            <image src="./resources/navMenu-left-icon.png" class="navIcon navLeft-icon"></image>
+            <text class="text">快速导航</text>
+          </view>
+          <view class="menuBar">
+            <view class="barItem" @tap="goChildPage('')">
+              <image src="./resources/navMenu-home-icon.png" class="barItemIcon"></image>
+              <text class="barItem_text">首页</text>
+            </view>
+            <view class="barItem" @tap="goChildPage('order')">
+              <image src="./resources/navMenu-order-icon.png" class="barItemIcon"></image>
+              <text class="barItem_text">订单</text>
+            </view>
+            <view class="barItem" @tap="goChildPage('redBag')">
+              <image src="./resources/navMenu-wallet-icon.png" class="barItemIcon"></image>
+              <text class="barItem_text">红包</text>
+            </view>
+            <view class="barItem" @tap="goChildPage('record')">
+              <image src="./resources/navMenu-record-icon.png" class="barItemIcon"></image>
+              <text class="barItem_text">浏览记录</text>
+            </view>
+            <view class="barItem" @tap="goChildPage('qcode')">
+              <image src="./resources/navMenu-qcode-icon.png" class="barItemIcon"></image>
+              <text class="barItem_text">扫码</text>
+            </view>
+          </view>
+     </view>
+   </view>
+  <view class="mask-diagos" hidden="{{!show}}" @tap="menuClose"></view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class Index extends wepy.component {
+    data = {
+      show: false,
+      animationData: '',
+      animationScond: '',
+      routes: {
+        order: './order/order',
+        redBag: './mine/myBag',
+        record: './mine/Record'
+      }
+    }
+    watch = {
+      show(val) {
+        var animation = wepy.createAnimation({
+          duration: 300,
+          timingFunction: 'ease',
+          delay: 0
+        })
+        if (val) {
+          animation.translate(10, 0).step()
+        } else {
+          animation.translate(73 + '%', 0).step()
+        }
+        this.animationData = animation.export()
+      }
+    }
+    scanningCode(){
+      wx.scanCode({
+        success(res){
+          console.log(res)
+          let reg_url = /^[^\?]+\?([\w\W]+)$/,
+            reg_para = /([^&=]+)=([\w\W]*?)(&|$|#)/g,
+            arr_url = reg_url.exec(res.result),
+            ret = {};
+          if (arr_url && arr_url[1]) {
+            let str_para = arr_url[1], result;
+            while ((result = reg_para.exec(str_para)) != null) {
+              ret[result[1]] = result[2];
+            }
+          }
+          let  str = ret
+          if(str.toString() !== ''){
+            if(str.type && str.type === 'store') {
+              setTimeout(()=>{
+                wx.showToast({
+                  title: '成功',
+                  icon: 'success',
+                  duration: 2000
+                }, 1000)
+              })
+              wx.navigateTo({
+                url:'../pages/shopDetail/store?id='+str.id
+              })
+            }
+          }else{
+            wx.showToast({
+              title: '二维码不合法',
+              icon: 'none',
+              duration: 2000
+            })
+          }
+        },
+        fail () {
+          wx.showToast({
+            title: '扫描失败',
+            duration: 2000
+          })
+        }
+      })
+    }
+    methods = {
+      menuClose() {
+        this.show = !this.show
+      },
+      goChildPage(item) {
+        this.show = !this.show
+        if (item && this.routes[item]) {
+          wepy.navigateTo({
+            url: this.routes[item]
+          })
+        } else if (item) {
+          this.scanningCode()
+        }
+      }
+    }
+  }
+</script>
+
+<style lang="stylus">
+  .navMenu
+    position: fixed
+    right: 0
+    top: 50%
+    min-width: 100rpx
+    min-height: 100rpx
+    z-index: 2
+    .menu-open, .menu-close
+      position: relative
+      right: -2px
+      font-size: 20rpx
+      color: #ffffff
+      height: 45rpx
+      top: 80rpx
+      background-color: rgba(0,0,0,0.6)
+      padding: 15rpx 10rpx 15rpx 20rpx
+      display: flex
+      border-radius: 10rpx
+      .navIcon
+        width: 20rpx
+        height: 18rpx
+        position: relative
+        top: 15rpx
+        padding-right: 5rpx
+      .text
+        display: inline-block
+        width: 40rpx
+        padding: 0 10rpx
+      .navRight-icon
+        top: 6rpx
+      .navLeft-icon
+        animation: run 2s infinite ease-in
+    .menu-content
+      position: fixed
+      right: -20rpx
+      display: flex
+      min-width: 400rpx
+      z-index: 3
+      transform: translate3d(73%,0,0)
+      opacity: 1
+      .menu-close
+        height: 30rpx
+        border-radius: none
+        position: relative
+        right: -10rpx
+        display: flex
+    .menuBar
+      width: 350rpx
+      background-color: #fff
+      z-index: 2
+      border-radius: 8rpx
+      .barItem
+        float: left
+        padding: 20rpx 30rpx
+        font-size: 24rpx
+        text-align: center
+        .barItem_text
+          display: block
+        .barItemIcon
+          width: 36rpx
+          height: 36rpx
+  .mask-diagos
+    position: fixed
+    width: 100%
+    height: 100%
+    left: 0
+    top: 0
+    background-color: rgba(0,0,0,0.5)
+
+  @-webkit-keyframes navBar{
+    0% {
+      transform: translate3d(100%,0,0)
+    }
+    100% {
+      transform: translate3d(0,0,0)
+    }
+  }
+
+  @-webkit-keyframes run {
+    0% {
+      transform: translate3d(0px,0,0)
+    }
+    50% {
+      transform: translate3d(2px,0,0)
+    }
+    100% {
+      transform: translate3d(4px,0,0)
+    }
+  }
+</style>
