@@ -814,7 +814,7 @@
         </view>
       </view>
       <!--买单-->
-      <view class="get" wx:if="{{chaper.count>0}}">
+      <view class="get" >
         <image class="shopmon" src="../../assets/order-buy.png"></image>
         <view class="full-bus">
           <view class="full">红包买单</view>
