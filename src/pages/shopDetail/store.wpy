@@ -814,7 +814,7 @@
         </view>
       </view>
       <!--买单-->
-      <view class="get" >
+      <view class="get" wx:if="{{storeWallet.length}}">
         <image class="shopmon" src="../../assets/order-buy.png"></image>
         <view class="full-bus">
           <view class="full">红包买单</view>
@@ -1207,8 +1207,8 @@
       getStoreWallet() {
         getStoreWallet({id: this.storeId, data: this.params}).then(res=>{
           this.storeWallet = res.data
-          wx.hideLoading()
           this.$apply()
+          wx.hideLoading()
         })
       }
 
