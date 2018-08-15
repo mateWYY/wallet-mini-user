@@ -265,15 +265,46 @@ export default class extends wepy.app {
     location:{},
     cityId: ''
   };
-  onLaunch() {
-    wepy.checkSession().then().catch(() => {
-      wx.clearStorageSync()
-      this.login()
-    })
-    const weixinUserId = wepy.getStorageSync('weixinUserId')
-    if (!weixinUserId) this.login()
+  onShow() {
+    this.login()
   }
-     // wepy.reLaunch({
+  login() {
+    wepy.login().then(res => {
+      const {code} = res
+      getlogin({data: {code: code, loginType: 1}}).then(res => {
+        const {user, weixinUserId, unionId, nickname} = res.data
+        if (weixinUserId) {
+          wepy.setStorageSync('weixinUserId', weixinUserId)
+        }
+        if (unionId) {
+          wepy.setStorageSync('unionId', unionId)
+        }
+        if (nickname) {
+          wepy.setStorage({
+            key: 'nickname',
+            data: nickname
+          })
+        }
+        if (user) {
+          const {token, ...data} = user
+          wepy.setStorageSync('user', data)
+          if (!token) {
+            this.login()
+          } else {
+            wepy.setStorageSync('token', token)
+          }
+        }
+        stores.dispatch({type:'SET_WEIXINID',weixinUserId:{weixinUserId}})
+      }).catch(() => {
+        wx.showToast({
+          title: '服务器错误，请联系客服再使用',
+          icon: 'none',
+          duration: 2000
+        })
+      })
+    })
+  }
+  // wepy.reLaunch({
 
 // //        url:'../pages/search/Plan'
 //       // url:"pages/bindCell"
@@ -283,26 +314,5 @@ export default class extends wepy.app {
 //       //   url:"pages/mine/myBag"
 //       // url: "../pages/shopDetail/progress"
 //      })
-  login() {
-    wepy.login().then(res => {
-      const {code} = res
-      getlogin({data: {code: code, loginType: 1}}).then(res => {
-        const {user, weixinUserId, unionId} = res.data
-        if (weixinUserId) {
-          wepy.setStorageSync('weixinUserId', weixinUserId)
-        }
-        if (unionId) {
-          wepy.setStorageSync('unionId', unionId)
-        }
-        if (user) {
-          const {token, ...data} = user
-          wepy.setStorageSync('token', token)
-          wepy.setStorageSync('store', data)
-        }
-        stores.dispatch({type:'SET_WEIXINID',weixinUserId:{weixinUserId}})
-        this.$apply()
-      })
-    })
-  }
 }
 </script>

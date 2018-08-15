@@ -1090,12 +1090,6 @@
             })
           },
           progress(item) {
-            const token = wepy.getStorageSync('token')
-            if (!token) {
-              wepy.redirectTo({
-                url: '../bindCell'
-              })
-            } else {
               if (item.draw_status === 1) {
                 this.getwalletsRemaining()
                 this.getCarousel(item)
@@ -1107,7 +1101,6 @@
               } else {
                 this.showWrapper = false
               }
-            }
           }
         };
 

@@ -1,419 +1,432 @@
 <style lang="less">
-  Page {
-    background: #fafafa;
-  }
-  .mine-bott {
-    border-radius: 50%;
-    width: 120rpx;
-    height: 120rpx;
-    margin-right: 14rpx;
-    vertical-align: middle;
-    align-self: center;
-  }
-  .beauty {
-    font-size:10px;
-    color: #fff;
-    border: 1px solid #fff;
-    margin-right: 28rpx;
-    padding:4rpx 10rpx;
-    border-radius:5rpx;
-  }
-  .orderWrapper {
-    background:#fff;
-    height: 150rpx;
-    display: flex;
-    padding: 0 30rpx;
-    text-align: center;
-    font-size: 24rpx;
-    line-height: 40rpx;
-    align-items: center;
-    position:relative;
-    top:-8rpx;
-  }
-  .orderChild {
-    flex: 1;
-  }
-  .Common {
-    height:650rpx;
-    background: #fff;
-    margin: 20px 0;
-    border-bottom:1px solid #f2f2f2;
-  }
-  .Receive {
-    display: flex;
-    text-align: center;
-  }
-  .ReceiveChild {
-    padding:46rpx 45rpx;
-    line-height: 44rpx;
-    font-size: 24rpx;
-    border-left: 1px solid #f2f2f2;
-    border-top: 1px solid #f2f2f2;
-    flex:1;
-    background: #fff;
-  }
-  .fairyChild {
-    display: flex;
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    padding:30rpx;
-  }
-  .fairyRight {
-    vertical-align: middle;
-    color: #fff;
-    align-self: center;
-  }
-  .phone {
-    width: 15rpx;
-    height: 22rpx;
-  }
-  .phoneChild {
-    font-size: 22rpx;
-  }
-  .small {
-    font-size: 30rpx;
-    padding-bottom: 20rpx;
-    font-weight: bold;
-  }
-  .rightfill {
-    width: 18rpx;
-    height: 18rpx;
-  }
-  .Fill {
-    margin-top: 20rpx;
-    color: #fff;
-    font-size: 22rpx;
-    display: flex;
-    padding-left: 10px;
-  }
-  .riceing{
-    margin-right: 104rpx;
-  }
-  .function {
-    font-size: 26rpx;
-    color: #333;
-    font-weight: bold;
-    padding:26rpx 30rpx;
-    background:#fff;
-  }
-  .navbar {
-    position: relative;
-    padding: 0 15px;
-  }
-  .navbar .item {
-    position: relative;
-    flex: auto;
-    margin-right: 54rpx;
-    text-align: center;
-    font-size: 13px;
-    color: #000;
-    display: inline-block;
-    height: 35px;
-    line-height: 60rpx;
-  }
-  .navbar .item.active {
-    color: #ff4552;
-  }
-  .navbar .item.active:after {
-    content: "";
-    display: block;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 5rpx;
-    background: #ff4552;
-  }
-  .robbed {
-    background: #fff;
-    margin: 20rpx 10rpx;
-    padding: 30rpx 0 30rpx 20rpx;
-    display: flex;
-  }
-  .robbedImage {
-    width: 140rpx;
-    height: 140rpx;
-  }
-  .Lady-1 {
-    color: #333;
-    font-size: 13px;
-  }
-  .extract {
-    font-size: 20rpx;
-    color: #999;
-    background: #fafafa;
-  }
-  .rice {
-    color: #666;
-    font-size: 20rpx;
-  }
-  .shops {
-    width:20rpx;
-    height:18rpx;
-    align-self:center;
-    vertical-align:middle;
-  }
-  .read {
-    width:205rpx;
-    height:55rpx;
-    line-height:55rpx;
-    font-size: 24rpx;
-    color:#fff;
-    background: #ff4552;
-    text-align: center;
-  }
-  .replace {
-    width: 205rpx;
-    height: 55rpx;
-    line-height: 55rpx;
-    font-size: 24rpx;
-    color: #fff;
-    background: #e6e6e6;
-    text-align: center;
-  }
-  .rightRobbed {
-    flex: 1;
-    padding-left: 20rpx;
-    line-height: 35rpx;
-    height: 36rpx;
-    vertical-align: top;
-  }
-  .readyWrapper {
-    font-size: 32rpx;
-    color: #ff4552;
-    font-weight: bold;
-  }
-  .readFather {
-    display: flex;
-    position: relative;
-    margin-top: 48rpx;
-  }
-  .rightblock {
-    text-align: right;
-    padding-right: 20rpx;
-    font-size: 20rpx;
-    color: #ff4552;
-  }
-  .footprint {
-    width:50rpx;
-    height:50rpx;
-  }
-  /*.setUp {*/
-    /*display:flex;*/
-    /*color: #fff;*/
-    /*text-align: right;*/
-    /*font-size: 24rpx;*/
-    /*padding: 0 30rpx 30rpx;*/
-  /*}*/
-  /*.set{*/
-    /*flex:1;*/
-  /*}*/
-  /*.icon-xiaoxi {*/
-    /*margin-left:20rpx;*/
-    /*position: relative;*/
-  /*}*/
-  .iconfont {
-    font-size: 40rpx;
-  }
-  /*.circle {*/
-    /*position: absolute;*/
-    /*right:20rpx;*/
-    /*width:24rpx;*/
-    /*height:24rpx;*/
-    /*line-height:24rpx;*/
-    /*font-size:20rpx;*/
-    /*background-color: #fff;*/
-    /*color:#ff4552;*/
-    /*text-align: center;*/
-    /*border-radius: 50%;*/
-    /*-moz-border-radius: 50%;*/
-    /*-webkit-border-radius: 50%;*/
-  /*}*/
+Page {
+  background: #fafafa;
+}
+.mine-bott {
+  border-radius: 50%;
+  width: 120rpx;
+  height: 120rpx;
+  margin-right: 14rpx;
+  background-color: #ccc;
+  vertical-align: middle;
+  align-self: center;
+}
+.beauty {
+  font-size: 10px;
+  color: #fff;
+  border: 1px solid #fff;
+  margin-right: 28rpx;
+  padding: 4rpx 10rpx;
+  border-radius: 5rpx;
+}
+.orderWrapper {
+  background: #fff;
+  height: 150rpx;
+  display: flex;
+  padding: 0 30rpx;
+  text-align: center;
+  font-size: 24rpx;
+  line-height: 40rpx;
+  align-items: center;
+  position: relative;
+  top: -8rpx;
+}
+.orderChild {
+  flex: 1;
+}
+.Common {
+  height: 650rpx;
+  background: #fff;
+  margin: 20px 0;
+  border-bottom: 1px solid #f2f2f2;
+}
+.Receive {
+  display: flex;
+  text-align: center;
+}
+.ReceiveChild {
+  padding: 46rpx 45rpx;
+  line-height: 44rpx;
+  font-size: 24rpx;
+  border-left: 1px solid #f2f2f2;
+  border-top: 1px solid #f2f2f2;
+  flex: 1;
+  background: #fff;
+}
+.fairyChild {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 30rpx;
+}
+.fairyRight {
+  vertical-align: middle;
+  color: #fff;
+  align-self: center;
+}
+.phone {
+  width: 15rpx;
+  height: 22rpx;
+}
+.phoneChild {
+  font-size: 22rpx;
+}
+.small {
+  font-size: 30rpx;
+  padding-bottom: 20rpx;
+  font-weight: bold;
+}
+.rightfill {
+  width: 18rpx;
+  height: 18rpx;
+}
+.Fill {
+  margin-top: 20rpx;
+  color: #fff;
+  font-size: 22rpx;
+  display: flex;
+  padding-left: 10px;
+}
+.riceing {
+  margin-right: 104rpx;
+}
+.function {
+  font-size: 26rpx;
+  color: #333;
+  font-weight: bold;
+  padding: 26rpx 30rpx;
+  background: #fff;
+}
+.navbar {
+  position: relative;
+  padding: 0 15px;
+}
+.navbar .item {
+  position: relative;
+  flex: auto;
+  margin-right: 54rpx;
+  text-align: center;
+  font-size: 13px;
+  color: #000;
+  display: inline-block;
+  height: 35px;
+  line-height: 60rpx;
+}
+.navbar .item.active {
+  color: #ff4552;
+}
+.navbar .item.active:after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 5rpx;
+  background: #ff4552;
+}
+.robbed {
+  background: #fff;
+  margin: 20rpx 10rpx;
+  padding: 30rpx 0 30rpx 20rpx;
+  display: flex;
+}
+.robbedImage {
+  width: 140rpx;
+  height: 140rpx;
+}
+.Lady-1 {
+  color: #333;
+  font-size: 13px;
+}
+.extract {
+  font-size: 20rpx;
+  color: #999;
+  background: #fafafa;
+}
+.rice {
+  color: #666;
+  font-size: 20rpx;
+}
+.shops {
+  width: 20rpx;
+  height: 18rpx;
+  align-self: center;
+  vertical-align: middle;
+}
+.read {
+  width: 205rpx;
+  height: 55rpx;
+  line-height: 55rpx;
+  font-size: 24rpx;
+  color: #fff;
+  background: #ff4552;
+  text-align: center;
+}
+.replace {
+  width: 205rpx;
+  height: 55rpx;
+  line-height: 55rpx;
+  font-size: 24rpx;
+  color: #fff;
+  background: #e6e6e6;
+  text-align: center;
+}
+.rightRobbed {
+  flex: 1;
+  padding-left: 20rpx;
+  line-height: 35rpx;
+  height: 36rpx;
+  vertical-align: top;
+}
+.readyWrapper {
+  font-size: 32rpx;
+  color: #ff4552;
+  font-weight: bold;
+}
+.readFather {
+  display: flex;
+  position: relative;
+  margin-top: 48rpx;
+}
+.rightblock {
+  text-align: right;
+  padding-right: 20rpx;
+  font-size: 20rpx;
+  color: #ff4552;
+}
+.footprint {
+  width: 50rpx;
+  height: 50rpx;
+}
+/*.setUp {*/
+/*display:flex;*/
+/*color: #fff;*/
+/*text-align: right;*/
+/*font-size: 24rpx;*/
+/*padding: 0 30rpx 30rpx;*/
+/*}*/
+/*.set{*/
+/*flex:1;*/
+/*}*/
+/*.icon-xiaoxi {*/
+/*margin-left:20rpx;*/
+/*position: relative;*/
+/*}*/
+.iconfont {
+  font-size: 40rpx;
+}
+/*.circle {*/
+/*position: absolute;*/
+/*right:20rpx;*/
+/*width:24rpx;*/
+/*height:24rpx;*/
+/*line-height:24rpx;*/
+/*font-size:20rpx;*/
+/*background-color: #fff;*/
+/*color:#ff4552;*/
+/*text-align: center;*/
+/*border-radius: 50%;*/
+/*-moz-border-radius: 50%;*/
+/*-webkit-border-radius: 50%;*/
+/*}*/
 
-  /*瓜分福袋*/
-  .melon{
-    padding-left:40rpx;
-    padding-right:30rpx;
-    background: #fff;
-  }
-  .other{
-    display: flex;
-    border-bottom:1px solid #f2f2f2;
-  }
-  .total{
-    flex:1;
-    padding:25rpx 0;
-  }
-  .allonter{
-    padding:25rpx 30rpx 25rpx 10rpx;
-  }
-  .crust{
-    color:#ff4552;
-    font-size:28rpx;
-  }
-  .kind{
-    color:#333333;
-    font-size:26rpx;
-  }
-  .aready{
-    color:#999999;
-    font-size: 20rpx;
-  }
-  .branch{
-    border-radius:10rpx;
-    border:1px solid #ff4552;
-    color:#ff4552;
-    font-size:24rpx;
-    width:133rpx;
-    height: 53rpx;
-    line-height:53rpx;
-    text-align: center;
-    align-self:center;
-  }
-  .lucky-top{
-    display: flex;
-    padding:30rpx 20rpx 0;
-    color:#333333;
-    font-size:26rpx;
-  }
-  .shopmon{
-    width:36rpx;
-    height: 36rpx;
-    padding-right:20rpx;
-  }
-  .buys{
-    border-radius:10rpx;
-    border:1px solid #feae0f;
-    color:#fff;
-    background:#feae0f;
-    font-size:24rpx;
-    width:133rpx;
-    height: 53rpx;
-    line-height:53rpx;
-    text-align: center;
-    align-self:center;
-  }
-  .deep{
-    color:#ff4552;
-    font-size:26rpx;
-    padding:23rpx 0;
-    text-align: center;
-    background:#fff;
-    margin-bottom:20rpx;
-  }
-  .footprints{
-    display: flex;
-    padding:12rpx 0;
-    background:#fff;
-  }
-  .wrapper{
-    padding:0 30rpx;
-    background: #fff;
-  }
-  .Lady {
-    color: #333;
-    font-size: 13px;
-    flex:1;
-    font-weight: bold;
-  }
-  .beauty-1 {
-    font-size:20rpx;
-    color: #666;
-    display: inline-block;
-    padding:15rpx 15rpx 13rpx 0;
-  }
-  .minte{
-    font-size: 20rpx;
-    background-color: #fafafa;
-    /*padding:0 10rpx 0;*/
-    background-color: rgba(255, 165, 0, 0.05);
-    border-radius:5rpx;
-    align-self: center;
-    color: #ffa500;
-  }
-  .min{
-    text-align: right;
-    font-size:20rpx;
-    color: #666;
-    flex: 1;
-    float:right;
-  }
-  .active{
-    width:120rpx;
-    height:120rpx;
-  }
-  .distance{
-    flex: 1;
-    color:#666;
-    font-size:0;
-    padding-bottom:10rpx;
-    border-bottom: 1px solid #f2f2f2;
-  }
-  .button-hover{
-    background-color:#fff;
-  }
-  .shopBag{
-    width:19rpx;
-    height:24rpx;
-    vertical-align:middle;
-    align-self:center;
-  }
-  button::after{
-    border:none;
-    border-radius:0;
-  }
-  .mine-red{
-    width:100%;
-    height:214rpx;
-  }
-  .iconfont{
-    color:#666;
-  }
-  .orderMy{
-    width:42rpx;
-    height:42rpx;
-  }
+/*瓜分福袋*/
+.melon {
+  padding-left: 40rpx;
+  padding-right: 30rpx;
+  background: #fff;
+}
+.other {
+  display: flex;
+  border-bottom: 1px solid #f2f2f2;
+}
+.total {
+  flex: 1;
+  padding: 25rpx 0;
+}
+.allonter {
+  padding: 25rpx 30rpx 25rpx 10rpx;
+}
+.crust {
+  color: #ff4552;
+  font-size: 28rpx;
+}
+.kind {
+  color: #333333;
+  font-size: 26rpx;
+}
+.aready {
+  color: #999999;
+  font-size: 20rpx;
+}
+.branch {
+  border-radius: 10rpx;
+  border: 1px solid #ff4552;
+  color: #ff4552;
+  font-size: 24rpx;
+  width: 133rpx;
+  height: 53rpx;
+  line-height: 53rpx;
+  text-align: center;
+  align-self: center;
+}
+.lucky-top {
+  display: flex;
+  padding: 30rpx 20rpx 0;
+  color: #333333;
+  font-size: 26rpx;
+}
+.shopmon {
+  width: 36rpx;
+  height: 36rpx;
+  padding-right: 20rpx;
+}
+.buys {
+  border-radius: 10rpx;
+  border: 1px solid #feae0f;
+  color: #fff;
+  background: #feae0f;
+  font-size: 24rpx;
+  width: 133rpx;
+  height: 53rpx;
+  line-height: 53rpx;
+  text-align: center;
+  align-self: center;
+}
+.deep {
+  color: #ff4552;
+  font-size: 26rpx;
+  padding: 23rpx 0;
+  text-align: center;
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+.footprints {
+  display: flex;
+  padding: 12rpx 0;
+  background: #fff;
+}
+.wrapper {
+  padding: 0 30rpx;
+  background: #fff;
+}
+.Lady {
+  color: #333;
+  font-size: 13px;
+  flex: 1;
+  font-weight: bold;
+}
+.beauty-1 {
+  font-size: 20rpx;
+  color: #666;
+  display: inline-block;
+  padding: 15rpx 15rpx 13rpx 0;
+}
+.minte {
+  font-size: 20rpx;
+  background-color: #fafafa;
+  /*padding:0 10rpx 0;*/
+  background-color: rgba(255, 165, 0, 0.05);
+  border-radius: 5rpx;
+  align-self: center;
+  color: #ffa500;
+}
+.min {
+  text-align: right;
+  font-size: 20rpx;
+  color: #666;
+  flex: 1;
+  float: right;
+}
+.active {
+  width: 120rpx;
+  height: 120rpx;
+}
+.distance {
+  flex: 1;
+  color: #666;
+  font-size: 0;
+  padding-bottom: 10rpx;
+  border-bottom: 1px solid #f2f2f2;
+}
+.button-hover {
+  background-color: #fff;
+}
+.shopBag {
+  width: 19rpx;
+  height: 24rpx;
+  vertical-align: middle;
+  align-self: center;
+}
+button::after {
+  border: none;
+  border-radius: 0;
+}
+.mine-red {
+  width: 100%;
+  height: 214rpx;
+}
+.iconfont {
+  color: #666;
+}
+.orderMy {
+  width: 42rpx;
+  height: 42rpx;
+}
 
-
-  .getUserInfo-box{
-    position: absolute;
-    width: 400rpx;
-    height: 240rpx;
-    left: 50%;
-    top: 50%;
-    padding: 30rpx;
-    margin-left: -230rpx;
-    margin-top: -150rpx;
-    background-color: #fff;
-    z-index: 2;
-    border-radius: 8rpx;
-  }
-  .getUserInfo-box .title{
-    font-size: 28rpx;
-  }
-  .getUserInfo-box .title .logoImage{
-    width: 80rpx;
-    height: 80rpx;
-    margin: 10rpx auto;
-    padding: 10rpx;
-    border-radius: 50%;
-    text-align: center;
-  }
-  .getUserInfo-box .title .logoImage>image{
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-  }
-  .getUserInfo-box .btn-wrapper .btn{
-    position: absolute;
-    bottom: 20rpx;
-    background-color:#ff4552;
-    color: #ffffff;
-    width: 400rpx;
-    font-size: 30rpx;
-  }
+.getUserInfo-box {
+  position: absolute;
+  width: 400rpx;
+  height: 240rpx;
+  left: 50%;
+  top: 50%;
+  padding: 30rpx;
+  margin-left: -230rpx;
+  margin-top: -150rpx;
+  background-color: #fff;
+  z-index: 2;
+  border-radius: 8rpx;
+}
+.getUserInfo-box .title {
+  font-size: 28rpx;
+}
+.getUserInfo-box .title .logoImage {
+  width: 80rpx;
+  height: 80rpx;
+  margin: 10rpx auto;
+  padding: 10rpx;
+  border-radius: 50%;
+  text-align: center;
+}
+.getUserInfo-box .title .logoImage > image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.getUserInfo-box .btn-wrapper .btn {
+  position: absolute;
+  bottom: 20rpx;
+  background-color: #ff4552;
+  color: #ffffff;
+  width: 400rpx;
+  font-size: 30rpx;
+}
+.btn-wrapper{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+.btn-wrapper .btn{
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
 </style>
 <template>
   <view>
@@ -431,13 +444,15 @@
         <!--<text class="circle">1</text>-->
       <!--</view>-->
         <view class="fairyChild">
-          <image class="mine-bott" @tap="avatar" src="{{users.avatarUrl}}"></image>
+          <image class="mine-bott"  src="../assets/avartar.png" wx:if="{{getUserinfoVisible}}"></image>
+          <image class="mine-bott" @tap="avatar" src="{{users.avatarUrl}}" wx:if="{{!getUserinfoVisible}}"></image>
           <view class="fairyRight">
             <view class="small">{{users.nickname}}</view>
-            <view class="phoneChild">
+            <view class="small" wx:if="{{getUserinfoVisible}}">点击登录</view>
+            <!-- <view class="phoneChild">
               <image class="phone" mode='widthFix' src="../assets/phone.png"></image>
               {{telnum}}
-            </view>
+            </view> -->
           </view>
         </view>
         <!--<view class="Fill">-->
@@ -536,7 +551,10 @@
         </loadmore>
       </view>
   </view>
-  <popup :showTips.sync="getUserinfoVisible">
+  <view class="btn-wrapper" wx:if="{{getUserinfoVisible}}">
+    <button open-type="getUserInfo" @getuserinfo="GetUserInfoHandler" class="btn" ></button>
+  </view>
+  <!-- <popup :showTips.sync="getUserinfoVisible">
     <view class="getUserInfo-box">
       <view class="title">
         <text>纸象优惠将获取您的头像、昵称</text>
@@ -548,247 +566,209 @@
         <button open-type="getUserInfo" @getuserinfo="GetUserInfoHandler" class="btn" >确认</button>
       </view>
     </view>
-  </popup>
+  </popup> -->
 </template>
 
 <script>
-    import wepy from 'wepy';
-    import {getVolById, getFindWallet, getWechatInfo, getlogin} from '../util/util'
-    import Delicious from '../components/Delicious'
-    import loadmore from '../components/loadmore'
-    import popup from '../components/popup'
-    import getUserInfo from '@/mixins/getUserInfo'
-    export default class my extends wepy.page {
-      config = {
-        backgroundTextStyle: 'light',
-        navigationBarBackgroundColor: '#ff4552',
-        navigationBarTitleText: '我的',
-        navigationBarTextStyle: 'white',
-        onReachBottomDistance: '500'
-      };
-      mixins = [getUserInfo]
-      data = {
-        index: 0,
-        lips:1,
-        id:0,
-        users:{},
-        avatarUrl:{},
-        FindWallet: [],
-        telnum:'',
-        getUserinfoVisible: false,
-        loading: true,
-        haveMore: true,
-        walletPerage: {
-          'per-page': 10,
-          page: 1
-        },
-      };
-      components={
-        Delicious: Delicious,
-        loadmore: loadmore,
-        popup
-      };
-      methods = {
-        avatar() {
-         wx.navigateTo({
-           url:'../setUp/personal'
-         })
-        },
-        // 点击允许获取微信用户信息
-        GetUserInfoHandler(e) {
-          const {encryptedData, iv} = e.detail
-          this.geWechatInfo(iv, encryptedData)
-          this.getUserinfoVisible = false
-          let token = wepy.getStorageSync('token')
-          if (!token) {
-            wepy.navigateTo({
-              url: './bindCell'
-            })
+import wepy from 'wepy';
+import {
+  getVolById,
+  getFindWallet,
+  uploadwechatImage
+} from '../util/util';
+import Delicious from '../components/Delicious';
+import loadmore from '../components/loadmore';
+import popup from '../components/popup';
+export default class my extends wepy.page {
+  config = {
+    backgroundTextStyle: 'light',
+    navigationBarBackgroundColor: '#ff4552',
+    navigationBarTitleText: '我的',
+    navigationBarTextStyle: 'white',
+    onReachBottomDistance: '500'
+  };
+  data = {
+    index: 0,
+    lips: 1,
+    id: 0,
+    users: {},
+    FindWallet: [],
+    telnum: '',
+    getUserinfoVisible: false,
+    loading: true,
+    haveMore: true,
+    walletPerage: {
+      'per-page': 10,
+      page: 1
+    }
+  };
+  components = {
+    Delicious: Delicious,
+    loadmore: loadmore,
+    popup
+  };
+  methods = {
+    avatar() {
+      wx.navigateTo({
+        url: '../setUp/personal'
+      });
+    },
+    // 点击允许获取微信用户信息
+    GetUserInfoHandler(e) {
+      const {userInfo} = e.detail
+      this.geWechatInfo(userInfo)
+      this.$apply()
+    },
+    scanningCode() {
+      wx.scanCode({
+        success(res) {
+          console.log(res);
+          let reg_url = /^[^\?]+\?([\w\W]+)$/,
+            reg_para = /([^&=]+)=([\w\W]*?)(&|$|#)/g,
+            arr_url = reg_url.exec(res.result),
+            ret = {};
+          if (arr_url && arr_url[1]) {
+            let str_para = arr_url[1],
+              result;
+            while ((result = reg_para.exec(str_para)) != null) {
+              ret[result[1]] = result[2];
+            }
           }
-        },
-        scanningCode(){
-          wx.scanCode({
-            success(res){
-              console.log(res)
-              let reg_url = /^[^\?]+\?([\w\W]+)$/,
-                reg_para = /([^&=]+)=([\w\W]*?)(&|$|#)/g,
-                arr_url = reg_url.exec(res.result),
-                ret = {};
-              if (arr_url && arr_url[1]) {
-                let str_para = arr_url[1], result;
-                while ((result = reg_para.exec(str_para)) != null) {
-                  ret[result[1]] = result[2];
-                }
-              }
-              let  str = ret
-              if(str.toString() !== ''){
-                if(str.type && str.type === 'store') {
-                  setTimeout(()=>{
-                    wx.showToast({
-                      title: '成功',
-                      icon: 'success',
-                      duration: 2000
-                    }, 1000)
-                  })
-                    wx.navigateTo({
-                      url:'../pages/shopDetail/store?id='+str.id
-                    })
-                }
-              }else{
-                wx.showToast({
-                  title: '二维码不合法',
-                  icon: 'none',
-                  duration: 2000
-                })
-              }
-            },
-            fail () {
-              wx.showToast({
-                title: '扫描失败',
-                duration: 2000
+          let str = ret;
+          if (str.toString() !== '') {
+            if (str.type && str.type === 'store') {
+              setTimeout(() => {
+                wx.showToast(
+                  {
+                    title: '成功',
+                    icon: 'success',
+                    duration: 2000
+                  },
+                  1000
+                );
+              });
+              wx.navigateTo({
+                url: '../pages/shopDetail/store?id=' + str.id
               })
             }
-          })
-        }
-      };
-      bindPhone() {
-        wepy.getStorage({key: 'unionId'}).then(res => {
-          let token = wepy.getStorageSync('token')
-          if (!token) {
-            wepy.navigateTo({
-              url: './bindCell'
-            })
           } else {
-            this.getUserInfo()
+            wx.showToast({
+              title: '二维码不合法',
+              icon: 'none',
+              duration: 2000
+            })
           }
-          this.$apply()
-        }).catch(() => {
-          wepy.getUserInfo().then(res => {
-            const {encryptedData, iv} = res
-            this.geWechatInfo(iv, encryptedData)
-            this.$apply()
-          }).catch(() => {
-            this.getUserinfoVisible = true
-            this.$apply()
-          })
-        })
-      }
-      // 获取权限微信用户信息
-      geWechatInfo(iv, encryptData) {
-        const weixinUserId = wx.getStorageSync('weixinUserId')
-        if (weixinUserId) {
-          getWechatInfo({method: 'post',
-            data: {
-              weixinUserId: weixinUserId,
-              loginType: 1,
-              iv: iv,
-              encryptData: encryptData
-            }
-          }).then(res => {
-            wx.showToast({
-              title: '授权成功',
-              icon: 'none',
-              duration: 2000
-            })
-            const {weixinUserId, unionId} = res.data
-            if (weixinUserId) wepy.setStorageSync('weixinUserId', weixinUserId)
-            if (unionId) wepy.setStorageSync('unionId', unionId)
-            this.getUserInfo()
-            this.$apply()
-          }).catch(err => {
-            wx.showToast({
-              title: `${err.message}`,
-              icon: 'none',
-              duration: 2000
-            })
-            let token = wepy.getStorageSync('token')
-            if (!token) {
-              wepy.navigateTo({
-                url: './bindCell'
-              })
-            }
-            this.getUserInfo()
-            this.$apply()
-          })
-        } else {
+        },
+        fail() {
           wx.showToast({
-            title: 'weixinUserId不存在',
-            icon: 'none',
+            title: '扫描失败',
             duration: 2000
           })
         }
-      }
-      getuserPhone() {
-        this.telnum = this.users.phone.substr(0, 3) + "****" + this.users.phone.substr(7)
-      }
-      // 加载更多
-      onReachBottom (e) {
-        setTimeout(() => {
-          if (this.haveMore) {
-            this.getFindWallet()
-          }
-          this.$apply()
-        }, 1000)
-      }
-      // 发现福袋
-      getFindWallet(clear){
-        const {latitude, longitude} = this.$parent.globalData.locationMap
-        const cityId = this.$parent.globalData.cityId.id || ''
-        if (latitude && longitude) {
-          const data = {
-            lat: latitude,
-            lon: longitude
-          }
-          getFindWallet({
-            cityId: cityId,
-            data: {
-              ...this.walletPerage,
-              ...data
-            }
-          }).then(res => {
-            const data = res.data
-            if (!data.length) {
-              this.loading = false
-            } else {
-              this.loading = true
-            }
-            if (data.length === this.walletPerage['per-page']) {
-              this.haveMore = true;
-              this.walletPerage.page += 1
-            } else {
-              this.haveMore = false
-            }
-            if (clear) {
-              this.FindWallet = data
-            } else {
-              this.FindWallet = this.FindWallet.concat(data)
-            }
-            this.$apply()
-          })
-        }
-      }
-      getUserInfo() {
-        getVolById().then(res => {
-          this.users = res.data
-          this.getuserPhone()
-          this.$parent.globalData.storeInfo = this.users
-          this.$apply()
-        })
-        this.walletPerage.page = 1
-        this.getFindWallet(true)
-      }
-      onShow() {
-        const token = wx.getStorageSync('token')
-        const unionId = wx.getStorageSync('unionId')
-        if (token && unionId) {
-          this.bindPhone()
-        } else {
-          setTimeout(() => {
-            this.bindPhone()
-            this.$apply()
-          }, 1000)
-        }
-      }
+      })
     }
+  };
 
+  async bindPhone() {
+    await wepy.getStorage({key: 'nickname'}).then(res => {
+      this.getUserInfo()
+    }).catch(() => {
+      wepy.getUserInfo().then(res => {
+        const {userInfo} = res
+        this.geWechatInfo(userInfo)
+        this.$apply()
+      }).catch(() => {
+        this.getUserinfoVisible = true
+        this.$apply()
+      })
+    })
+  }
+  // 获取权限微信用户信息
+  geWechatInfo(user) {
+    if (user.avatarUrl && user.nickName) {
+      uploadwechatImage({
+        method: 'post',
+        data: {
+          headerUrl: user.avatarUrl,
+          nickname: user.nickName
+        }
+      }).then(res => {
+        this.users = res.data
+        if (this.getUserinfoVisible) this.getUserinfoVisible = false
+        this.$apply()
+      }).catch(err => {
+        wx.showToast({
+          title: `${err.message}`,
+          icon: 'none',
+          duration: 2000
+        })
+      })
+    } else {
+      throw ('用户名和头像获取失败')
+    }
+  }
+  // getuserPhone() {
+  //   this.telnum = this.users.phone.substr(0, 3) + "****" + this.users.phone.substr(7)
+  // }
+  // 加载更多
+  onReachBottom(e) {
+    setTimeout(() => {
+      if (this.haveMore) {
+        this.getFindWallet()
+      }
+      this.$apply()
+    }, 1000)
+  }
+  // 发现福袋
+  getFindWallet(clear) {
+    const { latitude, longitude } = this.$parent.globalData.locationMap
+    const cityId = this.$parent.globalData.cityId.id || ''
+    if (latitude && longitude) {
+      const data = {
+        lat: latitude,
+        lon: longitude
+      }
+      getFindWallet({
+        cityId: cityId,
+        data: {
+          ...this.walletPerage,
+          ...data
+        }
+      }).then(res => {
+        const data = res.data
+        if (!data.length) {
+          this.loading = false
+        } else {
+          this.loading = true
+        }
+        if (data.length === this.walletPerage['per-page']) {
+          this.haveMore = true
+          this.walletPerage.page += 1
+        } else {
+          this.haveMore = false
+        }
+        if (clear) {
+          this.FindWallet = data
+        } else {
+          this.FindWallet = this.FindWallet.concat(data)
+        }
+        this.$apply()
+      })
+    }
+  }
+
+  getUserInfo() {
+    getVolById().then(res => {
+      this.users = res.data
+      this.$parent.globalData.storeInfo = this.users
+      this.$apply()
+    })
+    this.walletPerage.page = 1
+    this.getFindWallet(true)
+  }
+
+  onShow() {
+    this.bindPhone()
+  }
+}
 </script>
